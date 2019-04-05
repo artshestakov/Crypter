@@ -5,3 +5,4 @@ Build/
 *.qmake.stash
 Makefile
 Makefile.*
+*.suo
