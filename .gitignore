@@ -1,0 +1,7 @@
+Bin/
+Build/
+
+*.user
+*.qmake.stash
+Makefile
+Makefile.*
