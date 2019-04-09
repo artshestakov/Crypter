@@ -5,4 +5,8 @@ Build/
 *.qmake.stash
 Makefile
 Makefile.*
+*.log
+*.tlog
 *.suo
+*.sdf
+*.opensdf
