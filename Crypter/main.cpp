@@ -1,71 +1,41 @@
-#include <iostream>
-#include <algorithm>
-#include "SNImageCrypt.h"
+#include <windows.h>
+#include <stdio.h>
+#include <string.h>
 //-----------------------------------------------------------------------------
-void Usage();
+typedef int(__cdecl *FunctionCrypt)(const char *, const char *, const char *, const char *);
+typedef int(__cdecl *FunctionDecrypt)(const char *, const char *);
+typedef const char*(__cdecl *FunctionGetErrorString)();
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-    std::string Mode;
-    std::string PathImage;
-    std::string PathOutput;
-    std::string Message;
+	HMODULE LibCrypter = LoadLibrary("libCrypter.dll");
+	if (!LibCrypter)
+	{
+		printf("Library \"libCrypter.dll\" not loaded. Error code - %d\r\n", (int)GetLastError());
+		return EXIT_FAILURE;
+	}
+	
+	FunctionCrypt Crypt = (FunctionCrypt)GetProcAddress(LibCrypter, "Crypt");
+	FunctionDecrypt Decrypt = (FunctionDecrypt)GetProcAddress(LibCrypter, "Decrypt");
+	FunctionGetErrorString GetErrorString = (FunctionGetErrorString)GetProcAddress(LibCrypter, "GetErrorString");
 
-    if (argc == 5)
-    {
-        Mode = argv[1];
-        PathImage = argv[2];
-        PathOutput = argv[3];
-        Message = argv[4];
-    }
-    else if (argc == 3)
-    {
-        Mode = argv[1];
-        PathImage = argv[2];
-    }
-    else
-    {
-        std::cout << "Error arguments." << std::endl;
-        Usage();
-        return EXIT_FAILURE;
-    }
+	if (Crypt("PNG", "G:\\image.png", "G:\\output.png", "message"))
+	{
+		if (Decrypt("123", ""))
+		{
 
-    std::transform(Mode.begin(), Mode.end(), Mode.begin(), ::tolower);
-    bool Result = true;
-    SNImageCrypt ImageCrypt;
+		}
+		else
+		{
+			printf("%s\r\n", GetErrorString());
+		}
+	}
+	else
+	{
+		printf("%s\r\n", GetErrorString());
+	}
 
-    if (Mode == "crypt")
-    {
-        Result = ImageCrypt.Crypt(PathImage, PathOutput, Message);
-        if (Result)
-        {
-            std::cout << "Message crypted in image " << PathOutput << std::endl;
-        }
-    }
-    else if (Mode == "decrypt")
-    {
-        Result = ImageCrypt.Decrypt(PathImage, Message);
-        if (Result)
-        {
-            std::cout << "Message decrypted." << std::endl;
-            std::cout << Message << std::endl;
-        }
-    }
-
-    if (!Result)
-    {
-        std::cout << "Error: " << ImageCrypt.GetErrorString() << std::endl;
-    }
-
-    return Result ? EXIT_SUCCESS : EXIT_FAILURE;
-}
-//-----------------------------------------------------------------------------
-void Usage()
-{
-    std::cout << "Crypter is a utility for encrypting text information into PNG graphics." << std::endl;
-    std::cout << std::endl;
-    std::cout << "Usage:" << std::endl;
-    std::cout << "  ./Crypter crypt /home/user/source.png /homeuser/output.png \"message\"" << std::endl;
-    std::cout << "  ./Crypter decrypt /home/user/output.png" << std::endl;
+	FreeLibrary(LibCrypter);
+	return EXIT_SUCCESS;
 }
 //-----------------------------------------------------------------------------
