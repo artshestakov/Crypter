@@ -4,3 +4,5 @@ extern "C" __declspec(dllexport) int Crypt(const char *Type, const char *PathIma
 extern "C" __declspec(dllexport) int Decrypt(const char *PathImage);
 extern "C" __declspec(dllexport) const char* GetErrorString();
 //-----------------------------------------------------------------------------
+LCAbstractCrypter* CreateCrypter(const char *Type);
+//-----------------------------------------------------------------------------

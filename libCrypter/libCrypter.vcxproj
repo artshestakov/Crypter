@@ -79,19 +79,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Global.cpp" />
+    <ClCompile Include="LCGlobal.cpp" />
     <ClCompile Include="LCAbstractCrypter.cpp" />
     <ClCompile Include="lodepng.cpp" />
-    <ClCompile Include="LCVector.cpp" />
     <ClCompile Include="LCCryptPNG.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Global.h" />
+    <ClInclude Include="LCGlobal.h" />
     <ClInclude Include="LCAbstractCrypter.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="LCCryptPNG.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="LCVector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

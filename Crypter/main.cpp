@@ -1,6 +1,8 @@
+#ifdef WIN32
 #include <windows.h>
+#endif
+
 #include <stdio.h>
-#include <string.h>
 //-----------------------------------------------------------------------------
 typedef int(__cdecl *FunctionCrypt)(const char *, const char *, const char *, const char *);
 typedef int(__cdecl *FunctionDecrypt)(const char *, const char *);

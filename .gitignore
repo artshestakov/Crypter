@@ -7,7 +7,6 @@ libCrypter/Debug
 *.qmake.stash
 Makefile
 Makefile.*
-*.vcxproj.filters
 *.v12.suo
 *.sdf
 *.opensdf
