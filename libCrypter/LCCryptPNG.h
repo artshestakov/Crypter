@@ -1,13 +1,11 @@
 #pragma once
-#pragma warning (disable: 4293)
 //-----------------------------------------------------------------------------
-#include <string>
-#include <vector>
+#include "LCAbstractCrypter.h"
 //-----------------------------------------------------------------------------
-struct SNColor
+struct LCColor
 {
-    SNColor() : Red(0), Green(0), Blue(0), Alpha(0) { }
-    SNColor(const unsigned char &red, const unsigned char &green, const unsigned char &blue, const unsigned char &alpha) : Red(red), Green(green), Blue(blue), Alpha(alpha) { }
+    LCColor() : Red(0), Green(0), Blue(0), Alpha(0) { }
+    LCColor(const unsigned char &red, const unsigned char &green, const unsigned char &blue, const unsigned char &alpha) : Red(red), Green(green), Blue(blue), Alpha(alpha) { }
 
     unsigned char Red;
     unsigned char Green;
@@ -15,25 +13,19 @@ struct SNColor
     unsigned char Alpha;
 };
 //-----------------------------------------------------------------------------
-class SNImageCrypt
+class LCCryptPNG : public LCAbstractCrypter
 {
 public:
-    SNImageCrypt();
-    ~SNImageCrypt();
+    LCCryptPNG();
+    ~LCCryptPNG();
 
     /** @brief Шифрование сообщений в файл */
-    bool Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage);
+    bool Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage) override;
 
     /** @brief Дешифрование сообщения. */
-    bool Decrypt(const std::string &PathImage, std::string &SecretMessage);
-
-    /** @brief Получить текст с ошибкой. */
-    std::string GetErrorString() const;
+    bool Decrypt(const std::string &PathImage, std::string &SecretMessage) override;
 
 private:
-
-    /** @brief Инициализация переменных. */
-    void ReInitSpace();
 
     /** @brief Проверка файла на возможность шифрования/дешифрования. */
     bool CheckFile(const std::string &PathImage);
@@ -60,12 +52,11 @@ private:
     unsigned long GetRandom(unsigned long Min, unsigned long Max);
 
 private:
-    std::string ErrorString; //Строка с описанием ошибки
     unsigned int Width; //Ширина изображения
     unsigned int Height; //Высота изображения
     unsigned long PixelCount; //Количество пикселей в изображении
 
-    std::vector<SNColor> VectorPixels; //Массив пикселей
+    std::vector<LCColor> VectorPixels; //Массив пикселей
     unsigned long Random;
 };
 //-----------------------------------------------------------------------------
