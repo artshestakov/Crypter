@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	HMODULE LibCrypter = LoadLibrary("libCrypter.dll");
 	if (!LibCrypter)
 	{
-		printf("Library \"libCrypter.dll\" not loaded. Error code - %d\r\n", (int)GetLastError());
+		printf("Library \"libCrypter.dll\" not loaded. Error code - %d.\r\n", (int)GetLastError());
 		return EXIT_FAILURE;
 	}
 	
@@ -21,20 +21,18 @@ int main(int argc, char *argv[])
 	FunctionDecrypt Decrypt = (FunctionDecrypt)GetProcAddress(LibCrypter, "Decrypt");
 	FunctionGetErrorString GetErrorString = (FunctionGetErrorString)GetProcAddress(LibCrypter, "GetErrorString");
 
-	if (Crypt("PNG", "G:\\image.png", "G:\\output.png", "message"))
-	{
-		if (Decrypt("123", ""))
-		{
-
-		}
-		else
-		{
-			printf("%s\r\n", GetErrorString());
-		}
-	}
-	else
+	int Result = Crypt("PNG", "G:\\image.png", "G:\\output.png", "message");
+	if (!Result)
 	{
 		printf("%s\r\n", GetErrorString());
+		return EXIT_FAILURE;
+	}
+	
+	Result = Decrypt("123", "");
+	if (!Result)
+	{
+		printf("%s\r\n", GetErrorString());
+		return EXIT_FAILURE;
 	}
 
 	FreeLibrary(LibCrypter);
