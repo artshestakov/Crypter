@@ -1,5 +1,4 @@
 #include "StdAfx.h"
-#include "LCAbstractCrypter.h"
 #include "LCGlobal.h"
 #include "LCCryptPNG.h"
 //-----------------------------------------------------------------------------

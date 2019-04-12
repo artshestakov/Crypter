@@ -80,13 +80,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LCGlobal.cpp" />
-    <ClCompile Include="LCAbstractCrypter.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="LCCryptPNG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LCGlobal.h" />
-    <ClInclude Include="LCAbstractCrypter.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="LCCryptPNG.h" />
     <ClInclude Include="StdAfx.h" />

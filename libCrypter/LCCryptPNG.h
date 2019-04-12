@@ -1,8 +1,6 @@
 #pragma once
 #pragma warning(disable: 4293)
 //-----------------------------------------------------------------------------
-#include "LCAbstractCrypter.h"
-//-----------------------------------------------------------------------------
 struct LCColor
 {
     LCColor() : Red(0), Green(0), Blue(0), Alpha(0) { }
@@ -14,17 +12,20 @@ struct LCColor
     unsigned char Alpha;
 };
 //-----------------------------------------------------------------------------
-class LCCryptPNG : public LCAbstractCrypter
+class LCCryptPNG
 {
 public:
     LCCryptPNG();
     ~LCCryptPNG();
 
-    /** @brief Шифрование сообщений в файл */
-    bool Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage) override;
+    /** @brief Шифрование сообщения в файл. */
+    bool Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage);
 
     /** @brief Дешифрование сообщения. */
-    bool Decrypt(const std::string &PathImage, std::string &SecretMessage) override;
+    bool Decrypt(const std::string &PathImage, std::string &SecretMessage);
+
+	/** @brief Получение описания ошибки. */
+	std::string GetErrorString() const;
 
 private:
 
@@ -55,6 +56,7 @@ private:
 	//unsigned int Decode()
 
 private:
+	std::string ErrorString; //Текстовое описание ошибки
     unsigned int Width; //Ширина изображения
     unsigned int Height; //Высота изображения
     unsigned long PixelCount; //Количество пикселей в изображении

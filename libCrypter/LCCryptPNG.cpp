@@ -2,8 +2,8 @@
 #include "LCCryptPNG.h"
 #include "lodepng.h"
 //-----------------------------------------------------------------------------
-LCCryptPNG::LCCryptPNG() 
-	: LCAbstractCrypter(CrypterMode::PNG),
+LCCryptPNG::LCCryptPNG() :
+	ErrorString("No error."),
 	Width(0),
 	Height(0),
 	PixelCount(0),
@@ -65,7 +65,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
     unsigned char *Image = reinterpret_cast<unsigned char*>(std::malloc(PixelCount * 4)); //Выделение памяти для шифрованного изображения
     if (Image == nullptr)
     {
-        SetErrorString("Memory allocation is error.");
+        ErrorString = "Memory allocation is error.";
         return false;
     }
 
@@ -77,7 +77,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
 	unsigned int Error = lodepng_encode32_file(OutputPath.c_str(), Image, Width, Height); //Кодирование изображения в файл;
     if (Error) //Если кодирование произошло с ошибкой - выходим
     {
-		SetErrorString(lodepng_error_text(Error));
+		ErrorString = lodepng_error_text(Error);
         return false;
     }
 
@@ -130,11 +130,16 @@ bool LCCryptPNG::Decrypt(const std::string &PathImage, std::string &SecretMessag
     return Result;
 }
 //-----------------------------------------------------------------------------
+std::string LCCryptPNG::GetErrorString() const
+{
+	return ErrorString;
+}
+//-----------------------------------------------------------------------------
 bool LCCryptPNG::CheckFile(const std::string &PathImage)
 {
     if (PathImage.empty())
     {
-		SetErrorString("Path to image is empty.");
+		ErrorString = "Path to image is empty.";
         return false;
     }
 
@@ -142,7 +147,7 @@ bool LCCryptPNG::CheckFile(const std::string &PathImage)
     File.open(PathImage, std::ios_base::binary);
     if (File.fail())
     {
-		SetErrorString("Image (" + PathImage + ") not open: " + strerror(errno));
+		ErrorString = "Image (" + PathImage + ") not open: " + strerror(errno);
         return false;
     }
 
@@ -157,7 +162,7 @@ bool LCCryptPNG::CheckPathOutput(const std::string &PathOutput)
     {
         if (std::remove(Path) != 0) //Если файл не удалился
         {
-			SetErrorString("Not removed file (" + PathOutput + "): " + strerror(errno));
+			ErrorString = "Not removed file (" + PathOutput + "): " + strerror(errno);
             return false;
         }
     }
@@ -169,7 +174,7 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
 {
     if (Message.empty())
     {
-		SetErrorString("Message is empty.");
+		ErrorString = "Message is empty.";
         return false;
     }
 
@@ -183,18 +188,6 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
 
 	Deque.push_back(127);
 
-    /*while (true) //Формирование размера сообщения
-    {
-        if (Deque.size() == std::to_string(PixelCount).size())
-        {
-            break;
-        }
-        else
-        {
-            Deque.push_front('0');
-        }
-    }*/
-
     while (Deque.size())
     {
         Message.insert(0, 1, Deque.back());
@@ -203,7 +196,7 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
 
     if (Message.size() > PixelCount) //Если сообщение (с его размером) больше массива пикселей
     {
-		SetErrorString("Message is big for this image.");
+		ErrorString = "Message is big for this image.";
         return false;
     }
 
@@ -218,7 +211,7 @@ bool LCCryptPNG::ReadFile(const std::string &PathImage)
 	unsigned int Error = lodepng::decode(Image, Width, Height, PathImage.c_str());
 	if (Error) //Ошибка декодирования
 	{
-		SetErrorString(lodepng_error_text(Error));
+		ErrorString = lodepng_error_text(Error);
 	}
 	else
 	{
