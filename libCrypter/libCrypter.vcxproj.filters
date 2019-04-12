@@ -4,10 +4,13 @@
     <ClCompile Include="lodepng.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="LCCryptPNG.cpp">
+    <ClCompile Include="LCGlobal.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="LCGlobal.cpp">
+    <ClCompile Include="LCPixel.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LCCrypter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -18,10 +21,13 @@
     <ClInclude Include="StdAfx.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="LCCryptPNG.h">
+    <ClInclude Include="LCGlobal.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="LCGlobal.h">
+    <ClInclude Include="LCPixel.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="LCCrypter.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

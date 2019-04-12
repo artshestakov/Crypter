@@ -1,8 +1,8 @@
 #include "StdAfx.h"
-#include "LCCryptPNG.h"
+#include "LCCrypter.h"
 #include "lodepng.h"
 //-----------------------------------------------------------------------------
-LCCryptPNG::LCCryptPNG() :
+LCCrypter::LCCrypter() :
 	ErrorString("No error."),
 	Width(0),
 	Height(0),
@@ -12,12 +12,12 @@ LCCryptPNG::LCCryptPNG() :
 
 }
 //-----------------------------------------------------------------------------
-LCCryptPNG::~LCCryptPNG()
+LCCrypter::~LCCrypter()
 {
-
+	
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage)
+bool LCCrypter::Crypt(const std::string &PathImage, const std::string &OutputPath, const std::string &SecretMessage)
 {
     std::string Message = SecretMessage;
     bool Result = CheckFile(PathImage); //Проверка файла
@@ -26,7 +26,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
         return false;
     }
 
-    Result = CheckPathOutput(OutputPath);
+    Result = CheckPathOutput(OutputPath); //Проверка пути для записи результата
     if (!Result)
     {
         return false;
@@ -47,7 +47,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
     std::vector<size_t> VectorPoints = SearchIndexes(Message.size());
     for (size_t i = 0; i < VectorPoints.size(); i++) //Обход всех пикселей и изменение их альфа канала в соответствии с содержимым сообщения
     {
-        LCColor Color = VectorPixels.at(VectorPoints.at(i));
+        LCPixel Color = VectorPixels.at(VectorPoints.at(i));
         Color.Alpha = static_cast<unsigned char>(Message.at(i));
         VectorPixels[VectorPoints.at(i)] = Color;
     }
@@ -55,7 +55,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
     std::vector<unsigned char> VectorImage;
     for (size_t i = 0; i < VectorPixels.size(); i++) //Обход всех пикселей и упаковка их данных в вектор
     {
-        LCColor Color = VectorPixels.at(i);
+        LCPixel Color = VectorPixels.at(i);
         VectorImage.push_back(Color.Red);
         VectorImage.push_back(Color.Green);
         VectorImage.push_back(Color.Blue);
@@ -84,7 +84,7 @@ bool LCCryptPNG::Crypt(const std::string &PathImage, const std::string &OutputPa
     return Result;
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::Decrypt(const std::string &PathImage, std::string &SecretMessage)
+bool LCCrypter::Decrypt(const std::string &PathImage, std::string &SecretMessage)
 {
     bool Result = CheckFile(PathImage); //Проверка файла
     if (!Result)
@@ -104,7 +104,7 @@ bool LCCryptPNG::Decrypt(const std::string &PathImage, std::string &SecretMessag
     while (true)
     {
         unsigned long RandomIndex = GetRandom(0, PixelCount);
-        LCColor Color = VectorPixels.at(RandomIndex);
+        LCPixel Color = VectorPixels.at(RandomIndex);
 		if (Color.Alpha == 127) //Если попался символ разделитель (размера сообщения и фактического сообщения)
 		{
 			MessageSize = std::atoi(SecretMessage.c_str());
@@ -130,12 +130,12 @@ bool LCCryptPNG::Decrypt(const std::string &PathImage, std::string &SecretMessag
     return Result;
 }
 //-----------------------------------------------------------------------------
-std::string LCCryptPNG::GetErrorString() const
+std::string LCCrypter::GetErrorString() const
 {
 	return ErrorString;
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::CheckFile(const std::string &PathImage)
+bool LCCrypter::CheckFile(const std::string &PathImage)
 {
     if (PathImage.empty())
     {
@@ -155,7 +155,7 @@ bool LCCryptPNG::CheckFile(const std::string &PathImage)
     return true;
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::CheckPathOutput(const std::string &PathOutput)
+bool LCCrypter::CheckPathOutput(const std::string &PathOutput)
 {
 	const char *Path = PathOutput.c_str();
 	if (std::ifstream(Path).good()) //Если файл существует - удаляем его
@@ -170,28 +170,21 @@ bool LCCryptPNG::CheckPathOutput(const std::string &PathOutput)
     return true;
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::CheckMessage(std::string &Message)
+bool LCCrypter::CheckMessage(std::string &Message)
 {
-    if (Message.empty())
+    if (Message.empty()) //Если сообщение пустое
     {
 		ErrorString = "Message is empty.";
         return false;
     }
 
 	std::string MessageSizeString = std::to_string(Message.size()); //Размер сообщения строкой
+	MessageSizeString.push_back(SPLIT_SYMBOL); //Вставка символа-разделителя в конец размера сообщения
+	std::reverse(MessageSizeString.begin(), MessageSizeString.end()); //Реверсируем строку с размером для удобства вставки в сообщение
 
-    std::deque<char> Deque;
-    for (const char &Char : MessageSizeString)
+    for (const char &Char : MessageSizeString) //Вставка размера в начало сообщения
     {
-        Deque.push_back(Char);
-    }
-
-	Deque.push_back(127);
-
-    while (Deque.size())
-    {
-        Message.insert(0, 1, Deque.back());
-        Deque.pop_back();
+		Message.insert(0, 1, Char);
     }
 
     if (Message.size() > PixelCount) //Если сообщение (с его размером) больше массива пикселей
@@ -203,7 +196,7 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
     return true;
 }
 //-----------------------------------------------------------------------------
-bool LCCryptPNG::ReadFile(const std::string &PathImage)
+bool LCCrypter::ReadFile(const std::string &PathImage)
 {
     bool Result = false;
 
@@ -218,7 +211,7 @@ bool LCCryptPNG::ReadFile(const std::string &PathImage)
 		PixelCount = Width * Height; //Количество пикселей
 		for (size_t i = 0; i < Image.size(); i++) //Обход изображения побайтно и преобразование байтов в пиксели
 		{
-			LCColor Color;
+			LCPixel Color;
 
 			Color.Red = Image.at(i);
 
@@ -241,22 +234,32 @@ bool LCCryptPNG::ReadFile(const std::string &PathImage)
     return Result;
 }
 //-----------------------------------------------------------------------------
-std::vector<size_t> LCCryptPNG::SearchIndexes(size_t MessageSize)
+std::vector<size_t> LCCrypter::SearchIndexes(size_t MessageSize)
 {
     std::vector<size_t> VectorPoints;
-    for (size_t i = 0; i < MessageSize; i++)
-    {
-        VectorPoints.push_back(GetRandom(0, PixelCount));
-    }
+	while (true)
+	{
+		unsigned long RandomIndex = GetRandom(0, PixelCount);
+		if (std::find(VectorPoints.begin(), VectorPoints.end(), RandomIndex) == VectorPoints.end())
+		{
+			VectorPoints.push_back(RandomIndex);
+		}
+
+		if (VectorPoints.size() == MessageSize)
+		{
+			break;
+		}
+	}
+
     return VectorPoints;
 }
 //-----------------------------------------------------------------------------
-void LCCryptPNG::InitRandom(unsigned long InitDigit)
+void LCCrypter::InitRandom(unsigned long InitDigit)
 {
     Random = InitDigit;
 }
 //-----------------------------------------------------------------------------
-unsigned long LCCryptPNG::GetRandom()
+unsigned long LCCrypter::GetRandom()
 {
     Random ^= (Random << 21);
     Random ^= (Random >> 35);
@@ -264,7 +267,7 @@ unsigned long LCCryptPNG::GetRandom()
     return this->Random;
 }
 //-----------------------------------------------------------------------------
-unsigned long LCCryptPNG::GetRandom(unsigned long Min, unsigned long Max)
+unsigned long LCCrypter::GetRandom(unsigned long Min, unsigned long Max)
 {
     return Min + GetRandom() % Max;
 }

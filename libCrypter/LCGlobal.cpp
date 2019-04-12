@@ -1,26 +1,26 @@
 #include "StdAfx.h"
 #include "LCGlobal.h"
-#include "LCCryptPNG.h"
+#include "LCCrypter.h"
 //-----------------------------------------------------------------------------
 std::string ErrorString;
 //-----------------------------------------------------------------------------
 extern "C" __declspec(dllexport) int Crypt(const char *PathImage, const char *PathResult, const char *Message)
 {
-	LCCryptPNG Crypter;
+	LCCrypter Crypter;
 	if (!Crypter.Crypt(PathImage, PathResult, Message))
 	{
 		ErrorString = Crypter.GetErrorString();
-		return R_ERROR;
+		return 1;
 	}
 
-	return R_OK;
+	return 0;
 }
 //-----------------------------------------------------------------------------
 extern "C" __declspec(dllexport) const char* Decrypt(const char *PathImage)
 {
 	std::string Message;
 
-	LCCryptPNG Decrypter;
+	LCCrypter Decrypter;
 	if (Decrypter.Decrypt(PathImage, Message))
 	{
 		char *Result = (char*)malloc(Message.size());

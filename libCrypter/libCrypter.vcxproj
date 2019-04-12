@@ -80,13 +80,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LCGlobal.cpp" />
+    <ClCompile Include="LCPixel.cpp" />
     <ClCompile Include="lodepng.cpp" />
-    <ClCompile Include="LCCryptPNG.cpp" />
+    <ClCompile Include="LCCrypter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LCGlobal.h" />
+    <ClInclude Include="LCPixel.h" />
     <ClInclude Include="lodepng.h" />
-    <ClInclude Include="LCCryptPNG.h" />
+    <ClInclude Include="LCCrypter.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
