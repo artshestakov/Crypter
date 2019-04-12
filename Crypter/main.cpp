@@ -4,8 +4,8 @@
 
 #include <stdio.h>
 //-----------------------------------------------------------------------------
-typedef int(__cdecl *FunctionCrypt)(const char *, const char *, const char *, const char *);
-typedef int(__cdecl *FunctionDecrypt)(const char *, const char *);
+typedef int(__cdecl *FunctionCrypt)(const char *, const char *, const char *);
+typedef const char*(__cdecl *FunctionDecrypt)(const char *);
 typedef const char*(__cdecl *FunctionGetErrorString)();
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[])
@@ -21,15 +21,15 @@ int main(int argc, char *argv[])
 	FunctionDecrypt Decrypt = (FunctionDecrypt)GetProcAddress(LibCrypter, "Decrypt");
 	FunctionGetErrorString GetErrorString = (FunctionGetErrorString)GetProcAddress(LibCrypter, "GetErrorString");
 
-	int Result = Crypt("PNG", "G:\\image.png", "G:\\output.png", "message");
+	int Result = Crypt("G:\\image.png", "G:\\output.png", "message");
 	if (!Result)
 	{
 		printf("%s\r\n", GetErrorString());
 		return EXIT_FAILURE;
 	}
 	
-	Result = Decrypt("123", "");
-	if (!Result)
+	const char *Message = Decrypt("G:\\output.png");
+	if (!Message)
 	{
 		printf("%s\r\n", GetErrorString());
 		return EXIT_FAILURE;

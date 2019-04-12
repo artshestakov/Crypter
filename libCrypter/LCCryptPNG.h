@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4293)
 //-----------------------------------------------------------------------------
 #include "LCAbstractCrypter.h"
 //-----------------------------------------------------------------------------
@@ -50,6 +51,8 @@ private:
 
     /** @brief Сгенерировать псевдослучайное число в диапазоне от Min до Max. */
     unsigned long GetRandom(unsigned long Min, unsigned long Max);
+
+	//unsigned int Decode()
 
 private:
     unsigned int Width; //Ширина изображения

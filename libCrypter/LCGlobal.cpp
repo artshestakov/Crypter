@@ -3,42 +3,41 @@
 #include "LCGlobal.h"
 #include "LCCryptPNG.h"
 //-----------------------------------------------------------------------------
-const char *ErrorString;
+std::string ErrorString;
 //-----------------------------------------------------------------------------
-extern "C" __declspec(dllexport) int Crypt(const char *Type, const char *PathImage, const char *PathResult, const char *Message)
+extern "C" __declspec(dllexport) int Crypt(const char *PathImage, const char *PathResult, const char *Message)
 {
-	LCAbstractCrypter *Crypter = CreateCrypter(Type);
-	if (!Crypter)
+	LCCryptPNG Crypter;
+	if (!Crypter.Crypt(PathImage, PathResult, Message))
 	{
-		return R_ERROR;
-	}
-
-	if (!Crypter->Crypt(PathImage, PathResult, Message))
-	{
-		ErrorString = Crypter->GetErrorString().c_str();
+		ErrorString = Crypter.GetErrorString();
 		return R_ERROR;
 	}
 
 	return R_OK;
 }
 //-----------------------------------------------------------------------------
-extern "C" __declspec(dllexport) int Decrypt(const char *PathImage)
+extern "C" __declspec(dllexport) const char* Decrypt(const char *PathImage)
 {
-	return R_OK;
+	std::string Message;
+
+	LCCryptPNG Decrypter;
+	if (Decrypter.Decrypt(PathImage, Message))
+	{
+		char *Result = (char*)malloc(Message.size());
+		strcpy(Result, Message.c_str());
+		return Result;
+	}
+	else
+	{
+		ErrorString = Decrypter.GetErrorString();
+	}
+	
+	return NULL;
 }
 //-----------------------------------------------------------------------------
 extern "C" __declspec(dllexport) const char* GetErrorString()
 {
-	return ErrorString;
-}
-//-----------------------------------------------------------------------------
-LCAbstractCrypter* CreateCrypter(const char *Type)
-{
-	LCAbstractCrypter *Crypter = nullptr;
-	switch (LCAbstractCrypter::StringToMode((char*)Type))
-	{
-	case PNG: Crypter = new LCCryptPNG(); break;
-	}
-	return Crypter;
+	return ErrorString.c_str();
 }
 //-----------------------------------------------------------------------------

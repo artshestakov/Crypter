@@ -105,30 +105,25 @@ bool LCCryptPNG::Decrypt(const std::string &PathImage, std::string &SecretMessag
     {
         unsigned long RandomIndex = GetRandom(0, PixelCount);
         LCColor Color = VectorPixels.at(RandomIndex);
-        if (Color.Alpha < 32 || Color.Alpha > 126)
-        {
-			SetErrorString("Invalid symbol.");
-            Result = false;
-            break;
-        }
+		if (Color.Alpha == 127) //Если попался символ разделитель (размера сообщения и фактического сообщения)
+		{
+			MessageSize = std::atoi(SecretMessage.c_str());
+			SecretMessage.clear();
+			SearchSize = false;
+			continue;
+		}
+		else //Разделитель ещё не нашли - продолжаем собирать размер сообщения
+		{
+			SecretMessage.push_back(static_cast<char>(Color.Alpha));
+		}
 
-        SecretMessage.push_back(static_cast<char>(Color.Alpha));
-        if (SearchSize) //Если идет поиск размера сообщения
+        if (!SearchSize) //Если идет поиск размера сообщения
         {
-            if (SecretMessage.size() == std::to_string(PixelCount).size())
-            {
-                MessageSize = std::atoi(SecretMessage.c_str());
-                SecretMessage.clear();
-                SearchSize = false;
-            }
-        }
-        else //Поиск сообщения
-        {
-            MessageSize--;
-            if (!MessageSize) //Если формирование сообщения закончено
-            {
-                break;
-            }
+			MessageSize--;
+			if (!MessageSize) //Если формирование сообщения закончено
+			{
+				break;
+			}
         }
     }
 
@@ -157,12 +152,12 @@ bool LCCryptPNG::CheckFile(const std::string &PathImage)
 //-----------------------------------------------------------------------------
 bool LCCryptPNG::CheckPathOutput(const std::string &PathOutput)
 {
-    std::ifstream File(PathOutput);
-    if (File)
+	const char *Path = PathOutput.c_str();
+	if (std::ifstream(Path).good()) //Если файл существует - удаляем его
     {
-        if (std::remove(PathOutput.c_str()))
+        if (std::remove(Path) != 0) //Если файл не удалился
         {
-			SetErrorString("Not removed file: " + PathOutput);
+			SetErrorString("Not removed file (" + PathOutput + "): " + strerror(errno));
             return false;
         }
     }
@@ -174,17 +169,21 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
 {
     if (Message.empty())
     {
-		SetErrorString("Messages invalid.");
+		SetErrorString("Message is empty.");
         return false;
     }
 
+	std::string MessageSizeString = std::to_string(Message.size()); //Размер сообщения строкой
+
     std::deque<char> Deque;
-    for (const char &Char : std::to_string(Message.size()))
+    for (const char &Char : MessageSizeString)
     {
         Deque.push_back(Char);
     }
 
-    while (true) //Формирование размера сообщения
+	Deque.push_back(127);
+
+    /*while (true) //Формирование размера сообщения
     {
         if (Deque.size() == std::to_string(PixelCount).size())
         {
@@ -194,7 +193,7 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
         {
             Deque.push_front('0');
         }
-    }
+    }*/
 
     while (Deque.size())
     {
@@ -204,7 +203,7 @@ bool LCCryptPNG::CheckMessage(std::string &Message)
 
     if (Message.size() > PixelCount) //Если сообщение (с его размером) больше массива пикселей
     {
-		SetErrorString("Message invalid.");
+		SetErrorString("Message is big for this image.");
         return false;
     }
 
@@ -266,9 +265,9 @@ void LCCryptPNG::InitRandom(unsigned long InitDigit)
 //-----------------------------------------------------------------------------
 unsigned long LCCryptPNG::GetRandom()
 {
-    //Random ^= (Random << 21);
-    //Random ^= (Random >> 35);
-    //Random ^= (Random << 4);
+    Random ^= (Random << 21);
+    Random ^= (Random >> 35);
+    Random ^= (Random << 4);
     return this->Random;
 }
 //-----------------------------------------------------------------------------
