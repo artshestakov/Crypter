@@ -18,7 +18,7 @@ void Usage();
 //-----------------------------------------------------------------------------
 int main(int argc, char *argv[])
 {
-	HMODULE LibCrypter = LoadLibrary("libCrypter.dll");
+	HMODULE LibCrypter = LoadLibrary(L"libCrypter.dll");
 	if (LibCrypter) //≈сли библиотека успешно загружена в пам€ть
 	{
 		Crypt = (FunctionCrypt)GetProcAddress(LibCrypter, "Crypt");

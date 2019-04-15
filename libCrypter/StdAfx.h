@@ -15,4 +15,5 @@
 #include <vadefs.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <time.h>
 //-----------------------------------------------------------------------------

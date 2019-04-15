@@ -13,6 +13,9 @@
     <ClCompile Include="LCCrypter.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="LCTracer.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lodepng.h">
@@ -28,6 +31,9 @@
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="LCCrypter.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="LCTracer.h">
       <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>

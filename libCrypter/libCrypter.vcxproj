@@ -45,6 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)Bin\$(Configuration)-$(Platform)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -81,12 +82,14 @@
   <ItemGroup>
     <ClCompile Include="LCGlobal.cpp" />
     <ClCompile Include="LCPixel.cpp" />
+    <ClCompile Include="LCTracer.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="LCCrypter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LCGlobal.h" />
     <ClInclude Include="LCPixel.h" />
+    <ClInclude Include="LCTracer.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="LCCrypter.h" />
     <ClInclude Include="StdAfx.h" />
