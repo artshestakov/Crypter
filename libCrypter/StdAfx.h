@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning(disable: 4267) //for lodepng
 //-----------------------------------------------------------------------------
 #define _CRT_SECURE_NO_WARNINGS
 #define SPLIT_SYMBOL 127
@@ -16,4 +17,5 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <time.h>
+#include <limits.h>
 //-----------------------------------------------------------------------------

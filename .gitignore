@@ -2,8 +2,10 @@ Bin/
 Build/
 Crypter/Debug/
 Crypter/Release/
+Crypter/x64/
 libCrypter/Debug/
 libCrypter/Release/
+libCrypter/x64/
 
 *.user
 *.qmake.stash
