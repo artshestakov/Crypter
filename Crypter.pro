@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += SNImageCrypt
+SUBDIRS += libCrypter
 SUBDIRS += Crypter
