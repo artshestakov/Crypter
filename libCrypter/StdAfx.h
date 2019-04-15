@@ -1,5 +1,6 @@
 #pragma once
-#pragma warning(disable: 4267) //for lodepng
+#pragma warning(disable: 4293) //For random
+#pragma warning(disable: 4267) //For lodepng
 //-----------------------------------------------------------------------------
 #define _CRT_SECURE_NO_WARNINGS
 #define SPLIT_SYMBOL 127
