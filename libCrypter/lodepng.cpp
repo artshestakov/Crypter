@@ -6518,7 +6518,7 @@ const char* lodepng_error_text(unsigned code)
 {
     switch(code)
     {
-    case 0: return "no error, everything went ok";
+    case 0: return "No error.";
     case 1: return "nothing done yet"; /*the Encoder/Decoder has done nothing yet, error checking makes no sense yet*/
     case 10: return "end of input memory reached without huffman end code"; /*while huffman decoding*/
     case 11: return "error in code tree made it jump outside of huffman tree"; /*while huffman decoding*/
@@ -6622,7 +6622,8 @@ const char* lodepng_error_text(unsigned code)
     case 103: return "Invalid palette index in bKGD chunk. Maybe it came before PLTE chunk?";
     case 104: return "Invalid bKGD color while encoding (e.g. palette index out of range)";
     }
-    return "unknown error code";
+
+    return "Unknown error.";
 }
 #endif /*LODEPNG_COMPILE_ERROR_TEXT*/
 

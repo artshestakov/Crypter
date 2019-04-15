@@ -44,7 +44,7 @@ bool LCCrypter::Crypt(const std::string &PathImage, const std::string &OutputPat
         return false;
     }
 
-    std::vector<size_t> VectorPoints = SearchIndexes(Message.size());
+	std::vector<unsigned long> VectorPoints = SearchIndexes(Message.size());
     for (size_t i = 0; i < VectorPoints.size(); i++) //Обход всех пикселей и изменение их альфа канала в соответствии с содержимым сообщения
     {
         LCPixel Color = VectorPixels.at(VectorPoints.at(i));
@@ -100,10 +100,20 @@ bool LCCrypter::Decrypt(const std::string &PathImage, std::string &SecretMessage
 
     int MessageSize = 0;
     bool SearchSize = true; //Флаг поиска размера сообщения
+	std::vector<unsigned long> TempVector;
 
     while (true)
     {
         unsigned long RandomIndex = GetRandom(0, PixelCount);
+		if (std::find(TempVector.begin(), TempVector.end(), RandomIndex) == TempVector.end())
+		{
+			TempVector.push_back(RandomIndex);
+		}
+		else
+		{
+			continue;
+		}
+
         LCPixel Color = VectorPixels.at(RandomIndex);
 		if (Color.Alpha == 127) //Если попался символ разделитель (размера сообщения и фактического сообщения)
 		{
@@ -234,9 +244,9 @@ bool LCCrypter::ReadFile(const std::string &PathImage)
     return Result;
 }
 //-----------------------------------------------------------------------------
-std::vector<size_t> LCCrypter::SearchIndexes(size_t MessageSize)
+std::vector<unsigned long> LCCrypter::SearchIndexes(size_t MessageSize)
 {
-    std::vector<size_t> VectorPoints;
+	std::vector<unsigned long> VectorPoints;
 	while (true)
 	{
 		unsigned long RandomIndex = GetRandom(0, PixelCount);

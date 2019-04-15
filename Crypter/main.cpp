@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
 		}
 
 		char *Message = argv[4];
-		Message = "First of, in C single quotes are char literals, and double quotes are string literals.";
 		if (!Message) //Если сообщение не указано, завершаем программу с ошибкой
 		{
 			printf("Message not specified.\r\n");
@@ -77,7 +76,7 @@ int main(int argc, char *argv[])
 			return EXIT_FAILURE;
 		}
 	}
-	else if (strcmp(Mode, "decrypt") == 0) //Если режим дефишрование
+	else if (strcmp(Mode, "decrypt") == 0) //Если режим - дефишрование
 	{
 		const char *DecryptedMessage = Decrypt(PathSource);
 		if (DecryptedMessage)

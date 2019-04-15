@@ -33,7 +33,7 @@ private:
     bool ReadFile(const std::string &PathImage);
 
     //Поиск случайных индексов одномерного массива-изображения
-    std::vector<size_t> SearchIndexes(size_t MessageSize);
+	std::vector<unsigned long> SearchIndexes(size_t MessageSize);
 
     //Начальная инициализация генератора псевдослучайных чисел
     void InitRandom(unsigned long InitDigit);
