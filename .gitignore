@@ -6,6 +6,7 @@ Crypter/x64/
 libCrypter/Debug/
 libCrypter/Release/
 libCrypter/x64/
+Imager/Debug/
 
 *.user
 *.qmake.stash
