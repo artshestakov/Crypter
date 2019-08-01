@@ -2,11 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="lodepng.h" />
-    <ClInclude Include="libCrypter_global.h" />
     <ClInclude Include="libCrypter.h" />
+    <ClInclude Include="libCrypter_global.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="libCrypter.cpp" />
+    <ClCompile Include="libCrypter_global.cpp" />
   </ItemGroup>
 </Project>

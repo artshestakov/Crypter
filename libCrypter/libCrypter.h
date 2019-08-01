@@ -10,37 +10,26 @@ struct PixelStruct
     unsigned char A;
 };
 //-----------------------------------------------------------------------------
-class libCrypter
+void Init();
+void DeInit();
+//-----------------------------------------------------------------------------
+namespace libCrypter
 {
-public:
-    libCrypter();
-    ~libCrypter();
-
-    const char* GetErrorString() const;
-    bool Crypt(const char *PathSource, const char *PathOutput, const char *Message);
+    const char* GetErrorString();
+    int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
     const char* Decrypt(const char *FilePath);
-
-private:
-    bool ReadFile(const char *FilePath);
+    
+    int ReadFile(const char *FilePath);
     char* PrepareMessage(const char *Message);
-    bool CheckMessage(const char *MessageComplete, size_t Size);
-    bool WriteFile(const char *PathOutput);
+    int CheckMessage(const char *MessageComplete, size_t Size);
+    int WriteFile(const char *PathOutput);
     
     void InitRandom(unsigned long Digit);
     unsigned long GetRandom();
     unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum);
     size_t GetSizeReserveString();
-    bool ContainsVector(unsigned long Value, size_t MessageSize);
-    bool FileExist(const char *FilePath);
-
-private:
-    char *ErrorString;
-    unsigned int Width;
-    unsigned int Height;
-    unsigned int PixelCount;
-    PixelStruct *Pixels;
-    unsigned long *VectorRandom;
-    unsigned long Random;
-};
+    int ContainsVector(unsigned long Value, size_t MessageSize);
+    int FileExist(const char *FilePath);
+}
 //-----------------------------------------------------------------------------
 #endif
