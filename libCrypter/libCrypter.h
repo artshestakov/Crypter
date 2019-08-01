@@ -10,11 +10,11 @@ struct PixelStruct
     unsigned char A;
 };
 //-----------------------------------------------------------------------------
-class Imager
+class libCrypter
 {
 public:
-    Imager();
-    ~Imager();
+    libCrypter();
+    ~libCrypter();
 
     const char* GetErrorString() const;
     bool Crypt(const char *PathSource, const char *PathOutput, const char *Message);

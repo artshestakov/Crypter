@@ -1,10 +1,11 @@
-#include "Imager.h"
+#define _CRT_SECURE_NO_WARNINGS
+#include "libCrypter.h"
 #include "lodepng.h"
 //-----------------------------------------------------------------------------
 #define MAX_CHAR_INT 17 //ћаксимальное количество байт дл€ числа
 #define SIZE_ERROR_STRING 1024 //–азмер строки с описанием ошибки
 //-----------------------------------------------------------------------------
-Imager::Imager()
+libCrypter::libCrypter()
     : ErrorString(new char[SIZE_ERROR_STRING]),
     Width(0),
     Height(0),
@@ -16,18 +17,18 @@ Imager::Imager()
     memset(ErrorString, 0, sizeof(char));
 }
 //-----------------------------------------------------------------------------
-Imager::~Imager()
+libCrypter::~libCrypter()
 {
     delete[] ErrorString;
     ErrorString = nullptr;
 }
 //-----------------------------------------------------------------------------
-const char* Imager::GetErrorString() const
+const char* libCrypter::GetErrorString() const
 {
     return ErrorString;
 }
 //-----------------------------------------------------------------------------
-bool Imager::Crypt(const char *PathSource, const char *PathOutput, const char *Message)
+bool libCrypter::Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 {
     bool Result = ReadFile(PathSource);
     if (Result)
@@ -73,7 +74,7 @@ bool Imager::Crypt(const char *PathSource, const char *PathOutput, const char *M
     return Result;
 }
 //-----------------------------------------------------------------------------
-const char* Imager::Decrypt(const char *FilePath)
+const char* libCrypter::Decrypt(const char *FilePath)
 {
     char *Message = nullptr;
     if (ReadFile(FilePath))
@@ -110,7 +111,7 @@ const char* Imager::Decrypt(const char *FilePath)
     return Message;
 }
 //-----------------------------------------------------------------------------
-bool Imager::ReadFile(const char *FilePath)
+bool libCrypter::ReadFile(const char *FilePath)
 {
     if (!FileExist(FilePath))
     {
@@ -161,7 +162,7 @@ bool Imager::ReadFile(const char *FilePath)
     return true;
 }
 //-----------------------------------------------------------------------------
-char* Imager::PrepareMessage(const char *Message)
+char* libCrypter::PrepareMessage(const char *Message)
 {
     //«апоминаем размер сообщени€
     char MessageSize[MAX_CHAR_INT];
@@ -189,7 +190,7 @@ char* Imager::PrepareMessage(const char *Message)
     return MessageComplete;
 }
 //-----------------------------------------------------------------------------
-bool Imager::CheckMessage(const char *MessageComplete, size_t Size)
+bool libCrypter::CheckMessage(const char *MessageComplete, size_t Size)
 {
     if (strlen(MessageComplete) >= PixelCount) //≈сли размер сообщени€ больше или равен количеству пикселей - изображение слишком маленькое дл€ этого сообщени€
     {
@@ -211,7 +212,7 @@ bool Imager::CheckMessage(const char *MessageComplete, size_t Size)
     return true;
 }
 //-----------------------------------------------------------------------------
-bool Imager::WriteFile(const char *PathOutput)
+bool libCrypter::WriteFile(const char *PathOutput)
 {
     unsigned char* Image = new unsigned char[PixelCount * 4];
     
@@ -242,12 +243,12 @@ bool Imager::WriteFile(const char *PathOutput)
     return true;
 }
 //-----------------------------------------------------------------------------
-void Imager::InitRandom(unsigned long Digit)
+void libCrypter::InitRandom(unsigned long Digit)
 {
     Random = Digit;
 }
 //-----------------------------------------------------------------------------
-unsigned long Imager::GetRandom()
+unsigned long libCrypter::GetRandom()
 {
     this->Random ^= (this->Random << 21);
     this->Random ^= (this->Random >> 35);
@@ -255,12 +256,12 @@ unsigned long Imager::GetRandom()
     return this->Random;
 }
 //-----------------------------------------------------------------------------
-unsigned long Imager::GetRandom(unsigned long Minimum, unsigned long Maximum)
+unsigned long libCrypter::GetRandom(unsigned long Minimum, unsigned long Maximum)
 {
     return Minimum + GetRandom() % Maximum;
 }
 //-----------------------------------------------------------------------------
-size_t Imager::GetSizeReserveString()
+size_t libCrypter::GetSizeReserveString()
 {
     //ѕереводим размер пикселей в строку
     char PixelCountString[MAX_CHAR_INT];
@@ -268,7 +269,7 @@ size_t Imager::GetSizeReserveString()
     return strlen(PixelCountString);
 }
 //-----------------------------------------------------------------------------
-bool Imager::ContainsVector(unsigned long Value, size_t MessageSize)
+bool libCrypter::ContainsVector(unsigned long Value, size_t MessageSize)
 {
     bool Result = false;
     for (size_t i = 0; i < MessageSize; ++i)
@@ -282,7 +283,7 @@ bool Imager::ContainsVector(unsigned long Value, size_t MessageSize)
     return Result;
 }
 //-----------------------------------------------------------------------------
-bool Imager::FileExist(const char *FilePath)
+bool libCrypter::FileExist(const char *FilePath)
 {
     FILE *File = fopen(FilePath, "rb");
     bool Result = File ? true : false;
