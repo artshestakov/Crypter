@@ -69,10 +69,12 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 //-----------------------------------------------------------------------------
 const char* Decrypt(const char *FilePath)
 {
+    printf("DECRYPT: FilePath=%s\n", FilePath);
     char *Message = NULL;
     if (ReadFile(FilePath))
     {
         size_t Size = GetSizeReserveString();
+        printf("DECRYPT: SizeReverseString=%d\n", Size);
         char *Buffer = (char *)malloc(Size);
         for (size_t i = 0; i < Size; ++i)
         {
@@ -80,6 +82,7 @@ const char* Decrypt(const char *FilePath)
         }
 
         int MessageSize = atoi(Buffer);
+        printf("DECRYPT: MessageSize=%d\n", MessageSize);
 
         free(Buffer);
         Buffer = NULL;
@@ -90,6 +93,7 @@ const char* Decrypt(const char *FilePath)
             Message[i] = Pixels[GetRandom(1, PixelCount)].A;
         }
         Message[MessageSize] = '\0';
+        printf("DECRYPT: Message=%s\n", Message);
     }
 
     Width = 0;
@@ -165,6 +169,7 @@ char* PrepareMessage(const char *Message)
 
     //Создаем строку, которая будет содержать размер сообщения
     size_t Size = GetSizeReserveString(); //Запоминаем размер строки с числом пикселей
+    printf("GetSizeReserveString=%d\n", Size);
     char StringReserve[MAX_CHAR_INT]; //Выделяем память равную размеру строки с пикселями
     StringReserve[Size] = '\0'; //Обрезаем лишний мусор
     memset(StringReserve, '0', Size); //Заполняем строку символами нуля
@@ -182,6 +187,7 @@ char* PrepareMessage(const char *Message)
     char *MessageComplete = (char *)malloc(Size);
     MessageComplete[Size] = '\0';
     sprintf(MessageComplete, "%s%s", StringReserve, Message);
+    printf("MessageComplete=%s\n", MessageComplete);
     return MessageComplete;
 }
 //-----------------------------------------------------------------------------

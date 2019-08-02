@@ -8,47 +8,30 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    WIN32_FIND_DATA FindData;
-    HANDLE Handle = FindFirstFile("G:\\images\\*.png", &FindData);
-    if (Handle != INVALID_HANDLE_VALUE)
+    int Result = CryptMessage("G:\\Logo.png", "G:\\1.png", "Hello world!");
+    if (Result)
     {
-        do
+        const char *StringResult = DecryptMessage("G:\\1.png");
+        if (StringResult)
         {
-            char PathSource[MAX_PATH] = "G:\\images\\";
-            strcat(PathSource, FindData.cFileName);
-
-            char PathOutput[MAX_PATH] = "G:\\images2\\";
-            strcat(PathOutput, FindData.cFileName);
-
-            int Result = CryptMessage(PathSource, PathOutput, FindData.cFileName);
-            if (Result)
+            if (strcmp(StringResult, "Hello world!") == 0)
             {
-                const char *StringResult = DecryptMessage(PathOutput);
-                if (StringResult)
-                {
-                    if (strcmp(StringResult, FindData.cFileName) == 0)
-                    {
-                        printf("OK\n");
-                    }
-                    else
-                    {
-                        printf("Result string (%s) not equal to string \"%s\"\n", StringResult, FindData.cFileName);
-                    }
-                }
-                else
-                {
-                    printf("String result is null.\n");
-                }
+                printf("OK\n");
             }
-
-            if (!Result)
+            else
             {
-                printf("Error: %s\n", GetError());
+                printf("Result string (%s) not equal to string \"%s\"\n", StringResult, "Hello world!");
             }
+        }
+        else
+        {
+            printf("String result is null.\n");
+        }
+    }
 
-        } while (FindNextFile(Handle, &FindData));
-
-        FindClose(Handle);
+    if (!Result)
+    {
+        printf("Error: %s\n", GetError());
     }
 
     return 0;
