@@ -8,7 +8,8 @@
 # define LIBCRYPTER_EXPORT __declspec(dllimport)
 #endif
 //-----------------------------------------------------------------------------
-extern "C" LIBCRYPTER_EXPORT int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
-extern "C" LIBCRYPTER_EXPORT const char* Decrypt(const char *FilePath);
+LIBCRYPTER_EXPORT int CryptMessage(const char *PathSource, const char *PathOutput, const char *Message);
+LIBCRYPTER_EXPORT const char* DecryptMessage(const char *FilePath);
+LIBCRYPTER_EXPORT const char* GetError();
 //-----------------------------------------------------------------------------
 #endif

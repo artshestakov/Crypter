@@ -1,38 +1,22 @@
 #define _CRT_SECURE_NO_WARNINGS
+//-----------------------------------------------------------------------------
 #include "libCrypter.h"
 #include "lodepng.h"
 //-----------------------------------------------------------------------------
 #define MAX_CHAR_INT 17 //Максимальное количество байт для числа
 #define SIZE_ERROR_STRING 1024 //Размер строки с описанием ошибки
+#define R_OK 1 //Положительный результат
+#define R_ERROR 0 //Отрицательный результат
 //-----------------------------------------------------------------------------
 char *ErrorString;
 unsigned int Width = 0;
 unsigned int Height = 0;
 unsigned int PixelCount = 0;
-PixelStruct *Pixels = nullptr;
-unsigned long *VectorRandom = nullptr;
+PixelStruct *Pixels = NULL;
+unsigned long *VectorRandom = NULL;
 unsigned long Random = 0;
 //-----------------------------------------------------------------------------
-/*void Init()
-{
-    ErrorString = new char[SIZE_ERROR_STRING];
-    memset(ErrorString, 0, sizeof(char));
-
-    Width = 0;
-    Height = 0;
-    PixelCount = 0;
-    Pixels = nullptr;
-    VectorRandom = nullptr;
-    Random = 0;
-}*/
-//-----------------------------------------------------------------------------
-/*void DeInit()
-{
-    delete[] ErrorString;
-    ErrorString = nullptr;
-}*/
-//-----------------------------------------------------------------------------
-const char* GetErrorString()
+const char* GetErrorString(void)
 {
     return ErrorString;
 }
@@ -43,14 +27,14 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
     if (Result)
     {
         char *MessageComplete = PrepareMessage(Message);
-        Result = MessageComplete ? true : false;
+        Result = MessageComplete ? R_OK : R_ERROR;
         if (Result)
         {
-            size_t MessageSize = strlen(MessageComplete);
+            int MessageSize = strlen(MessageComplete);
             Result = CheckMessage(MessageComplete, MessageSize);
             if (Result)
             {
-                for (size_t i = 0; i < MessageSize; ++i) //Обходим сообщение и вставляем каждый символ в пиксели
+                for (int i = 0; i < MessageSize; ++i) //Обходим сообщение и вставляем каждый символ в пиксели
                 {
                     unsigned long R = GetRandom(1, PixelCount); //Генерируем рандомное число
                     if (ContainsVector(R, MessageSize))
@@ -71,13 +55,13 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
     PixelCount = 0;
     if (Pixels)
     {
-        delete[] Pixels;
-        Pixels = nullptr;
+        free(Pixels);
+        Pixels = NULL;
     }
     if (VectorRandom)
     {
-        delete[] VectorRandom;
-        VectorRandom = nullptr;
+        free(VectorRandom);
+        VectorRandom = NULL;
     }
     Random = 0;
     return Result;
@@ -85,23 +69,23 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 //-----------------------------------------------------------------------------
 const char* Decrypt(const char *FilePath)
 {
-    char *Message = nullptr;
+    char *Message = NULL;
     if (ReadFile(FilePath))
     {
         size_t Size = GetSizeReserveString();
-        char *Buffer = new char[Size];
+        char *Buffer = (char *)malloc(Size);
         for (size_t i = 0; i < Size; ++i)
         {
             Buffer[i] = Pixels[GetRandom(1, PixelCount)].A;
         }
 
-        size_t MessageSize = atoi(Buffer);
+        int MessageSize = atoi(Buffer);
 
-        delete[] Buffer;
-        Buffer = nullptr;
+        free(Buffer);
+        Buffer = NULL;
 
-        Message = new char[MessageSize];
-        for (size_t i = 0; i < MessageSize; ++i)
+        Message = (char *)malloc(MessageSize);
+        for (int i = 0; i < MessageSize; ++i)
         {
             Message[i] = Pixels[GetRandom(1, PixelCount)].A;
         }
@@ -113,8 +97,8 @@ const char* Decrypt(const char *FilePath)
     PixelCount = 0;
     if (Pixels)
     {
-        delete[] Pixels;
-        Pixels = nullptr;
+        free(Pixels);
+        Pixels = NULL;
     }
     Random = 0;
     return Message;
@@ -124,18 +108,20 @@ int ReadFile(const char *FilePath)
 {
     if (!FileExist(FilePath))
     {
-        sprintf(ErrorString, "File \"%s\" not exist.", FilePath); return false;
+        sprintf(ErrorString, "File \"%s\" not exist.", FilePath);
+        return R_ERROR;
     }
 
-    unsigned char* Image = nullptr;
+    unsigned char* Image = NULL;
     unsigned Error = lodepng_decode32_file(&Image, &Width, &Height, FilePath);
     if (Error)
     {
-        sprintf(ErrorString, "Error decode file \"%s\": %s", FilePath, lodepng_error_text(Error)); return false;
+        sprintf(ErrorString, "Error decode file \"%s\": %s", FilePath, lodepng_error_text(Error));
+        return R_ERROR;
     }
     
     PixelCount = Width * Height;
-    Pixels = new PixelStruct[PixelCount];
+    Pixels = (PixelStruct *)malloc(sizeof(PixelStruct *) * PixelCount);
 
     size_t Index = 0;
     for (unsigned int i = 0; i < PixelCount; ++i)
@@ -152,8 +138,8 @@ int ReadFile(const char *FilePath)
         Pixels[i] = Pixel;
     }
 
-    delete[] Image;
-    Image = nullptr;
+    free(Image);
+    Image = NULL;
 
     char Char[MAX_CHAR_INT];
     sprintf(Char, "%d%d", Width, Height); //Переводим ширину и высоту в строку
@@ -163,12 +149,12 @@ int ReadFile(const char *FilePath)
     for (int i = 0; i < 4; ++i) //Собираем число инициализации первого рандома: последняя цифра каждого нового числа
     {
         char Temp[MAX_CHAR_INT];
-        int SizeTemp = sprintf(Temp, "%lu", GetRandom()); //Приводим рандомное число к строке
+        int SizeTemp = sprintf(Temp, "%lu", GetRandom(0, ULONG_MAX)); //Приводим рандомное число к строке
         Char[i] = Temp[SizeTemp - 1]; //Берем последнее число из рандома и запоминаем его
     }
 
     InitRandom(atoi(Char)); //Снова инициализируем рандом новым числом
-    return true;
+    return R_OK;
 }
 //-----------------------------------------------------------------------------
 char* PrepareMessage(const char *Message)
@@ -193,7 +179,7 @@ char* PrepareMessage(const char *Message)
     }
 
     Size = strlen(StringReserve) + strlen(Message);
-    char *MessageComplete = new char[Size];
+    char *MessageComplete = (char *)malloc(Size);
     MessageComplete[Size] = '\0';
     sprintf(MessageComplete, "%s%s", StringReserve, Message);
     return MessageComplete;
@@ -203,7 +189,8 @@ int CheckMessage(const char *MessageComplete, size_t Size)
 {
     if (strlen(MessageComplete) >= PixelCount) //Если размер сообщения больше или равен количеству пикселей - изображение слишком маленькое для этого сообщения
     {
-        sprintf(ErrorString, "This image is too small for your message."); return false;
+        sprintf(ErrorString, "This image is too small for your message.");
+        return R_ERROR;
     }
 
     for (size_t i = 0; i < Size; ++i) //Обход сообщения и проверка каждого символа на валидность
@@ -211,19 +198,20 @@ int CheckMessage(const char *MessageComplete, size_t Size)
         char Char = MessageComplete[i];
         if (Char < 32 && Char > 255)
         {
-            sprintf(ErrorString, "Invalid char: %c. Ascii code: %d.", Char, Char); return false;
+            sprintf(ErrorString, "Invalid char: %c. Ascii code: %d.", Char, Char);
+            return R_ERROR;
         }
     }
 
     //Создаем массив для временного хранения рандомных чисел
-    VectorRandom = new unsigned long[Size];
+    VectorRandom = VectorRandom = (unsigned long *)malloc(sizeof(unsigned long) * Size);
     memset(VectorRandom, 0, Size);
-    return true;
+    return R_OK;
 }
 //-----------------------------------------------------------------------------
 int WriteFile(const char *PathOutput)
 {
-    unsigned char* Image = new unsigned char[PixelCount * 4];
+    unsigned char* Image = (unsigned char *)malloc(PixelCount * 4);
     
     size_t Index = 0;
     for (unsigned long i = 0; i < PixelCount; ++i)
@@ -241,15 +229,16 @@ int WriteFile(const char *PathOutput)
 
     unsigned int Error = lodepng_encode32_file(PathOutput, Image, Width, Height);
 
-    delete[] Image;
-    Image = nullptr;
+    free(Image);
+    Image = NULL;
 
     if (Error)
     {
-        sprintf(ErrorString, "Error encode file \"%s\": %s", PathOutput, lodepng_error_text(Error)); return false;
+        sprintf(ErrorString, "Error encode file \"%s\": %s", PathOutput, lodepng_error_text(Error));
+        return R_ERROR;
     }
 
-    return true;
+    return 1;
 }
 //-----------------------------------------------------------------------------
 void InitRandom(unsigned long Digit)
@@ -257,20 +246,15 @@ void InitRandom(unsigned long Digit)
     Random = Digit;
 }
 //-----------------------------------------------------------------------------
-unsigned long GetRandom()
+unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum)
 {
     Random ^= (Random << 21);
     Random ^= (Random >> 35);
     Random ^= (Random << 4);
-    return Random;
+    return Minimum + Random % Maximum;
 }
 //-----------------------------------------------------------------------------
-unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum)
-{
-    return Minimum + GetRandom() % Maximum;
-}
-//-----------------------------------------------------------------------------
-size_t GetSizeReserveString()
+size_t GetSizeReserveString(void)
 {
     //Переводим размер пикселей в строку
     char PixelCountString[MAX_CHAR_INT];
@@ -280,12 +264,12 @@ size_t GetSizeReserveString()
 //-----------------------------------------------------------------------------
 int ContainsVector(unsigned long Value, size_t MessageSize)
 {
-    bool Result = false;
+    int Result = R_ERROR;
     for (size_t i = 0; i < MessageSize; ++i)
     {
         if (VectorRandom[i] == Value)
         {
-            Result = true;
+            Result = R_OK;
             break;
         }
     }
@@ -295,10 +279,10 @@ int ContainsVector(unsigned long Value, size_t MessageSize)
 int FileExist(const char *FilePath)
 {
     FILE *File = fopen(FilePath, "rb");
-    bool Result = File ? true : false;
+    int Result = File ? R_OK : R_ERROR;
     if (File)
     {
-        Result = fclose(File) == 0 ? true : false;
+        Result = fclose(File) == 0 ? R_OK : R_ERROR;
         if (!Result)
         {
             sprintf(ErrorString, "Error close file at checking exist: %s.", strerror(errno));
@@ -306,7 +290,7 @@ int FileExist(const char *FilePath)
     }
     else
     {
-        Result = errno == ENOENT ? false : true;
+        Result = errno == ENOENT ? R_ERROR : R_OK;
     }
     return Result;
 }

@@ -1,17 +1,10 @@
 Bin/
-Build/
-Crypter/Debug/
-Crypter/Release/
-Crypter/x64/
+Imager/Debug/
+Imager/Release/
 libCrypter/Debug/
 libCrypter/Release/
-libCrypter/x64/
-Imager/Debug/
 
-*.user
-*.qmake.stash
-Makefile
-Makefile.*
-*.v12.suo
-*.sdf
 *.opensdf
+*.sdf
+*.suo
+*.user

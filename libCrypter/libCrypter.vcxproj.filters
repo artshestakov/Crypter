@@ -6,8 +6,8 @@
     <ClInclude Include="libCrypter_global.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lodepng.cpp" />
-    <ClCompile Include="libCrypter.cpp" />
-    <ClCompile Include="libCrypter_global.cpp" />
+    <ClCompile Include="libCrypter.c" />
+    <ClCompile Include="libCrypter_global.c" />
+    <ClCompile Include="lodepng.c" />
   </ItemGroup>
 </Project>
