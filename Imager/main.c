@@ -24,9 +24,20 @@ int main(int argc, char **argv)
             if (Result)
             {
                 const char *StringResult = DecryptMessage(PathOutput);
-                if (StringResult && strcmp(StringResult, FindData.cFileName) == 0)
+                if (StringResult)
                 {
-                    printf("OK\n");
+                    if (strcmp(StringResult, FindData.cFileName) == 0)
+                    {
+                        printf("OK\n");
+                    }
+                    else
+                    {
+                        printf("Result string (%s) not equal to string \"%s\"\n", StringResult, FindData.cFileName);
+                    }
+                }
+                else
+                {
+                    printf("String result is null.\n");
                 }
             }
 
