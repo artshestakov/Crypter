@@ -10,6 +10,6 @@
 //-----------------------------------------------------------------------------
 LIBCRYPTER_EXPORT int CryptMessage(const char *PathSource, const char *PathOutput, const char *Message);
 LIBCRYPTER_EXPORT const char* DecryptMessage(const char *FilePath);
-LIBCRYPTER_EXPORT const char* GetError();
+LIBCRYPTER_EXPORT const char* GetError(void);
 //-----------------------------------------------------------------------------
 #endif

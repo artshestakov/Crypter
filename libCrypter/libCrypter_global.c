@@ -11,7 +11,7 @@ const char* DecryptMessage(const char *FilePath)
     return Decrypt(FilePath);
 }
 //-----------------------------------------------------------------------------
-const char* GetError()
+const char* GetError(void)
 {
     return GetErrorString();
 }

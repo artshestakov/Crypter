@@ -1,7 +1,7 @@
 #pragma once
 #ifndef IMAGER_H_INCLUDED
 #define IMAGER_H_INCLUDED
-
+//-----------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -21,15 +21,15 @@ const char* GetErrorString(void);
 int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
 const char* Decrypt(const char *FilePath);
 
-int ReadFile(const char *FilePath);
-char* PrepareMessage(const char *Message);
-int CheckMessage(const char *MessageComplete, size_t Size);
-int WriteFile(const char *PathOutput);
+int ReadFile(const char *FilePath); //Чтение файла в память
+char* PrepareMessage(const char *Message); //Подготовка сообщения
+int CheckMessage(const char *MessageComplete, size_t Size); //Прооверка сообщения
+int WriteFile(const char *PathOutput); //Запись результата кодирования в файл
 
-void InitRandom(unsigned long Digit);
-unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum);
-size_t GetSizeReserveString(void);
-int ContainsVector(unsigned long Value, size_t MessageSize);
-int FileExist(const char *FilePath);
+void InitRandom(unsigned long Digit); //Инициализация рандома
+unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum); //Сгенерировать случайное целое число в диапазоне от Minimum до Maximum
+size_t GetSizeReserveString(void); //Получить размер зарезервированной строки
+int ContainsVector(unsigned long Value, size_t MessageSize); //Проверка существования значения в "векторе"
+int FileExist(const char *FilePath); //Проверка существования файла
 //-----------------------------------------------------------------------------
 #endif
