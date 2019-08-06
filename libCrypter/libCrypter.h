@@ -2,12 +2,7 @@
 #ifndef IMAGER_H_INCLUDED
 #define IMAGER_H_INCLUDED
 //-----------------------------------------------------------------------------
-#include <stdlib.h>
 #include <stddef.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
-#include <limits.h>
 //-----------------------------------------------------------------------------
 typedef struct s_PixelStruct
 {
