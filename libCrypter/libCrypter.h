@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IMAGER_H_INCLUDED
-#define IMAGER_H_INCLUDED
+#ifndef LIBCRYPTER_H_INCLUDED
+#define LIBCRYPTER_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include <stddef.h>
 //-----------------------------------------------------------------------------

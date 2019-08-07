@@ -4,10 +4,12 @@
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="libCrypter.h" />
     <ClInclude Include="libCrypter_global.h" />
+    <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libCrypter.c" />
     <ClCompile Include="libCrypter_global.c" />
     <ClCompile Include="lodepng.c" />
+    <ClCompile Include="StdAfx.c" />
   </ItemGroup>
 </Project>
