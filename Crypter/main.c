@@ -67,7 +67,6 @@ int main(int argc, char **argv)
 
         if (CryptMessage(PathSource, PathOutput, Message))
         {
-            DecryptMessage(PathOutput);
             printf("Crypted is success.\n");
         }
         else
