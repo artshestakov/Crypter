@@ -1,4 +1,7 @@
 Bin/
+botCrypter/Debug/
+botCrypter/Release/
+botCrypter/GeneratedFiles/
 Crypter/Debug/
 Crypter/Release/
 libCrypter/Debug/

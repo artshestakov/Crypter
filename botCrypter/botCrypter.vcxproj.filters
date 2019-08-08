@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="type">
+      <UniqueIdentifier>{f6cc1c92-e8d0-49eb-87cd-0fcc0b476ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="type\reply">
+      <UniqueIdentifier>{42b285d5-58f8-41a3-9fa7-898f454dbb20}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="types\audio.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\callbackquery.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\chat.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\contact.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\document.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\location.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\message.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\photosize.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\sticker.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\update.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\user.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\video.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\voice.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="networking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="qttelegrambot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="networking.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="qttelegrambot.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="types\audio.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\callbackquery.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\chat.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\contact.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\document.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\file.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\location.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\message.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\photosize.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\sticker.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\update.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\user.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\video.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\voice.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\forcereply.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\genericreply.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\inlinekeyboardmarkup.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\replykeyboardhide.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\replykeyboardmarkup.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\replykeyboardremove.h">
+      <Filter>type\reply</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
