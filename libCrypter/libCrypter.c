@@ -13,8 +13,8 @@ unsigned int Width = 0;
 unsigned int Height = 0;
 unsigned int PixelCount = 0;
 PixelStruct *Pixels = NULL;
-unsigned long *VectorRandom = NULL;
-unsigned long Random = 0;
+rand_t *VectorRandom = NULL;
+rand_t Random = 0;
 //-----------------------------------------------------------------------------
 const char* GetErrorString(void)
 {
@@ -23,7 +23,7 @@ const char* GetErrorString(void)
 //-----------------------------------------------------------------------------
 int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 {
-    int Result = ReadFile(PathSource); //Чтение файла
+    int Result = ReadFileV(PathSource); //Чтение файла
     if (Result) //Файл успешно прочитан
     {
         char *MessageComplete = PrepareMessage(Message); //Подготовка сообщения
@@ -36,7 +36,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
             {
                 //Создаем вектор для временного хранения рандомных чисел
                 size_t VectorSize = MessageSize + BEGIN_RANDOM_SIZE; //К размеру сообщения обязательно нужно прибавить начальный размер рандома
-                VectorRandom = (unsigned long *)malloc(sizeof(unsigned long) * VectorSize);
+                VectorRandom = (rand_t *)malloc(sizeof(rand_t) * VectorSize);
                 memset(VectorRandom, 0, VectorSize); //Обнуляем вектор
                 size_t Index = 0; //Индекс последнего значения в векторе
 
@@ -45,10 +45,10 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
                 InitRandom(atoi(Temp)); //Инициализируем рандом
                 memset(Temp, 0, MAX_CHAR_INT); //Очищаем строку
 
-                unsigned long Randoms[BEGIN_RANDOM_SIZE]; //Массив первых четырех индексов хранения начального рандома
+                rand_t Randoms[BEGIN_RANDOM_SIZE]; //Массив первых четырех индексов хранения начального рандома
                 for (size_t i = 0; i < BEGIN_RANDOM_SIZE; ++i) //Создаем BEGIN_RANDOM_SIZE случайных индексов в массиве пикселей
                 {
-                    unsigned long R = GetRandom(1, PixelCount);
+                    rand_t R = GetRandom(1, PixelCount);
                     if (ContainsVector(R, VectorSize)) //Проверка существования такого числа в "векторе"
                     {
                         --i; //Число R уже было сгенерировано, поэтому итерацию цикла нужно выполнить сначала, но при этом уменьшить итератор i на единицу, чтобы не нарушать порядок обхода сообщения
@@ -70,7 +70,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
                 for (size_t i = 0; i < BEGIN_RANDOM_SIZE; ++i)
                 {
                     char Char[2];
-                    unsigned long R = GetRandom(1, 9);
+                    rand_t R = GetRandom(1, 9);
                     sprintf(Char, "%lu", R);
                     Pixels[Randoms[i]].A = Char[0];
                     Temp[i] = Char[0];
@@ -80,7 +80,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 
                 for (size_t i = 0; i < MessageSize; ++i) //Обходим сообщение и вставляем каждый символ в пиксели
                 {
-                    unsigned long R = GetRandom(1, PixelCount); //Генерируем рандомное число
+                    rand_t R = GetRandom(1, PixelCount); //Генерируем рандомное число
                     if (ContainsVector(R, VectorSize)) //Проверка существования такого числа в "векторе"
                     {
                         --i; //Число R уже было сгенерировано, поэтому итерацию цикла нужно выполнить сначала, но при этом уменьшить итератор i на единицу, чтобы не нарушать порядок обхода сообщения
@@ -93,7 +93,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
                     }
                     Pixels[R].A = MessageComplete[i]; //Берем пиксель по рандомному индексу и приравниваем код символа к альфе
                 }
-                Result = WriteFile(PathOutput); //Запись пикселей в файл
+                Result = WriteFileV(PathOutput); //Запись пикселей в файл
             }
         }
     }
@@ -118,7 +118,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 const char* Decrypt(const char *FilePath)
 {
     char *Message = NULL;
-    if (ReadFile(FilePath)) //Читаем файл
+    if (ReadFileV(FilePath)) //Читаем файл
     {
         char Temp[MAX_CHAR_INT];
         sprintf(Temp, "%d%d", Width, Height); //Переводим ширину и высоту в строку
@@ -150,7 +150,7 @@ const char* Decrypt(const char *FilePath)
             Message = (char *)malloc(MessageSize);
             for (int i = 0; i < MessageSize; ++i)
             {
-                unsigned long R = GetRandom(1, PixelCount);
+                rand_t R = GetRandom(1, PixelCount);
                 Message[i] = Pixels[R].A;
             }
             Message[MessageSize] = '\0';
@@ -173,7 +173,7 @@ const char* Decrypt(const char *FilePath)
     return Message;
 }
 //-----------------------------------------------------------------------------
-int ReadFile(const char *FilePath)
+int ReadFileV(const char *FilePath)
 {
     if (!FilePath)
     {
@@ -216,21 +216,6 @@ int ReadFile(const char *FilePath)
     free(Image);
     Image = NULL;
 
-    /*
-    char Char[MAX_CHAR_INT];
-    sprintf(Char, "%d%d", Width, Height); //Переводим ширину и высоту в строку
-    InitRandom(atoi(Char)); //Инициализируем рандом
-    memset(Char, 0, sizeof(Char));
-    
-    for (int i = 0; i < 4; ++i) //Собираем число инициализации первого рандома: последняя цифра каждого нового числа
-    {
-        char Temp[MAX_CHAR_INT];
-        int SizeTemp = sprintf(Temp, "%lu", GetRandom(0, ULONG_MAX)); //Приводим рандомное число к строке
-        Char[i] = Temp[SizeTemp - 1]; //Берем последнее число из рандома и запоминаем его
-    }
-
-    InitRandom(atoi(Char)); //Снова инициализируем рандом новым числом
-    */
     return R_OK;
 }
 //-----------------------------------------------------------------------------
@@ -282,12 +267,12 @@ int CheckMessage(const char *MessageComplete, size_t Size)
     return R_OK;
 }
 //-----------------------------------------------------------------------------
-int WriteFile(const char *PathOutput)
+int WriteFileV(const char *PathOutput)
 {
     unsigned char* Image = (unsigned char *)malloc(PixelCount * 4);
     
     size_t Index = 0;
-    for (unsigned long i = 0; i < PixelCount; ++i)
+    for (unsigned int i = 0; i < PixelCount; ++i)
     {
         PixelStruct Pixel = Pixels[i];
         Image[Index] = Pixel.R;
@@ -314,21 +299,26 @@ int WriteFile(const char *PathOutput)
     return R_OK;
 }
 //-----------------------------------------------------------------------------
-void InitRandom(unsigned long Digit)
+void InitRandom(rand_t Digit)
 {
     Random = Digit;
 }
 //-----------------------------------------------------------------------------
-unsigned long GetRandom(unsigned long Minimum, unsigned long Maximum)
+rand_t GetRandom(rand_t Minimum, rand_t Maximum)
 {
     Random ^= (Random << 21);
     //Подавляем предупреждение 4293: MSVC считает что сдвиг вправо на 35 может вызвать непоределнное поведение,
     //по его мнению 35 - отрицательное или слишком большое число. Ну бред же!
 #pragma warning (disable: 4293)
-    Random ^= (Random >> 35);
+    Random ^= (Random >> 31/*35*/);
 #pragma warning (default: 4293)
     Random ^= (Random << 4);
-    return Minimum + Random % Maximum;
+    rand_t Result = Minimum + Random % Maximum;
+    if (Result < 0)
+    {
+        Result = -Result;
+    }
+    return Result;
 }
 //-----------------------------------------------------------------------------
 size_t GetSizeReserveString(void)
@@ -339,10 +329,10 @@ size_t GetSizeReserveString(void)
     return strlen(PixelCountString);
 }
 //-----------------------------------------------------------------------------
-int ContainsVector(unsigned long Value, size_t MessageSize)
+int ContainsVector(rand_t Value, size_t VectorSize)
 {
     int Result = R_ERROR;
-    for (size_t i = 0; i < MessageSize; ++i)
+    for (size_t i = 0; i < VectorSize; ++i)
     {
         if (VectorRandom[i] == Value)
         {
