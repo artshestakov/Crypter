@@ -107,7 +107,6 @@ void Bot::Process(const Telegram::Message &message)
 
         if (NetworkReply->error() == QNetworkReply::NoError)
         {
-            qDebug() << "Download is done. Writing...";
             QFile File(QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + "_" + QFileInfo(Url).fileName());
             if (File.open(QIODevice::WriteOnly))
             {
@@ -116,7 +115,6 @@ void Bot::Process(const Telegram::Message &message)
                 {
                     QString PathOutput = QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + ".png";
                     if (crypt_message(File.fileName().toStdString().c_str(), PathOutput.toStdString().c_str(), message.caption.toStdString().c_str()))
-                    {
                         TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Ваше сообщение \"%1\" было успешно зашифровано, ожидайте готовое изображение.").arg(message.caption));
                         TelegramBot->sendDocument(message.from.id, &QFile(PathOutput));
                     }

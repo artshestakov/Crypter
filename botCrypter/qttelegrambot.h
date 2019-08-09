@@ -314,10 +314,10 @@ namespace Telegram
         quint32 m_updateOffset;
         quint32 m_pollingTimeout;
 
-signals:
+    signals:
         void message(Message message);
         void update(Update update);
     };
 }
-
+//-----------------------------------------------------------------------------
 #endif
