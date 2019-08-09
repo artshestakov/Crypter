@@ -1,6 +1,6 @@
 #pragma once
-#ifndef STDAFX_H_INCLUDED
-#define STDAFX_H_INCLUDED
+#ifndef _STDAFX_H_INCLUDED
+#define _STDAFX_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>

@@ -5,11 +5,16 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication Application(argc, argv);
-    
+
     qDebug() << "Bot is starting...";
     Bot bot("919167651:AAFWwPj2gRIyQ4xs2p7zWSA6noIzHxbaju8");
-    qDebug() << "Bot is started";
+    if (bot.InitCrypterLib())
+    {
+        bot.Start();
+        qDebug() << "Bot is started";
+        return Application.exec();
+    }
     
-    return Application.exec();
+    return EXIT_FAILURE;
 }
 //-----------------------------------------------------------------------------

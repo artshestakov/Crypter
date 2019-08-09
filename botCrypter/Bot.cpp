@@ -12,14 +12,47 @@
 #include <QtNetwork/QNetworkProxy>
 #include "Bot.h"
 //-----------------------------------------------------------------------------
-Bot::Bot(const QString &Token)
-    : TelegramBot(new Telegram::Bot(Token, true, 500, 4, this)),
+Bot::Bot(const QString &token)
+    : InstanceLib(NULL),
+    Token(token),
     FutureWatcher(new QFutureWatcher<void>(this)),
     Settings(new QSettings(QCoreApplication::applicationDirPath() + "/Bot.ini", QSettings::IniFormat, this)),
     UrlTemplate("https://api.telegram.org/file/bot" + Token + "/"),
-    EventLoop(new QEventLoop(this)),
     NetworkAccessManager(new QNetworkAccessManager(this))
 {
+    
+}
+//-----------------------------------------------------------------------------
+Bot::~Bot()
+{
+    FreeLibrary(InstanceLib);
+}
+//-----------------------------------------------------------------------------
+bool Bot::InitCrypterLib()
+{
+    bool Result = true;
+#ifdef WIN32
+    QString Path = QCoreApplication::applicationDirPath() + "/libCrypter.dll";
+    InstanceLib = LoadLibrary(Path.toStdWString().c_str());
+    Result = InstanceLib != INVALID_HANDLE_VALUE ? true : false;
+    if (Result)
+    {
+        crypt_message = (CryptMessage)GetProcAddress(InstanceLib, "CryptMessage");
+        decrypt_message = (DecryptMessage)GetProcAddress(InstanceLib, "DecryptMessage");
+        get_error = (GetError)GetProcAddress(InstanceLib, "GetError");
+        Result = crypt_message && decrypt_message && get_error;
+        if (!Result)
+        {
+            FreeLibrary(InstanceLib);
+        }
+    }
+#endif
+    return Result;
+}
+//-----------------------------------------------------------------------------
+void Bot::Start()
+{
+    TelegramBot = new Telegram::Bot(Token, true, 500, 4, this);
     connect(TelegramBot, &Telegram::Bot::message, this, &Bot::NewMessage);
 
     if (Settings->value("Proxy/Use").toBool())
@@ -31,11 +64,6 @@ Bot::Bot(const QString &Token)
         NetworkProxy.setPassword(Settings->value("Proxy/Password").toString());
         NetworkAccessManager->setProxy(NetworkProxy);
     }
-}
-//-----------------------------------------------------------------------------
-Bot::~Bot()
-{
-
 }
 //-----------------------------------------------------------------------------
 void Bot::NewMessage(const Telegram::Message &message)
@@ -63,23 +91,19 @@ void Bot::Process(const Telegram::Message &message)
 {
     if (message.type == Telegram::Message::DocumentType || message.type == Telegram::Message::PhotoType)
     {
-        QString Url;
-        switch (message.type)
+        if (message.caption.isEmpty())
         {
-        case Telegram::Message::DocumentType:
-            Url = UrlTemplate + TelegramBot->getFile(message.document.fileId).filePath;
-            break;
-
-        case Telegram::Message::PhotoType:
-            Url = UrlTemplate + TelegramBot->getFile(message.photo.back().fileId).filePath;
-            break;
+            TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Сообщение с изображением не содержит текста. Пожалуйста, добавьте подпись, которая будет зашифрованна в отправляемое вами изображение."));
+            return;
         }
 
+        QString Url = CreateUrl(message);
+        QEventLoop EventLoop;
+        connect(NetworkAccessManager, &QNetworkAccessManager::finished, &EventLoop, &QEventLoop::quit);
         QNetworkReply *NetworkReply = NetworkAccessManager->get(QNetworkRequest(QUrl(Url)));
         NetworkReply->ignoreSslErrors();
-
-        connect(NetworkAccessManager, &QNetworkAccessManager::finished, EventLoop, &QEventLoop::quit);
-        EventLoop->exec();
+ 
+        EventLoop.exec();
 
         if (NetworkReply->error() == QNetworkReply::NoError)
         {
@@ -87,9 +111,25 @@ void Bot::Process(const Telegram::Message &message)
             QFile File(QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + "_" + QFileInfo(Url).fileName());
             if (File.open(QIODevice::WriteOnly))
             {
-                File.write(NetworkReply->readAll());
+                QByteArray ByteArray = NetworkReply->readAll();
+                if (File.write(ByteArray) == ByteArray.size())
+                {
+                    QString PathOutput = QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + ".png";
+                    if (crypt_message(File.fileName().toStdString().c_str(), PathOutput.toStdString().c_str(), message.caption.toStdString().c_str()))
+                    {
+                        TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Ваше сообщение \"%1\" было успешно зашифровано, ожидайте готовое изображение.").arg(message.caption));
+                        TelegramBot->sendDocument(message.from.id, &QFile(PathOutput));
+                    }
+                    else
+                    {
+                        TelegramBot->sendMessage(message.from.id, get_error());
+                    }
+                }
+                else
+                {
+                    TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Произошла ошибка при сохранении файла на сервере."));
+                }
                 File.close();
-                TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Ваше изображение успешно сохранено на сервере."));
             }
             else
             {
@@ -106,5 +146,21 @@ void Bot::Process(const Telegram::Message &message)
     {
         TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Бот принимает только изображения (фотография или документ)."));
     }
+}
+//-----------------------------------------------------------------------------
+QString Bot::CreateUrl(const Telegram::Message &message)
+{
+    QString Url;
+    switch (message.type)
+    {
+    case Telegram::Message::DocumentType:
+        Url = UrlTemplate + TelegramBot->getFile(message.document.fileId).filePath;
+        break;
+
+    case Telegram::Message::PhotoType:
+        Url = UrlTemplate + TelegramBot->getFile(message.photo.back().fileId).filePath;
+        break;
+    }
+    return Url;
 }
 //-----------------------------------------------------------------------------

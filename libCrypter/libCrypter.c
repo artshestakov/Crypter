@@ -310,7 +310,7 @@ rand_t GetRandom(rand_t Minimum, rand_t Maximum)
     //Подавляем предупреждение 4293: MSVC считает что сдвиг вправо на 35 может вызвать непоределнное поведение,
     //по его мнению 35 - отрицательное или слишком большое число. Ну бред же!
 #pragma warning (disable: 4293)
-    Random ^= (Random >> 31/*35*/);
+    Random ^= (Random >> 35);
 #pragma warning (default: 4293)
     Random ^= (Random << 4);
     rand_t Result = Minimum + Random % Maximum;

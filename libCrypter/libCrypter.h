@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LIBCRYPTER_H_INCLUDED
-#define LIBCRYPTER_H_INCLUDED
+#ifndef _LIBCRYPTER_H_INCLUDED
+#define _LIBCRYPTER_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include <stddef.h>
 //-----------------------------------------------------------------------------
