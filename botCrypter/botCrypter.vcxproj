@@ -96,6 +96,7 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="networking.cpp" />
     <ClCompile Include="qttelegrambot.cpp" />
@@ -114,12 +115,18 @@
     <ClCompile Include="types\voice.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="networking.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="qttelegrambot.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <QtMoc Include="Bot.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
+    </QtMoc>
+    <QtMoc Include="networking.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
+    </QtMoc>
+    <QtMoc Include="qttelegrambot.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
+    </QtMoc>
     <ClInclude Include="types\audio.h" />
     <ClInclude Include="types\callbackquery.h" />
     <ClInclude Include="types\chat.h" />
