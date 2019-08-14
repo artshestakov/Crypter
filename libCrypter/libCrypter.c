@@ -23,7 +23,7 @@ const char* GetErrorString(void)
 //-----------------------------------------------------------------------------
 int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 {
-    int Result = ReadFileV(PathSource); //Чтение файла
+    int Result = ReadFileToMemory(PathSource); //Чтение файла
     if (Result) //Файл успешно прочитан
     {
         char *MessageComplete = PrepareMessage(Message); //Подготовка сообщения
@@ -93,7 +93,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
                     }
                     Pixels[R].A = MessageComplete[i]; //Берем пиксель по рандомному индексу и приравниваем код символа к альфе
                 }
-                Result = WriteFileV(PathOutput); //Запись пикселей в файл
+                Result = WritePixelsToFile(PathOutput); //Запись пикселей в файл
             }
         }
     }
@@ -118,7 +118,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 const char* Decrypt(const char *FilePath)
 {
     char *Message = NULL;
-    if (ReadFileV(FilePath)) //Читаем файл
+    if (ReadFileToMemory(FilePath)) //Читаем файл
     {
         char Temp[MAX_CHAR_INT];
         sprintf(Temp, "%d%d", Width, Height); //Переводим ширину и высоту в строку
@@ -173,7 +173,7 @@ const char* Decrypt(const char *FilePath)
     return Message;
 }
 //-----------------------------------------------------------------------------
-int ReadFileV(const char *FilePath)
+int ReadFileToMemory(const char *FilePath)
 {
     if (!FilePath)
     {
@@ -267,7 +267,7 @@ int CheckMessage(const char *MessageComplete, size_t Size)
     return R_OK;
 }
 //-----------------------------------------------------------------------------
-int WriteFileV(const char *PathOutput)
+int WritePixelsToFile(const char *PathOutput)
 {
     unsigned char* Image = (unsigned char *)malloc(PixelCount * 4);
     

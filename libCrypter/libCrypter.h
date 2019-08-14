@@ -18,10 +18,10 @@ const char* GetErrorString(void);
 int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
 const char* Decrypt(const char *FilePath);
 
-int ReadFileV(const char *FilePath); //Чтение файла в память
+int ReadFileToMemory(const char *FilePath); //Чтение файла в память
 char* PrepareMessage(const char *Message); //Подготовка сообщения
 int CheckMessage(const char *MessageComplete, size_t Size); //Прооверка сообщения
-int WriteFileV(const char *PathOutput); //Запись результата кодирования в файл
+int WritePixelsToFile(const char *PathOutput); //Запись результата кодирования в файл
 
 void InitRandom(rand_t Digit); //Инициализация рандома
 rand_t GetRandom(rand_t Minimum, rand_t Maximum); //Сгенерировать случайное целое число в диапазоне от Minimum до Maximum
