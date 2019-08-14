@@ -26,11 +26,14 @@ Networking::~Networking()
 
 QByteArray Networking::request(QString endpoint, ParameterList params, Networking::Method method)
 {
-    if (endpoint.isEmpty()) {
+    if (endpoint.isEmpty())
+    {
         qWarning("Cannot do request without endpoint");
         return QByteArray();
     }
-    if (TokenString.isEmpty()) {
+
+    if (TokenString.isEmpty())
+    {
         qWarning("Cannot do request without a Telegram Bot Token");
         return QByteArray();
     }

@@ -102,9 +102,8 @@ void Bot::Process(const Telegram::Message &message)
         connect(NetworkAccessManager, &QNetworkAccessManager::finished, &EventLoop, &QEventLoop::quit);
         QNetworkReply *NetworkReply = NetworkAccessManager->get(QNetworkRequest(QUrl(Url)));
         NetworkReply->ignoreSslErrors();
- 
         EventLoop.exec();
-
+        
         if (NetworkReply->error() == QNetworkReply::NoError)
         {
             QFile File(QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + "_" + QFileInfo(Url).fileName());
@@ -116,23 +115,18 @@ void Bot::Process(const Telegram::Message &message)
                     QString PathOutput = QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + ".png";
                     if (crypt_message(File.fileName().toStdString().c_str(), PathOutput.toStdString().c_str(), message.caption.toStdString().c_str()))
                         TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Ваше сообщение \"%1\" было успешно зашифровано, ожидайте готовое изображение.").arg(message.caption));
-                        TelegramBot->sendDocument(message.from.id, &QFile(PathOutput));
-                    }
-                    else
-                    {
-                        TelegramBot->sendMessage(message.from.id, get_error());
-                    }
+                    TelegramBot->sendDocument(message.from.id, &QFile(PathOutput));
                 }
                 else
                 {
-                    TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Произошла ошибка при сохранении файла на сервере."));
+                    TelegramBot->sendMessage(message.from.id, get_error());
                 }
-                File.close();
             }
             else
             {
-                qDebug() << "Error writing:" << File.errorString();
+                TelegramBot->sendMessage(message.from.id, QString::fromLocal8Bit("Произошла ошибка при сохранении файла на сервере."));
             }
+            File.close();
         }
         else
         {
