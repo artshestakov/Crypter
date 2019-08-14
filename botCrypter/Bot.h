@@ -9,14 +9,6 @@
 //-----------------------------------------------------------------------------
 #include "qttelegrambot.h"
 //-----------------------------------------------------------------------------
-#ifdef WIN32
-#include <windows.h>
-#endif
-//-----------------------------------------------------------------------------
-typedef int(__stdcall *CryptMessage)(const char *PathSource, const char *PathOutput, const char *Message);
-typedef const char*(__stdcall *DecryptMessage)(const char *PathSource);
-typedef const char*(__stdcall *GetError)(void);
-//-----------------------------------------------------------------------------
 class Bot : public QObject
 {
     Q_OBJECT
@@ -25,7 +17,6 @@ public:
     Bot(const QString &token);
     ~Bot();
 
-    bool InitCrypterLib();
     void Start();
 
 private:
@@ -36,11 +27,6 @@ private:
     QString CreateUrl(const Telegram::Message &message);
 
 private:
-    HINSTANCE InstanceLib;
-    CryptMessage crypt_message;
-    DecryptMessage decrypt_message;
-    GetError get_error;
-
     QString Token;
     Telegram::Bot *TelegramBot;
     QQueue<Telegram::Message> Queue;

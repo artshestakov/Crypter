@@ -8,13 +8,8 @@ int main(int argc, char *argv[])
 
     qDebug() << "Bot is starting...";
     Bot bot("919167651:AAFWwPj2gRIyQ4xs2p7zWSA6noIzHxbaju8");
-    if (bot.InitCrypterLib())
-    {
-        bot.Start();
-        qDebug() << "Bot is started";
-        return Application.exec();
-    }
-    
-    return EXIT_FAILURE;
+    bot.Start();
+    qDebug() << "Bot is started";
+    return Application.exec();
 }
 //-----------------------------------------------------------------------------
