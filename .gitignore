@@ -4,10 +4,12 @@ botCrypter/Release/
 botCrypter/GeneratedFiles/
 Crypter/Debug/
 Crypter/Release/
+Crypter/x64/
 guiCrypter/Debug/
 guiCrypter/GeneratedFiles/
 libCrypter/Debug/
 libCrypter/Release/
+libCrypter/x64/
 
 *.opensdf
 *.sdf
