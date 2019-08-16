@@ -111,6 +111,7 @@ int main(int argc, char **argv)
 #ifdef _DEBUG //Для отладки
     system("PAUSE");
 #endif
+
     return EXIT_SUCCESS;
 }
 //-----------------------------------------------------------------------------
