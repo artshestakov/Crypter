@@ -24,7 +24,7 @@ private:
 private:
     GCPanelImage *ImageLeft;
     QTextEdit *TextEdit;
-    QPushButton *Button;
+    QPushButton *PushButton;
     GCPanelImage *ImageRight;
     GCThread *Thread;
 };

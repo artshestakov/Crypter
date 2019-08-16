@@ -26,7 +26,9 @@ void GCThread::Crypt(const QString &path_source, const QString &path_output, con
 //-----------------------------------------------------------------------------
 void GCThread::Decrypt(const QString &path_source)
 {
+    CurrentMode = CryptMode::CM_Decrypt;
     PathSource = path_source;
+    start();
 }
 //-----------------------------------------------------------------------------
 void GCThread::run()
@@ -43,7 +45,11 @@ void GCThread::run()
     {
         const char *Result = DecryptMessage(PathSource.toStdString().c_str());
         LastResult = Result ? true : false;
-        if (!LastResult)
+        if (LastResult)
+        {
+            Message = Result;
+        }
+        else
         {
             ErrorString = GetError();
         }

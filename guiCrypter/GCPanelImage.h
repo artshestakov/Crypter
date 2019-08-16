@@ -22,6 +22,8 @@ public:
 
 private:
     void resizeEvent(QResizeEvent *e);
+    void Copy();
+    void Paste();
     void Clear();
     void Save();
 

@@ -9,7 +9,6 @@
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QTextEdit>
@@ -18,11 +17,15 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QStackedWidget>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QAction>
+#include <QtWidgets/QMenu>
 //-----------------------------------------------------------------------------
 #include <QtGui/QMouseEvent>
 #include <QtGui/QIcon>
 #include <QtGui/QFont>
 #include <QtGui/QCloseEvent>
 #include <QtGui/QKeySequence>
+#include <QtGui/QClipboard>
 //-----------------------------------------------------------------------------
 #endif

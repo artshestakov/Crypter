@@ -8,7 +8,6 @@ GCPanelImage::GCPanelImage(bool is_source, QWidget *parent)
 {
     setCursor(Qt::PointingHandCursor);
     setAlignment(Qt::AlignCenter);
-    //setScaledContents(true);
     Clear();
 }
 //-----------------------------------------------------------------------------
@@ -41,16 +40,23 @@ void GCPanelImage::mousePressEvent(QMouseEvent *e)
             emit ImageChaned();
         }
     }
-    else if (e->button() == Qt::RightButton && IsSource)
+    else
     {
         QMenu Menu;
-        Menu.addAction("Clear", this, &GCPanelImage::Clear);
-        Menu.exec(e->globalPos());
-    }
-    else if (e->button() == Qt::RightButton && !IsSource)
-    {
-        QMenu Menu;
-        Menu.addAction("Save", this, &GCPanelImage::Save);
+
+        QAction *ActionCopy = Menu.addAction(QIcon(":Resources/Save.png"), "Copy", this, &GCPanelImage::Copy);
+        ActionCopy->setEnabled(!GetIsNull());
+
+        if (e->button() == Qt::RightButton && IsSource)
+        {
+            Menu.addAction(QIcon(":Resources/Clear.png"), "Clear", this, &GCPanelImage::Clear);
+        }
+        else if (e->button() == Qt::RightButton && !IsSource)
+        {
+            Menu.addAction(QIcon(":Resources/Save.png"), "Save", this, &GCPanelImage::Save);
+            Menu.addAction(QIcon(":Resources/Paste.png"), "Paste", this, &GCPanelImage::Paste);
+        }
+
         Menu.exec(e->globalPos());
     }
 }
@@ -67,6 +73,16 @@ void GCPanelImage::resizeEvent(QResizeEvent *e)
     {
         setPixmap(pixmap()->scaled(width(), height(), Qt::KeepAspectRatio));
     }
+}
+//-----------------------------------------------------------------------------
+void GCPanelImage::Copy()
+{
+    QApplication::clipboard()->setPixmap(*pixmap());
+}
+//-----------------------------------------------------------------------------
+void GCPanelImage::Paste()
+{
+    setPixmap(QApplication::clipboard()->pixmap());
 }
 //-----------------------------------------------------------------------------
 void GCPanelImage::Clear()

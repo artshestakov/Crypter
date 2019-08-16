@@ -3,6 +3,8 @@
 #define _GCWIDGETDECRYPT_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include "GCWidgetBase.h"
+#include "GCPanelImage.h"
+#include "GCThread.h"
 //-----------------------------------------------------------------------------
 class GCWidgetDecrypt : public GCWidgetBase
 {
@@ -17,6 +19,12 @@ public:
     void ThreadStarted() override;
     void ThreadFinished() override;
     void Decrypted(bool Result, const QString &ErrorString, const QString &Message);
+
+private:
+    GCPanelImage *PanelImage;
+    QPushButton *PushButton;
+    QTextEdit *TextEdit;
+    GCThread *Thread;
 };
 //-----------------------------------------------------------------------------
 #endif

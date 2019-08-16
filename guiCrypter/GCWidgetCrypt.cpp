@@ -19,11 +19,11 @@ GCWidgetCrypt::GCWidgetCrypt(QWidget *parent) : GCWidgetBase(parent)
     connect(TextEdit, &QTextEdit::textChanged, this, &GCWidgetCrypt::ButtonEnabled);
     LayoutTextEdit->addWidget(TextEdit, 0, Qt::AlignHCenter);
 
-    Button = new QPushButton(QIcon(":Resources/Arrow.Right.png"), "Crypt", this);
-    Button->setEnabled(false);
-    Button->setSizePolicy(QSizePolicy::Maximum, Button->sizePolicy().verticalPolicy());
-    connect(Button, &QPushButton::clicked, this, &GCWidgetCrypt::ButtonClicked);
-    LayoutTextEdit->addWidget(Button, 0, Qt::AlignHCenter);
+    PushButton = new QPushButton(QIcon(":Resources/Arrow.Right.png"), "Crypt", this);
+    PushButton->setEnabled(false);
+    PushButton->setSizePolicy(QSizePolicy::Maximum, PushButton->sizePolicy().verticalPolicy());
+    connect(PushButton, &QPushButton::clicked, this, &GCWidgetCrypt::ButtonClicked);
+    LayoutTextEdit->addWidget(PushButton, 0, Qt::AlignHCenter);
 
     LayoutTextEdit->addStretch();
 
@@ -44,7 +44,7 @@ GCWidgetCrypt::~GCWidgetCrypt()
 //-----------------------------------------------------------------------------
 void GCWidgetCrypt::ButtonEnabled()
 {
-    Button->setEnabled(!TextEdit->toPlainText().isEmpty() && !ImageLeft->GetIsNull() ? true : false);
+    PushButton->setEnabled(!TextEdit->toPlainText().isEmpty() && !ImageLeft->GetIsNull() ? true : false);
 }
 //-----------------------------------------------------------------------------
 void GCWidgetCrypt::ButtonClicked()
@@ -57,15 +57,15 @@ void GCWidgetCrypt::ButtonClicked()
 //-----------------------------------------------------------------------------
 void GCWidgetCrypt::ThreadStarted()
 {
-    Button->setText("Please, wait...");
-    Button->setEnabled(false);
+    PushButton->setText("Please, wait...");
+    PushButton->setEnabled(false);
     QApplication::setOverrideCursor(Qt::WaitCursor);
 }
 //-----------------------------------------------------------------------------
 void GCWidgetCrypt::ThreadFinished()
 {
-    Button->setText("Crypt");
-    Button->setEnabled(true);
+    PushButton->setText("Crypt");
+    PushButton->setEnabled(true);
     QApplication::restoreOverrideCursor();
 }
 //-----------------------------------------------------------------------------

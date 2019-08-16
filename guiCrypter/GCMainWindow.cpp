@@ -6,14 +6,6 @@ GCMainWindow::GCMainWindow(QWidget *parent) : QWidget(parent)
     MainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(MainLayout);
 
-    QMenuBar *MenuBar = new QMenuBar(this);
-    MenuBar->setSizePolicy(MenuBar->sizePolicy().horizontalPolicy(), QSizePolicy::Maximum);
-    MainLayout->addWidget(MenuBar);
-
-    QAction *ActionFile = MenuBar->addAction("&File");
-    ActionFile->setMenu(new QMenu(MenuBar));
-    ActionFile->menu()->addAction("&Exit", this, &GCMainWindow::close);
-
     QHBoxLayout *LayoutButtons = new QHBoxLayout();
     LayoutButtons->setContentsMargins(5, 5, 5, 5);
     MainLayout->addLayout(LayoutButtons);

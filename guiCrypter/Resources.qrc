@@ -1,7 +1,13 @@
 <RCC>
   <qresource>
 
-    <file>Resources/</file>
+    <file>Resources/Arrow.Down.png</file>
+    <file>Resources/Arrow.Right.png</file>
+    <file>Resources/Clear.png</file>
+    <file>Resources/Image.png</file>
+    <file>Resources/NullImage.png</file>
+    <file>Resources/Paste.png</file>
+    <file>Resources/Save.png</file>
 
   </qresource>
 </RCC>
