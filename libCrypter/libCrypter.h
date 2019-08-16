@@ -14,19 +14,90 @@ typedef struct s_PixelStruct
 //-----------------------------------------------------------------------------
 typedef long long int rand_t;
 //-----------------------------------------------------------------------------
+
+/**
+* Получение текстового описания ошибки.
+* @return возвращает константный указатель на строку.
+*/
 const char* GetErrorString(void);
+
+/**
+* Кодирование сообщения в изображение.
+* @param PathSource путь к исходному изображению.
+* @param PathOutput путь к изображению, в которое будет произведено кодирование сообщения.
+* @param Message константный указатель на строку, которая является кодируемым сообщением.
+* @returns возвращает 1 в случае успеха, иначе - 0.
+*/
 int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
+
+/**
+* Декодирование сообщения из изображения.
+* @param FilePath путь к изображению, сообщение их которого необходимо получить.
+* @return возвращает констактный указатель на строку, в которой содержится декодированное сообщение.
+*/
 const char* Decrypt(const char *FilePath);
 
-int ReadFileToMemory(const char *FilePath); //Чтение файла в память
-char* PrepareMessage(const char *Message); //Подготовка сообщения
-int CheckMessage(const char *MessageComplete, size_t Size); //Прооверка сообщения
-int WritePixelsToFile(const char *PathOutput); //Запись результата кодирования в файл
+/**
+* Чтение файла с изображением в память.
+* @param FilePath путь к файлу с изображением.
+* @return возвращает 1 в случае успешного чтения, иначе - 0.
+*/
+int ReadFileToMemory(const char *FilePath);
 
-void InitRandom(rand_t Digit); //Инициализация рандома
-rand_t GetRandom(rand_t Minimum, rand_t Maximum); //Сгенерировать случайное целое число в диапазоне от Minimum до Maximum
-size_t GetSizeReserveString(void); //Получить размер зарезервированной строки
-int ContainsVector(rand_t Value, size_t VectorSize); //Проверка существования значения в "векторе"
+/**
+* Подготовка сообщения к кодированию.
+* @param Message константный указатель на строку, которая является кодируемым сообщением.
+* @return возвращает указатель на строку, в которой содержится готовое изображение.
+*/
+char* PrepareMessage(const char *Message);
+
+/**
+* Проверка сообщения на готовность к кодированию.
+* @param MessageComplete константный указатель на строку, которая является кодируемым сообщением.
+* @param Size размер сообщения.
+* @return возвращает указатель на строку, в которой содержится готовое изображение.
+*/
+int CheckMessage(const char *MessageComplete, size_t Size);
+
+/**
+* Запись пикселей изображения в файл.
+* @param PathOutput путь к выходному файлу с изображением.
+* @return возвращает 1 в случае успеха, иначе - 0.
+*/
+int WritePixelsToFile(const char *PathOutput);
+
+/**
+* Инициализация рандома.
+* @param Digit число, которым будет иницилизрован генератор случайных чисел.
+*/
+void InitRandom(rand_t Digit);
+
+/**
+* Получить новое случайное число.
+* @param Minimum минимальная граница случайного числа.
+* @param Maximum максимальная граница случайного числа.
+*/
+rand_t GetRandom(rand_t Minimum, rand_t Maximum);
+
+/**
+* Получить размер зарезервированной строки.
+* @return возвращает размер зарезервированной строки.
+*/
+size_t GetSizeReserveString(void);
+
+/**
+* Проверка существования значения в "векторе".
+* @param Value проверяемое значение.
+* @param VectorSize размер "вектора".
+* @return возвращает 1 в случае успеха, иначе - 0.
+*/
+int ContainsVector(rand_t Value, size_t VectorSize);
+
+/**
+* Проверка существования файла в файловой системе.
+* @param FilePath путь к файлу.
+* @return возвращает 1 в случае существования файла, иначе - 0.
+*/
 int FileExist(const char *FilePath); //Проверка существования файла
 //-----------------------------------------------------------------------------
 #endif
