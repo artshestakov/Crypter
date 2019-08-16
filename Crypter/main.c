@@ -39,7 +39,7 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    if (strcmp(Mode, "-c") == 0) //Если указан режим шифрования
+    if (strcmp(Mode, "-c") == 0) //Если указан режим кодирования
     {
         PathSource = argv[2];
         if (strlen(PathSource ? PathSource : "") == 0)
@@ -75,7 +75,7 @@ int main(int argc, char **argv)
             return EXIT_FAILURE;
         }
     }
-    else if (strcmp(Mode, "-d") == 0) //Если указан режим дешифрования
+    else if (strcmp(Mode, "-d") == 0) //Если указан режим декодированния
     {
         PathSource = argv[2];
         if (strlen(PathSource ? PathSource : "") == 0)
