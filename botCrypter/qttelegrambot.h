@@ -18,17 +18,17 @@
 #include <QTimer>
 //-----------------------------------------------------------------------------
 #include "networking.h"
-#include "types/BCTypeChat.h"
-#include "types/BCTypeUpdate.h"
-#include "types/BCTypeUser.h"
-#include "types/BCTypeFile.h"
-#include "types/BCTypeMessage.h"
-#include "types/reply/genericreply.h"
-#include "types/reply/replykeyboardmarkup.h"
-#include "types/reply/replykeyboardhide.h"
-#include "types/reply/replykeyboardremove.h"
-#include "types/reply/forcereply.h"
-#include "types/reply/inlinekeyboardmarkup.h"
+#include "Types/BCTypeChat.h"
+#include "Types/BCTypeUpdate.h"
+#include "Types/BCTypeUser.h"
+#include "Types/BCTypeFile.h"
+#include "Types/BCTypeMessage.h"
+#include "Types/Reply/BCGenericReply.h"
+#include "Types/Reply/BCReplyKeyboardMarkup.h"
+#include "Types/Reply/BCReplyKeyboardHide.h"
+#include "Types/Reply/BCReplyKeyboardRemove.h"
+#include "Types/Reply/BCForceReply.h"
+#include "Types/Reply/BCInlineKeyboardMarkup.h"
 //-----------------------------------------------------------------------------
 namespace Telegram
 {
@@ -69,7 +69,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendmessage
          */
-        bool sendMessage(QVariant chatId, QString text, bool markdown = false, bool disableWebPagePreview = false, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendMessage(QVariant chatId, QString text, bool markdown = false, bool disableWebPagePreview = false, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Forward messages of any kind.
@@ -91,7 +91,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendphoto
          */
-        bool sendPhoto(QVariant chatId, QFile *file, QString caption = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendPhoto(QVariant chatId, QFile *file, QString caption = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a photo
@@ -103,7 +103,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendphoto
          */
-        bool sendPhoto(QVariant chatId, QString fileId, QString caption = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendPhoto(QVariant chatId, QString fileId, QString caption = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send audio
@@ -117,7 +117,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendaudio
          */
-        bool sendAudio(QVariant chatId, QFile *file, qint64 duration = -1, QString performer = QString(), QString title = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendAudio(QVariant chatId, QFile *file, qint64 duration = -1, QString performer = QString(), QString title = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send audio
@@ -131,7 +131,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendaudio
          */
-        bool sendAudio(QVariant chatId, QString fileId, qint64 duration = -1, QString performer = QString(), QString title = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendAudio(QVariant chatId, QString fileId, qint64 duration = -1, QString performer = QString(), QString title = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a document
@@ -142,7 +142,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#senddocument
          */
-        bool sendDocument(QVariant chatId, QFile *file, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendDocument(QVariant chatId, QFile *file, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a document
@@ -153,7 +153,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#senddocument
          */
-        bool sendDocument(QVariant chatId, QString fileId, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendDocument(QVariant chatId, QString fileId, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a sticker
@@ -164,7 +164,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendsticker
          */
-        bool sendSticker(QVariant chatId, QFile *file, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendSticker(QVariant chatId, QFile *file, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a sticker
@@ -175,7 +175,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendsticker
          */
-        bool sendSticker(QVariant chatId, QString fileId, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendSticker(QVariant chatId, QString fileId, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a video
@@ -188,7 +188,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendvideo
          */
-        bool sendVideo(QVariant chatId, QFile *file, qint64 duration = -1, QString caption = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendVideo(QVariant chatId, QFile *file, qint64 duration = -1, QString caption = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a video
@@ -201,7 +201,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendvideo
          */
-        bool sendVideo(QVariant chatId, QString fileId, qint64 duration = -1, QString caption = QString(), qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendVideo(QVariant chatId, QString fileId, qint64 duration = -1, QString caption = QString(), qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a voice
@@ -213,7 +213,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendvoice
          */
-        bool sendVoice(QVariant chatId, QFile *file, qint64 duration = -1, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendVoice(QVariant chatId, QFile *file, qint64 duration = -1, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a voice
@@ -225,7 +225,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendvoice
          */
-        bool sendVoice(QVariant chatId, QString fileId, qint64 duration = -1, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendVoice(QVariant chatId, QString fileId, qint64 duration = -1, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Send a location
@@ -237,7 +237,7 @@ namespace Telegram
          * @return success
          * @see https://core.telegram.org/bots/api#sendlocation
          */
-        bool sendLocation(QVariant chatId, float latitude, float longitude, qint32 replyToMessageId = -1, const GenericReply &replyMarkup = GenericReply());
+        bool sendLocation(QVariant chatId, float latitude, float longitude, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
 
         /**
          * Use this method when you need to tell the user that something is happening on the bot's side.
@@ -301,8 +301,8 @@ namespace Telegram
     private:
         Networking *m_net;
 
-        bool _sendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const GenericReply &replyMarkup, QString payloadField, QString endpoint);
-        bool _sendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const GenericReply &replyMarkup, QString payloadField, QString endpoint);
+        bool _sendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
+        bool _sendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
 
         QJsonObject jsonObjectFromByteArray(QByteArray json);
         QJsonArray jsonArrayFromByteArray(QByteArray json);

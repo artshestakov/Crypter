@@ -116,6 +116,12 @@
     <ClCompile Include="types\BCTypeUser.cpp" />
     <ClCompile Include="types\BCTypeVideo.cpp" />
     <ClCompile Include="types\BCTypeVoice.cpp" />
+    <ClCompile Include="Types\Reply\BCForceReply.cpp" />
+    <ClCompile Include="Types\Reply\BCGenericReply.cpp" />
+    <ClCompile Include="Types\Reply\BCInlineKeyboardMarkup.cpp" />
+    <ClCompile Include="Types\Reply\BCReplyKeyboardHide.cpp" />
+    <ClCompile Include="Types\Reply\BCReplyKeyboardMarkup.cpp" />
+    <ClCompile Include="Types\Reply\BCReplyKeyboardRemove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="BCBot.h">
@@ -147,12 +153,12 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </ClInclude>
     <ClInclude Include="types\BCTypePhotoSize.h" />
-    <ClInclude Include="types\reply\forcereply.h" />
-    <ClInclude Include="types\reply\genericreply.h" />
-    <ClInclude Include="types\reply\inlinekeyboardmarkup.h" />
-    <ClInclude Include="types\reply\replykeyboardhide.h" />
-    <ClInclude Include="types\reply\replykeyboardmarkup.h" />
-    <ClInclude Include="types\reply\replykeyboardremove.h" />
+    <ClInclude Include="types\reply\BCForceReply.h" />
+    <ClInclude Include="types\reply\BCGenericReply.h" />
+    <ClInclude Include="types\reply\BCInlineKeyboardMarkup.h" />
+    <ClInclude Include="types\reply\BCReplyKeyboardHide.h" />
+    <ClInclude Include="types\reply\BCReplyKeyboardMarkup.h" />
+    <ClInclude Include="types\reply\BCReplyKeyboardRemove.h" />
     <ClInclude Include="types\BCTypeSticker.h" />
     <ClInclude Include="types\BCTypeUpdate.h" />
     <ClInclude Include="types\BCTypeUser.h" />

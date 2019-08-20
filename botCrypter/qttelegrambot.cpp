@@ -44,7 +44,7 @@ BCTypeUser Bot::getMe()
     return ret;
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendMessage(QVariant chatId, QString text, bool markdown, bool disableWebPagePreview, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendMessage(QVariant chatId, QString text, bool markdown, bool disableWebPagePreview, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     if (markdown)
@@ -73,7 +73,7 @@ bool Bot::forwardMessage(QVariant chatId, quint32 fromChatId, quint32 messageId)
     return this->responseOk(m_net->request(ENDPOINT_FORWARD_MESSAGE, params, Networking::POST));
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendPhoto(QVariant chatId, QFile *file, QString caption, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendPhoto(QVariant chatId, QFile *file, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     if (!caption.isEmpty())
@@ -83,7 +83,7 @@ bool Bot::sendPhoto(QVariant chatId, QFile *file, QString caption, qint32 replyT
     return this->_sendPayload(chatId, file, params, replyToMessageId, replyMarkup, "photo", ENDPOINT_SEND_PHOTO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendPhoto(QVariant chatId, QString fileId, QString caption, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendPhoto(QVariant chatId, QString fileId, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     if (!caption.isEmpty())
@@ -93,7 +93,7 @@ bool Bot::sendPhoto(QVariant chatId, QString fileId, QString caption, qint32 rep
     return this->_sendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "photo", ENDPOINT_SEND_PHOTO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendAudio(QVariant chatId, QFile *file, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendAudio(QVariant chatId, QFile *file, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     if (duration >= 0)
@@ -111,7 +111,7 @@ bool Bot::sendAudio(QVariant chatId, QFile *file, qint64 duration, QString perfo
     return this->_sendPayload(chatId, file, params, replyToMessageId, replyMarkup, "audio", ENDPOINT_SEND_AUDIO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendAudio(QVariant chatId, QString fileId, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendAudio(QVariant chatId, QString fileId, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     if (duration >= 0)
@@ -129,27 +129,27 @@ bool Bot::sendAudio(QVariant chatId, QString fileId, qint64 duration, QString pe
     return this->_sendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "audio", ENDPOINT_SEND_AUDIO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendDocument(QVariant chatId, QFile *file, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendDocument(QVariant chatId, QFile *file, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     return this->_sendPayload(chatId, file, ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendDocument(QVariant chatId, QString fileId, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendDocument(QVariant chatId, QString fileId, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     return this->_sendPayload(chatId, fileId, ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendSticker(QVariant chatId, QFile *file, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendSticker(QVariant chatId, QFile *file, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     return this->_sendPayload(chatId, file, ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendSticker(QVariant chatId, QString fileId, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendSticker(QVariant chatId, QString fileId, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     return this->_sendPayload(chatId, fileId, ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendVideo(QVariant chatId, QFile *file, qint64 duration, QString caption, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendVideo(QVariant chatId, QFile *file, qint64 duration, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     params.insert("duration", HttpParameter(duration));
@@ -157,7 +157,7 @@ bool Bot::sendVideo(QVariant chatId, QFile *file, qint64 duration, QString capti
     return this->_sendPayload(chatId, file, params, replyToMessageId, replyMarkup, "video", ENDPOINT_SEND_VIDEO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendVideo(QVariant chatId, QString fileId, qint64 duration, QString caption, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendVideo(QVariant chatId, QString fileId, qint64 duration, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     params.insert("duration", HttpParameter(duration));
@@ -165,21 +165,21 @@ bool Bot::sendVideo(QVariant chatId, QString fileId, qint64 duration, QString ca
     return this->_sendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "video", ENDPOINT_SEND_VIDEO);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendVoice(QVariant chatId, QFile *file, qint64 duration, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendVoice(QVariant chatId, QFile *file, qint64 duration, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     params.insert("duration", HttpParameter(duration));
     return this->_sendPayload(chatId, file, params, replyToMessageId, replyMarkup, "voice", ENDPOINT_SEND_VOICE);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendVoice(QVariant chatId, QString fileId, qint64 duration, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendVoice(QVariant chatId, QString fileId, qint64 duration, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     ParameterList params;
     params.insert("duration", HttpParameter(duration));
     return this->_sendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "voice", ENDPOINT_SEND_VOICE);
 }
 //-----------------------------------------------------------------------------
-bool Bot::sendLocation(QVariant chatId, float latitude, float longitude, qint32 replyToMessageId, const GenericReply &replyMarkup)
+bool Bot::sendLocation(QVariant chatId, float latitude, float longitude, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
     Q_UNUSED(replyMarkup); // TODO
     if (chatId.type() != QVariant::String && chatId.type() != QVariant::Int)
@@ -330,7 +330,7 @@ BCTypeFile Bot::getFile(QString fileId)
     return BCTypeFile(json.value("file_id").toString(), json.value("file_size").toInt(-1), json.value("file_path").toString());
 }
 //-----------------------------------------------------------------------------
-bool Bot::_sendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const GenericReply &replyMarkup, QString payloadField, QString endpoint)
+bool Bot::_sendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
 {
     if (chatId.type() != QVariant::String && chatId.type() != QVariant::Int)
     {
@@ -362,14 +362,14 @@ bool Bot::_sendPayload(QVariant chatId, QFile *filePayload, ParameterList params
     {
         params.insert("reply_to_message_id", HttpParameter(replyToMessageId));
     }
-    if (replyMarkup.isValid())
+    if (replyMarkup.IsValid())
     {
-        params.insert("reply_markup", HttpParameter(replyMarkup.serialize()));
+        params.insert("reply_markup", HttpParameter(replyMarkup.Serialize()));
     }
     return this->responseOk(m_net->request(endpoint, params, Networking::UPLOAD));
 }
 //-----------------------------------------------------------------------------
-bool Bot::_sendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const GenericReply &replyMarkup, QString payloadField, QString endpoint)
+bool Bot::_sendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
 {
     if (chatId.type() != QVariant::String && chatId.type() != QVariant::Int)
     {
@@ -385,9 +385,9 @@ bool Bot::_sendPayload(QVariant chatId, QString textPayload, ParameterList param
         params.insert("reply_to_message_id", HttpParameter(replyToMessageId));
     }
 
-    if (replyMarkup.isValid())
+    if (replyMarkup.IsValid())
     {
-        params.insert("reply_markup", HttpParameter(replyMarkup.serialize()));
+        params.insert("reply_markup", HttpParameter(replyMarkup.Serialize()));
     }
 
     return this->responseOk(m_net->request(endpoint, params, Networking::POST));

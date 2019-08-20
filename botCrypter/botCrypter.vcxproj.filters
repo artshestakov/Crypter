@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="type">
-      <UniqueIdentifier>{f6cc1c92-e8d0-49eb-87cd-0fcc0b476ee1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="type\reply">
-      <UniqueIdentifier>{42b285d5-58f8-41a3-9fa7-898f454dbb20}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{38c4c651-35b7-43f3-a726-b891db174501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{f6cc1c92-e8d0-49eb-87cd-0fcc0b476ee1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types\Reply">
+      <UniqueIdentifier>{42b285d5-58f8-41a3-9fa7-898f454dbb20}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,46 +31,64 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeMessage.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeLocation.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeDocument.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypePhotoSize.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeSticker.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeUpdate.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeUser.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeVideo.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeVoice.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeChat.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeAudio.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeCallbackQuery.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeContact.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClCompile>
     <ClCompile Include="types\BCTypeFile.cpp">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCGenericReply.cpp">
+      <Filter>Types\Reply</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCForceReply.cpp">
+      <Filter>Types\Reply</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCReplyKeyboardHide.cpp">
+      <Filter>Types\Reply</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCReplyKeyboardMarkup.cpp">
+      <Filter>Types\Reply</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCReplyKeyboardRemove.cpp">
+      <Filter>Types\Reply</Filter>
+    </ClCompile>
+    <ClCompile Include="Types\Reply\BCInlineKeyboardMarkup.cpp">
+      <Filter>Types\Reply</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,24 +103,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="types\reply\forcereply.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
-    <ClInclude Include="types\reply\genericreply.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
-    <ClInclude Include="types\reply\inlinekeyboardmarkup.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
-    <ClInclude Include="types\reply\replykeyboardhide.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
-    <ClInclude Include="types\reply\replykeyboardmarkup.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
-    <ClInclude Include="types\reply\replykeyboardremove.h">
-      <Filter>type\reply</Filter>
-    </ClInclude>
     <ClInclude Include="StdAfx.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -110,46 +110,64 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeMessage.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeLocation.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeDocument.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypePhotoSize.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeSticker.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeUpdate.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeUser.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeVideo.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeVoice.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeChat.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeAudio.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeCallbackQuery.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeContact.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
     </ClInclude>
     <ClInclude Include="types\BCTypeFile.h">
-      <Filter>type</Filter>
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCGenericReply.h">
+      <Filter>Types\Reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCForceReply.h">
+      <Filter>Types\Reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCReplyKeyboardHide.h">
+      <Filter>Types\Reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCReplyKeyboardMarkup.h">
+      <Filter>Types\Reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCReplyKeyboardRemove.h">
+      <Filter>Types\Reply</Filter>
+    </ClInclude>
+    <ClInclude Include="types\reply\BCInlineKeyboardMarkup.h">
+      <Filter>Types\Reply</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

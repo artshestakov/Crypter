@@ -16,6 +16,10 @@
 #include <QtCore/QFuture>
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonValue>
+#include <QtCore/QJsonArray>
+#include <QtCore/QJsonObject>
 //-----------------------------------------------------------------------------
 #include <QtWidgets/QApplication>
 //-----------------------------------------------------------------------------
