@@ -25,20 +25,20 @@ Bot::~Bot()
     delete m_net;
 }
 //-----------------------------------------------------------------------------
-User Bot::getMe()
+BCTypeUser Bot::getMe()
 {
     QJsonObject json = this->jsonObjectFromByteArray(m_net->request(ENDPOINT_GET_ME, ParameterList(), Networking::GET));
 
-    User ret;
-    ret.id = json.value("id").toInt();
-    ret.firstname = json.value("first_name").toString();
-    ret.lastname = json.value("last_name").toString();
-    ret.username = json.value("username").toString();
+    BCTypeUser ret;
+    ret.ID = json.value("id").toInt();
+    ret.FirstName = json.value("first_name").toString();
+    ret.LastName = json.value("last_name").toString();
+    ret.UserName = json.value("username").toString();
 
-    if (ret.id == 0 || ret.firstname.isEmpty())
+    if (ret.ID == 0 || ret.FirstName.isEmpty())
     {
         qCritical("%s", qPrintable("Got invalid user in " + QString(ENDPOINT_GET_ME)));
-        return User();
+        return BCTypeUser();
     }
 
     return ret;
@@ -260,19 +260,19 @@ UserProfilePhotos Bot::getUserProfilePhotos(quint32 userId, qint16 offset, qint8
     QJsonObject json = this->jsonObjectFromByteArray(m_net->request(ENDPOINT_GET_USER_PROFILE_PHOTOS, params, Networking::GET));
 
     UserProfilePhotos ret;
-    QList<PhotoSize> photo;
+    QList<BCTypePhotoSize> photo;
     foreach(QJsonValue val, json.value("photos").toArray())
     {
-        photo = QList<PhotoSize>();
+        photo = QList<BCTypePhotoSize>();
         foreach(QJsonValue p, val.toArray())
         {
-            PhotoSize ps;
-            ps.fileId = p.toObject().value("file_id").toString();
-            ps.width = p.toObject().value("width").toInt();
-            ps.height = p.toObject().value("height").toInt();
+            BCTypePhotoSize ps;
+            ps.FileID = p.toObject().value("file_id").toString();
+            ps.Width = p.toObject().value("width").toInt();
+            ps.Height = p.toObject().value("height").toInt();
             if (p.toObject().contains("file_size"))
             {
-                ps.fileSize = p.toObject().value("file_size").toInt();
+                ps.FileSize = p.toObject().value("file_size").toInt();
             }
             photo.append(ps);
         }
@@ -281,7 +281,7 @@ UserProfilePhotos Bot::getUserProfilePhotos(quint32 userId, qint16 offset, qint8
     return ret;
 }
 //-----------------------------------------------------------------------------
-QList<Update> Bot::getUpdates(quint32 timeout, quint32 limit, quint32 offset)
+QList<BCTypeUpdate> Bot::getUpdates(quint32 timeout, quint32 limit, quint32 offset)
 {
     ParameterList params;
     params.insert("offset", HttpParameter(offset));
@@ -289,10 +289,10 @@ QList<Update> Bot::getUpdates(quint32 timeout, quint32 limit, quint32 offset)
     params.insert("timeout", HttpParameter(timeout));
     QJsonArray json = this->jsonArrayFromByteArray(m_net->request(ENDPOINT_GET_UPDATES, params, Networking::GET));
 
-    QList<Update> ret = QList<Update>();
+    QList<BCTypeUpdate> ret = QList<BCTypeUpdate>();
     foreach(QJsonValue value, json)
     {
-        ret.append(Update(value.toObject()));
+        ret.append(BCTypeUpdate(value.toObject()));
     }
     return ret;
 }
@@ -322,12 +322,12 @@ bool Bot::setWebhook(QString url, QFile *certificate)
     return this->responseOk(m_net->request(ENDPOINT_SET_WEBHOOK, params, Networking::UPLOAD));
 }
 //-----------------------------------------------------------------------------
-File Bot::getFile(QString fileId)
+BCTypeFile Bot::getFile(QString fileId)
 {
     ParameterList params;
     params.insert("file_id", HttpParameter(fileId));
     QJsonObject json = this->jsonObjectFromByteArray(m_net->request(ENDPOINT_GET_FILE, params, Networking::GET));
-    return File(json.value("file_id").toString(), json.value("file_size").toInt(-1), json.value("file_path").toString());
+    return BCTypeFile(json.value("file_id").toString(), json.value("file_size").toInt(-1), json.value("file_path").toString());
 }
 //-----------------------------------------------------------------------------
 bool Bot::_sendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const GenericReply &replyMarkup, QString payloadField, QString endpoint)
@@ -442,13 +442,13 @@ bool Bot::responseOk(QByteArray json)
 //-----------------------------------------------------------------------------
 void Bot::internalGetUpdates()
 {
-    QList<Update> updates = getUpdates(m_pollingTimeout, 50, m_updateOffset);
-    foreach(Update u, updates)
+    QList<BCTypeUpdate> updates = getUpdates(m_pollingTimeout, 50, m_updateOffset);
+    foreach(BCTypeUpdate u, updates)
     {
         // change updateOffset to u.id to avoid duplicate updates
-        m_updateOffset = (u.id >= m_updateOffset ? u.id + 1 : m_updateOffset);
+        m_updateOffset = (u.ID >= m_updateOffset ? u.ID + 1 : m_updateOffset);
 
-        emit message(u.message);
+        emit message(u.Message);
         emit update(u);
     }
     m_internalUpdateTimer->start(m_updateInterval);

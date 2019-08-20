@@ -16,8 +16,8 @@ public:
     void Start();
 
 private:
-    void NewMessage(const Telegram::Message &message);
-    bool DownloadFile(const Telegram::Message &message, QString &FilePath);
+    void NewMessage(const BCTypeMessage &message);
+    bool DownloadFile(const BCTypeMessage &message, QString &FilePath);
     void ShowDebugString(const QString &String);
 
 private:

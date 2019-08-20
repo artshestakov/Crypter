@@ -15,6 +15,7 @@
 #include <QtCore/QUuid>
 #include <QtCore/QFuture>
 #include <QtCore/QDateTime>
+#include <QtCore/QList>
 //-----------------------------------------------------------------------------
 #include <QtWidgets/QApplication>
 //-----------------------------------------------------------------------------

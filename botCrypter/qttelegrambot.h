@@ -18,11 +18,11 @@
 #include <QTimer>
 //-----------------------------------------------------------------------------
 #include "networking.h"
-#include "types/chat.h"
-#include "types/update.h"
-#include "types/user.h"
-#include "types/file.h"
-#include "types/message.h"
+#include "types/BCTypeChat.h"
+#include "types/BCTypeUpdate.h"
+#include "types/BCTypeUser.h"
+#include "types/BCTypeFile.h"
+#include "types/BCTypeMessage.h"
 #include "types/reply/genericreply.h"
 #include "types/reply/replykeyboardmarkup.h"
 #include "types/reply/replykeyboardhide.h"
@@ -32,7 +32,7 @@
 //-----------------------------------------------------------------------------
 namespace Telegram
 {
-    typedef QList<QList<PhotoSize>> UserProfilePhotos;
+    typedef QList<QList<BCTypePhotoSize>> UserProfilePhotos;
 
     class Bot : public QObject
     {
@@ -56,7 +56,7 @@ namespace Telegram
          * @return User Object
          * @see https://core.telegram.org/bots/api#getme
          */
-        User getMe();
+        BCTypeUser getMe();
 
         /**
          * Send text message.
@@ -279,7 +279,7 @@ namespace Telegram
          * @return List of Update objects
          * @see https://core.telegram.org/bots/api#getupdates
          */
-        QList<Update> getUpdates(quint32 timeout, quint32 limit, quint32 offset);
+        QList<BCTypeUpdate> getUpdates(quint32 timeout, quint32 limit, quint32 offset);
 
         /**
          * Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -296,7 +296,7 @@ namespace Telegram
          * @return File object
          * @see https://core.telegram.org/bots/api#getfile
          */
-        File getFile(QString fileId);
+        BCTypeFile getFile(QString fileId);
 
     private:
         Networking *m_net;
@@ -315,8 +315,8 @@ namespace Telegram
         quint32 m_pollingTimeout;
 
     signals:
-        void message(Message message);
-        void update(Update update);
+        void message(BCTypeMessage message);
+        void update(BCTypeUpdate update);
     };
 }
 //-----------------------------------------------------------------------------

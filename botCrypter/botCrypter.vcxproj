@@ -102,19 +102,20 @@
     <ClCompile Include="networking.cpp" />
     <ClCompile Include="qttelegrambot.cpp" />
     <ClCompile Include="StdAfx.cpp" />
-    <ClCompile Include="types\audio.cpp" />
-    <ClCompile Include="types\callbackquery.cpp" />
-    <ClCompile Include="types\chat.cpp" />
-    <ClCompile Include="types\contact.cpp" />
-    <ClCompile Include="types\document.cpp" />
-    <ClCompile Include="types\location.cpp" />
-    <ClCompile Include="types\message.cpp" />
-    <ClCompile Include="types\photosize.cpp" />
-    <ClCompile Include="types\sticker.cpp" />
-    <ClCompile Include="types\update.cpp" />
-    <ClCompile Include="types\user.cpp" />
-    <ClCompile Include="types\video.cpp" />
-    <ClCompile Include="types\voice.cpp" />
+    <ClCompile Include="types\BCTypeAudio.cpp" />
+    <ClCompile Include="types\BCTypeCallbackQuery.cpp" />
+    <ClCompile Include="types\BCTypeChat.cpp" />
+    <ClCompile Include="types\BCTypeContact.cpp" />
+    <ClCompile Include="types\BCTypeDocument.cpp" />
+    <ClCompile Include="types\BCTypeFile.cpp" />
+    <ClCompile Include="types\BCTypeLocation.cpp" />
+    <ClCompile Include="types\BCTypeMessage.cpp" />
+    <ClCompile Include="types\BCTypePhotoSize.cpp" />
+    <ClCompile Include="types\BCTypeSticker.cpp" />
+    <ClCompile Include="types\BCTypeUpdate.cpp" />
+    <ClCompile Include="types\BCTypeUser.cpp" />
+    <ClCompile Include="types\BCTypeVideo.cpp" />
+    <ClCompile Include="types\BCTypeVoice.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="BCBot.h">
@@ -134,29 +135,29 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </ClInclude>
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="types\audio.h" />
-    <ClInclude Include="types\callbackquery.h" />
-    <ClInclude Include="types\chat.h" />
-    <ClInclude Include="types\contact.h" />
-    <ClInclude Include="types\document.h" />
-    <ClInclude Include="types\file.h" />
-    <ClInclude Include="types\location.h" />
-    <ClInclude Include="types\message.h">
+    <ClInclude Include="types\BCTypeAudio.h" />
+    <ClInclude Include="types\BCTypeCallbackQuery.h" />
+    <ClInclude Include="types\BCTypeChat.h" />
+    <ClInclude Include="types\BCTypeContact.h" />
+    <ClInclude Include="types\BCTypeDocument.h" />
+    <ClInclude Include="types\BCTypeFile.h" />
+    <ClInclude Include="types\BCTypeLocation.h" />
+    <ClInclude Include="types\BCTypeMessage.h">
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </ClInclude>
-    <ClInclude Include="types\photosize.h" />
+    <ClInclude Include="types\BCTypePhotoSize.h" />
     <ClInclude Include="types\reply\forcereply.h" />
     <ClInclude Include="types\reply\genericreply.h" />
     <ClInclude Include="types\reply\inlinekeyboardmarkup.h" />
     <ClInclude Include="types\reply\replykeyboardhide.h" />
     <ClInclude Include="types\reply\replykeyboardmarkup.h" />
     <ClInclude Include="types\reply\replykeyboardremove.h" />
-    <ClInclude Include="types\sticker.h" />
-    <ClInclude Include="types\update.h" />
-    <ClInclude Include="types\user.h" />
-    <ClInclude Include="types\video.h" />
-    <ClInclude Include="types\voice.h" />
+    <ClInclude Include="types\BCTypeSticker.h" />
+    <ClInclude Include="types\BCTypeUpdate.h" />
+    <ClInclude Include="types\BCTypeUser.h" />
+    <ClInclude Include="types\BCTypeVideo.h" />
+    <ClInclude Include="types\BCTypeVoice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

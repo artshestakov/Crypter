@@ -12,45 +12,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="types\audio.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\callbackquery.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\chat.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\contact.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\document.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\location.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\message.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\photosize.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\sticker.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\update.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\user.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\video.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
-    <ClCompile Include="types\voice.cpp">
-      <Filter>type</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,6 +30,48 @@
     <ClCompile Include="BCBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="types\BCTypeMessage.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeLocation.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeDocument.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypePhotoSize.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeSticker.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeUpdate.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeUser.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeVideo.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeVoice.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeChat.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeAudio.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeCallbackQuery.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeContact.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
+    <ClCompile Include="types\BCTypeFile.cpp">
+      <Filter>type</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="networking.h">
@@ -82,45 +85,6 @@
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="types\audio.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\callbackquery.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\chat.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\contact.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\document.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\file.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\location.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\photosize.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\sticker.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\update.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\user.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\video.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\voice.h">
-      <Filter>type</Filter>
-    </ClInclude>
     <ClInclude Include="types\reply\forcereply.h">
       <Filter>type\reply</Filter>
     </ClInclude>
@@ -145,7 +109,46 @@
     <ClInclude Include="BCConverter.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="types\message.h">
+    <ClInclude Include="types\BCTypeMessage.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeLocation.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeDocument.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypePhotoSize.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeSticker.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeUpdate.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeUser.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeVideo.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeVoice.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeChat.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeAudio.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeCallbackQuery.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeContact.h">
+      <Filter>type</Filter>
+    </ClInclude>
+    <ClInclude Include="types\BCTypeFile.h">
       <Filter>type</Filter>
     </ClInclude>
   </ItemGroup>
