@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "BCTypeMessage.h"
 //-----------------------------------------------------------------------------
 BCTypeMessage::BCTypeMessage()

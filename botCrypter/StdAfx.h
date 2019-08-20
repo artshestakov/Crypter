@@ -20,6 +20,9 @@
 #include <QtCore/QJsonValue>
 #include <QtCore/QJsonArray>
 #include <QtCore/QJsonObject>
+#include <QtCore/QLoggingCategory>
+#include <QtCore/QMimeDatabase>
+#include <QtCore/QTimer>
 //-----------------------------------------------------------------------------
 #include <QtWidgets/QApplication>
 //-----------------------------------------------------------------------------
@@ -30,6 +33,7 @@
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
 #include <QtNetwork/QNetworkProxy>
+#include <QtNetwork/QHttpPart>
 //-----------------------------------------------------------------------------
 #include <QtConcurrent/QtConcurrent>
 //-----------------------------------------------------------------------------

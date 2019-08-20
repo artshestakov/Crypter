@@ -100,7 +100,7 @@
     <ClCompile Include="BCConverter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="networking.cpp" />
-    <ClCompile Include="qttelegrambot.cpp" />
+    <ClCompile Include="QTelegramBot.cpp" />
     <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="types\BCTypeAudio.cpp" />
     <ClCompile Include="types\BCTypeCallbackQuery.cpp" />
@@ -132,8 +132,8 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </QtMoc>
-    <QtMoc Include="qttelegrambot.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+    <QtMoc Include="QTelegramBot.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </QtMoc>
     <ClInclude Include="BCConverter.h">

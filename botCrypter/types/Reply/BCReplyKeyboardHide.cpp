@@ -15,9 +15,6 @@ BCReplyKeyboardHide::~BCReplyKeyboardHide()
 //-----------------------------------------------------------------------------
 QString BCReplyKeyboardHide::Serialize() const
 {
-    QJsonObject JsonObject;
-    JsonObject.insert("hide_keyboard", HideKeyboard);
-    JsonObject.insert("selective", Selective);
-    return SerializeJson(JsonObject);
+    return SerializeJson(QJsonObject{ { "hide_keyboard", HideKeyboard }, { "selective", Selective } });
 }
 //-----------------------------------------------------------------------------

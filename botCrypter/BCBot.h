@@ -3,7 +3,7 @@
 #define _BOT_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include "StdAfx.h"
-#include "qttelegrambot.h"
+#include "QTelegramBot.h"
 //-----------------------------------------------------------------------------
 class BCBot : public QObject
 {
@@ -22,7 +22,7 @@ private:
 
 private:
     QString Token;
-    Telegram::Bot *TelegramBot;
+    QTelegramBot *TelegramBot;
     QFutureWatcher<void> *FutureWatcher;
     QSettings *Settings;
     QString UrlTemplate;

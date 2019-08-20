@@ -2,7 +2,7 @@
 #ifndef _BCTYPEMESSAGE_H_INCLUDED
 #define _BCTYPEMESSAGE_H_INCLUDED
 //-----------------------------------------------------------------------------
-#include <QDateTime>
+#include "StdAfx.h"
 #include "BCTypeAudio.h"
 #include "BCTypeDocument.h"
 #include "BCTypePhotoSize.h"

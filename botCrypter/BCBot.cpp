@@ -19,8 +19,8 @@ BCBot::~BCBot()
 //-----------------------------------------------------------------------------
 void BCBot::Start()
 {
-    TelegramBot = new Telegram::Bot(Token, true, 500, 4, this);
-    connect(TelegramBot, &Telegram::Bot::message, this, &BCBot::NewMessage);
+    TelegramBot = new QTelegramBot(Token, true, 500, 4, this);
+    connect(TelegramBot, &QTelegramBot::MessageSignal, this, &BCBot::NewMessage);
 
     if (Settings->value("Proxy/Use").toBool())
     {
@@ -42,14 +42,14 @@ void BCBot::NewMessage(const BCTypeMessage &message)
     if (!Result) //Неверный тип сообщения
     {
         ShowDebugString(QString("Invalid message type: %1").arg(message.Type));
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Бот принимает только изображения (изображение отправленное в виде документа принимается)."));
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Бот принимает только изображения (изображение отправленное в виде документа принимается)."));
         return;
     }
 
     if (message.Caption.isEmpty()) //Подпись к изображению отсутствует
     {
         ShowDebugString("Caption image is null");
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Сообщение с изображением не содержит текста. Пожалуйста, добавьте подпись, которая будет закодированна в отправляемое вами изображение."));
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Сообщение с изображением не содержит текста. Пожалуйста, добавьте подпись, которая будет закодированна в отправляемое вами изображение."));
         return;
     }
 
@@ -65,34 +65,34 @@ void BCBot::NewMessage(const BCTypeMessage &message)
     if (Suffix != "png") //Если расширение файла отличное от PNG - конвертируем в PNG
     {
         ShowDebugString(QString("Converting image (%1) to png format...").arg(Suffix));
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация вашего изображения в формат PNG..."));
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация вашего изображения в формат PNG..."));
 
         BCConverter converter(FilePath);
         Result = converter.Convert(ErrorString);
         if (Result)
         {
             ShowDebugString("Converting is done");
-            TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация успешно завершена."));
+            TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация успешно завершена."));
             FilePath = converter.GetFilePath();
         }
         else
         {
             ShowDebugString("Converting failed: " + ErrorString);
-            TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация завершилась с ошибкой: ") + ErrorString);
+            TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация завершилась с ошибкой: ") + ErrorString);
             return;
         }
     }
 
     ShowDebugString("Encoding...");
-    TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Запущен процесс кодирования..."));
+    TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Запущен процесс кодирования..."));
 
     QString PathOutput = QCoreApplication::applicationDirPath() + "/" + QUuid::createUuid().toString() + ".png";
     Result = CryptMessage(FilePath.toStdString().c_str(), PathOutput.toStdString().c_str(), message.Caption.toStdString().c_str()) == 1;
     if (Result)
     {
         ShowDebugString("Encoding is done. Sending result image...");
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Кодирование успешно завершено, ожидайте готовое изображение."));
-        Result = TelegramBot->sendDocument(message.From.ID, &QFile(PathOutput));
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Кодирование успешно завершено, ожидайте готовое изображение."));
+        Result = TelegramBot->SendDocument(message.From.ID, &QFile(PathOutput));
         if (Result)
         {
             ShowDebugString("Sending result image - done");
@@ -106,7 +106,7 @@ void BCBot::NewMessage(const BCTypeMessage &message)
     {
         ErrorString = GetError();
         ShowDebugString("Encoding failed: " + ErrorString);
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Кодирование завершилось с ошибкой: ") + ErrorString);
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Кодирование завершилось с ошибкой: ") + ErrorString);
     }
 }
 //-----------------------------------------------------------------------------
@@ -120,7 +120,7 @@ bool BCBot::DownloadFile(const BCTypeMessage &message, QString &FilePath)
     }
 
     ShowDebugString("Downloading image...");
-    TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Обработка изображения..."));
+    TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Обработка изображения..."));
 
     QEventLoop EventLoop;
     connect(NetworkAccessManager, &QNetworkAccessManager::finished, &EventLoop, &QEventLoop::quit);
@@ -150,19 +150,19 @@ bool BCBot::DownloadFile(const BCTypeMessage &message, QString &FilePath)
             else
             {
                 ShowDebugString("Writed - failed: " + File.errorString());
-                TelegramBot->sendMessage(message.From.ID, "Error write ByteArray to File: " + File.errorString());
+                TelegramBot->SendMessage(message.From.ID, "Error write ByteArray to File: " + File.errorString());
             }
             File.close();
         }
         else
         {
-            TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Произошла ошибка при сохранении файла на сервере: %1").arg(File.errorString()));
+            TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Произошла ошибка при сохранении файла на сервере: %1").arg(File.errorString()));
         }
     }
     else
     {
         ShowDebugString("Error download: " + ErrorString);
-        TelegramBot->sendMessage(message.From.ID, QString::fromLocal8Bit("Не удалось скачать файл с серверов Telegram: %1").arg(ErrorString));
+        TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Не удалось скачать файл с серверов Telegram: %1").arg(ErrorString));
     }
     
     delete NetworkReply;

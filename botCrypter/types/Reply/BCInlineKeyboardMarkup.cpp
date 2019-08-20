@@ -63,9 +63,7 @@ QString BCInlineKeyboardMarkup::Serialize() const
 
     foreach(BCInlineKeyboardButton InlineKeyboardButton, Buttons)
     {
-        QJsonArray JsonArray;
-        JsonArray.append(InlineKeyboardButton.ToJsonObject());
-        KeyboardButtons.append(JsonArray);
+        KeyboardButtons.append(QJsonArray{ InlineKeyboardButton.ToJsonObject() });
     }
     
     JsonObject.insert("inline_keyboard", KeyboardButtons);
