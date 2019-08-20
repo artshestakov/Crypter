@@ -27,9 +27,6 @@ public:
     Message() {}
     Message(QJsonObject message);
 
-    /**
-     * @brief Telegram message events
-     */
     enum MessageType
     {
         TextType,

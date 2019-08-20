@@ -2,34 +2,27 @@
 #ifndef _BOT_H_INCLUDED
 #define _BOT_H_INCLUDED
 //-----------------------------------------------------------------------------
-#include <QtCore/QObject>
-#include <QtCore/QQueue>
-#include <QtCore/QFutureWatcher>
-#include <QtCore/QSettings>
-//-----------------------------------------------------------------------------
+#include "StdAfx.h"
 #include "qttelegrambot.h"
 //-----------------------------------------------------------------------------
-class Bot : public QObject
+class BCBot : public QObject
 {
     Q_OBJECT
 
 public:
-    Bot(const QString &token);
-    ~Bot();
+    BCBot(const QString &token);
+    ~BCBot();
 
     void Start();
 
 private:
     void NewMessage(const Telegram::Message &message);
-    void StartProcess();
-    void Process(const Telegram::Message &message);
-   
-    QString CreateUrl(const Telegram::Message &message);
+    bool DownloadFile(const Telegram::Message &message, QString &FilePath);
+    void ShowDebugString(const QString &String);
 
 private:
     QString Token;
     Telegram::Bot *TelegramBot;
-    QQueue<Telegram::Message> Queue;
     QFutureWatcher<void> *FutureWatcher;
     QSettings *Settings;
     QString UrlTemplate;

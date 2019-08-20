@@ -55,7 +55,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QTDIR)\include\;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtNetwork\;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QTDIR)\include\;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\QtNetwork\;$(QTDIR)\include\QtWidgets\;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
@@ -63,11 +63,11 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib\;$(SolutionDir)Bin\$(Configuration)-$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Networkd.lib;libCrypter.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Networkd.lib;Qt5Widgetsd.lib;libCrypter.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <Define>UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</Define>
-      <IncludePath>$(QTDIR)\include\;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtNetwork\;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter\;%(AdditionalIncludeDirectories)</IncludePath>
+      <IncludePath>$(QTDIR)\include\;$(QTDIR)\include\QtCore\;$(QTDIR)\include\QtGui\;$(QTDIR)\include\QtNetwork\;$(QTDIR)\include\QtWidgets\;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter\;%(AdditionalIncludeDirectories)</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
@@ -96,10 +96,12 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bot.cpp" />
+    <ClCompile Include="BCBot.cpp" />
+    <ClCompile Include="BCConverter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="networking.cpp" />
     <ClCompile Include="qttelegrambot.cpp" />
+    <ClCompile Include="StdAfx.cpp" />
     <ClCompile Include="types\audio.cpp" />
     <ClCompile Include="types\callbackquery.cpp" />
     <ClCompile Include="types\chat.cpp" />
@@ -115,8 +117,8 @@
     <ClCompile Include="types\voice.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Bot.h">
-      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+    <QtMoc Include="BCBot.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </QtMoc>
     <QtMoc Include="networking.h">
@@ -127,6 +129,11 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
     </QtMoc>
+    <ClInclude Include="BCConverter.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h" />
     <ClInclude Include="types\audio.h" />
     <ClInclude Include="types\callbackquery.h" />
     <ClInclude Include="types\chat.h" />
@@ -134,7 +141,10 @@
     <ClInclude Include="types\document.h" />
     <ClInclude Include="types\file.h" />
     <ClInclude Include="types\location.h" />
-    <ClInclude Include="types\message.h" />
+    <ClInclude Include="types\message.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtWidgets;.\GeneratedFiles\$(ConfigurationName);.;$(SolutionDir)libCrypter</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtNetwork</IncludePath>
+    </ClInclude>
     <ClInclude Include="types\photosize.h" />
     <ClInclude Include="types\reply\forcereply.h" />
     <ClInclude Include="types\reply\genericreply.h" />

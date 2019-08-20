@@ -51,9 +51,6 @@
     <ClCompile Include="types\voice.cpp">
       <Filter>type</Filter>
     </ClCompile>
-    <ClCompile Include="Bot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,15 +60,24 @@
     <ClCompile Include="qttelegrambot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BCConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BCBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Bot.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
     <QtMoc Include="networking.h">
       <Filter>Source Files</Filter>
     </QtMoc>
     <QtMoc Include="qttelegrambot.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="BCBot.h">
       <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -95,9 +101,6 @@
       <Filter>type</Filter>
     </ClInclude>
     <ClInclude Include="types\location.h">
-      <Filter>type</Filter>
-    </ClInclude>
-    <ClInclude Include="types\message.h">
       <Filter>type</Filter>
     </ClInclude>
     <ClInclude Include="types\photosize.h">
@@ -135,6 +138,15 @@
     </ClInclude>
     <ClInclude Include="types\reply\replykeyboardremove.h">
       <Filter>type\reply</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BCConverter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types\message.h">
+      <Filter>type</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
