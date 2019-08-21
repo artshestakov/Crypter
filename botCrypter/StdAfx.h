@@ -2,6 +2,8 @@
 #ifndef _STDAFX_H_INCLUDED
 #define _STDAFX_H_INCLUDED
 //-----------------------------------------------------------------------------
+#include <ctime>
+//-----------------------------------------------------------------------------
 #include <QtCore/QString>
 #include <QtCore/QObject>
 #include <QtCore/QQueue>

@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------
 QTelegramBot::QTelegramBot(const QString &token, bool updates, quint32 update_interval, quint32 polling_timeout, QObject *parent)
     : QObject(parent),
-    Network(new Telegram::Networking(token)),
+    Network(new QTelegramNetwork(token)),
     InternalUpdateTimer(new QTimer(this)),
     UpdateInterval(update_interval),
     UpdateOffset(0),
@@ -24,7 +24,7 @@ QTelegramBot::~QTelegramBot()
 //-----------------------------------------------------------------------------
 BCTypeUser QTelegramBot::GetMe()
 {
-    QJsonObject JsonObject = JsonObjectFromByteArray(Network->request(ENDPOINT_GET_ME, Telegram::ParameterList(), Telegram::Networking::GET));
+    QJsonObject JsonObject = JsonObjectFromByteArray(Network->Request(ENDPOINT_GET_ME, ParameterList(), QTelegramNetwork::GET));
 
     BCTypeUser Result;
     Result.ID = JsonObject.value("id").toInt();
@@ -41,16 +41,16 @@ BCTypeUser QTelegramBot::GetMe()
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendMessage(QVariant chatId, QString text, bool markdown, bool disableWebPagePreview, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
+    ParameterList params;
     if (markdown)
     {
-        params.insert("parse_mode", Telegram::HttpParameter("Markdown"));
+        params.insert("parse_mode", QHttpParameter("Markdown"));
     }
     if (disableWebPagePreview)
     {
-        params.insert("disable_web_page_preview", Telegram::HttpParameter(disableWebPagePreview));
+        params.insert("disable_web_page_preview", QHttpParameter(disableWebPagePreview));
     }
-    return SendPayload(chatId, text, Telegram::ParameterList(), replyToMessageId, replyMarkup, "text", ENDPOINT_SEND_MESSAGE);
+    return SendPayload(chatId, text, ParameterList(), replyToMessageId, replyMarkup, "text", ENDPOINT_SEND_MESSAGE);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::ForwardMessage(QVariant chatId, quint32 fromChatId, quint32 messageId)
@@ -61,116 +61,116 @@ bool QTelegramBot::ForwardMessage(QVariant chatId, quint32 fromChatId, quint32 m
         return false;
     }
 
-    Telegram::ParameterList params;
-    params.insert("chat_id", Telegram::HttpParameter(chatId));
-    params.insert("from_chat_id", Telegram::HttpParameter(fromChatId));
-    params.insert("message_id", Telegram::HttpParameter(messageId));
-    return ResponseOk(Network->request(ENDPOINT_FORWARD_MESSAGE, params, Telegram::Networking::POST));
+    ParameterList params;
+    params.insert("chat_id", QHttpParameter(chatId));
+    params.insert("from_chat_id", QHttpParameter(fromChatId));
+    params.insert("message_id", QHttpParameter(messageId));
+    return ResponseOk(Network->Request(ENDPOINT_FORWARD_MESSAGE, params, QTelegramNetwork::POST));
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendPhoto(QVariant chatId, QFile *file, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
+    ParameterList params;
     if (!caption.isEmpty())
     {
-        params.insert("caption", Telegram::HttpParameter(caption));
+        params.insert("caption", QHttpParameter(caption));
     }
     return SendPayload(chatId, file, params, replyToMessageId, replyMarkup, "photo", ENDPOINT_SEND_PHOTO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendPhoto(QVariant chatId, QString fileId, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
+    ParameterList params;
     if (!caption.isEmpty())
     {
-        params.insert("caption", Telegram::HttpParameter(caption));
+        params.insert("caption", QHttpParameter(caption));
     }
     return SendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "photo", ENDPOINT_SEND_PHOTO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendAudio(QVariant chatId, QFile *file, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
+    ParameterList params;
     if (duration >= 0)
     {
-        params.insert("duration", Telegram::HttpParameter(duration));
+        params.insert("duration", QHttpParameter(duration));
     }
     if (!performer.isEmpty())
     {
-        params.insert("performer", Telegram::HttpParameter(performer));
+        params.insert("performer", QHttpParameter(performer));
     }
     if (!title.isEmpty())
     {
-        params.insert("title", Telegram::HttpParameter(title));
+        params.insert("title", QHttpParameter(title));
     }
     return SendPayload(chatId, file, params, replyToMessageId, replyMarkup, "audio", ENDPOINT_SEND_AUDIO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendAudio(QVariant chatId, QString fileId, qint64 duration, QString performer, QString title, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
+    ParameterList params;
     if (duration >= 0)
     {
-        params.insert("duration", Telegram::HttpParameter(duration));
+        params.insert("duration", QHttpParameter(duration));
     }
     if (!performer.isEmpty())
     {
-        params.insert("performer", Telegram::HttpParameter(performer));
+        params.insert("performer", QHttpParameter(performer));
     }
     if (!title.isEmpty())
     {
-        params.insert("title", Telegram::HttpParameter(title));
+        params.insert("title", QHttpParameter(title));
     }
     return SendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "audio", ENDPOINT_SEND_AUDIO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendDocument(QVariant chatId, QFile *file, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    return SendPayload(chatId, file, Telegram::ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
+    return SendPayload(chatId, file, ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendDocument(QVariant chatId, QString fileId, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    return SendPayload(chatId, fileId, Telegram::ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
+    return SendPayload(chatId, fileId, ParameterList(), replyToMessageId, replyMarkup, "document", ENDPOINT_SEND_DOCUMENT);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendSticker(QVariant chatId, QFile *file, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    return SendPayload(chatId, file, Telegram::ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
+    return SendPayload(chatId, file, ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendSticker(QVariant chatId, QString fileId, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    return SendPayload(chatId, fileId, Telegram::ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
+    return SendPayload(chatId, fileId, ParameterList(), replyToMessageId, replyMarkup, "sticker", ENDPOINT_SEND_STICKER);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendVideo(QVariant chatId, QFile *file, qint64 duration, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
-    params.insert("duration", Telegram::HttpParameter(duration));
-    params.insert("caption", Telegram::HttpParameter(caption));
+    ParameterList params;
+    params.insert("duration", QHttpParameter(duration));
+    params.insert("caption", QHttpParameter(caption));
     return SendPayload(chatId, file, params, replyToMessageId, replyMarkup, "video", ENDPOINT_SEND_VIDEO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendVideo(QVariant chatId, QString fileId, qint64 duration, QString caption, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
-    params.insert("duration", Telegram::HttpParameter(duration));
-    params.insert("caption", Telegram::HttpParameter(caption));
+    ParameterList params;
+    params.insert("duration", QHttpParameter(duration));
+    params.insert("caption", QHttpParameter(caption));
     return SendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "video", ENDPOINT_SEND_VIDEO);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendVoice(QVariant chatId, QFile *file, qint64 duration, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
-    params.insert("duration", Telegram::HttpParameter(duration));
+    ParameterList params;
+    params.insert("duration", QHttpParameter(duration));
     return SendPayload(chatId, file, params, replyToMessageId, replyMarkup, "voice", ENDPOINT_SEND_VOICE);
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendVoice(QVariant chatId, QString fileId, qint64 duration, qint32 replyToMessageId, const BCGenericReply &replyMarkup)
 {
-    Telegram::ParameterList params;
-    params.insert("duration", Telegram::HttpParameter(duration));
+    ParameterList params;
+    params.insert("duration", QHttpParameter(duration));
     return SendPayload(chatId, fileId, params, replyToMessageId, replyMarkup, "voice", ENDPOINT_SEND_VOICE);
 }
 //-----------------------------------------------------------------------------
@@ -183,15 +183,15 @@ bool QTelegramBot::SendLocation(QVariant chatId, float latitude, float longitude
         return false;
     }
 
-    Telegram::ParameterList params;
-    params.insert("chat_id", Telegram::HttpParameter(chatId));
-    params.insert("latitude", Telegram::HttpParameter(latitude));
-    params.insert("longitude", Telegram::HttpParameter(longitude));
+    ParameterList params;
+    params.insert("chat_id", QHttpParameter(chatId));
+    params.insert("latitude", QHttpParameter(latitude));
+    params.insert("longitude", QHttpParameter(longitude));
     if (replyToMessageId >= 0)
     {
-        params.insert("reply_to_message_id", Telegram::HttpParameter(replyToMessageId));
+        params.insert("reply_to_message_id", QHttpParameter(replyToMessageId));
     }
-    return ResponseOk(Network->request(ENDPOINT_SEND_LOCATION, params, Telegram::Networking::POST));
+    return ResponseOk(Network->Request(ENDPOINT_SEND_LOCATION, params, QTelegramNetwork::POST));
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::SendChatAction(QVariant chatId, QTelegramBot::ChatAction action)
@@ -202,61 +202,61 @@ bool QTelegramBot::SendChatAction(QVariant chatId, QTelegramBot::ChatAction acti
         return false;
     }
 
-    Telegram::ParameterList params;
-    params.insert("chat_id", Telegram::HttpParameter(chatId));
+    ParameterList params;
+    params.insert("chat_id", QHttpParameter(chatId));
     switch (action)
     {
-    case Typing: params.insert("action", Telegram::HttpParameter("typing")); break;
-    case UploadingPhoto: params.insert("action", Telegram::HttpParameter("upload_photo")); break;
-    case RecordingVideo: params.insert("action", Telegram::HttpParameter("record_video")); break;
-    case UploadingVideo: params.insert("action", Telegram::HttpParameter("upload_video")); break;
-    case RecordingAudio: params.insert("action", Telegram::HttpParameter("record_audio")); break;
-    case UploadingAudio: params.insert("action", Telegram::HttpParameter("upload_audio")); break;
-    case UploadingDocument: params.insert("action", Telegram::HttpParameter("upload_document")); break;
-    case FindingLocation: params.insert("action", Telegram::HttpParameter("find_location")); break;
+    case Typing: params.insert("action", QHttpParameter("typing")); break;
+    case UploadingPhoto: params.insert("action", QHttpParameter("upload_photo")); break;
+    case RecordingVideo: params.insert("action", QHttpParameter("record_video")); break;
+    case UploadingVideo: params.insert("action", QHttpParameter("upload_video")); break;
+    case RecordingAudio: params.insert("action", QHttpParameter("record_audio")); break;
+    case UploadingAudio: params.insert("action", QHttpParameter("upload_audio")); break;
+    case UploadingDocument: params.insert("action", QHttpParameter("upload_document")); break;
+    case FindingLocation: params.insert("action", QHttpParameter("find_location")); break;
     default:
         return false;
     }
-    return ResponseOk(Network->request(ENDPOINT_SEND_CHAT_ACTION, params, Telegram::Networking::POST));
+    return ResponseOk(Network->Request(ENDPOINT_SEND_CHAT_ACTION, params, QTelegramNetwork::POST));
 }
 //-----------------------------------------------------------------------------
 bool QTelegramBot::AnswerCallbackQuery(QVariant callback_query_id, QString text, bool show_alert, QString url, quint32 cache_time)
 {
-    Telegram::ParameterList params;
-    params.insert("callback_query_id", Telegram::HttpParameter(callback_query_id));
+    ParameterList params;
+    params.insert("callback_query_id", QHttpParameter(callback_query_id));
     if (!text.isEmpty())
     {
-        params.insert("text", Telegram::HttpParameter(text));
+        params.insert("text", QHttpParameter(text));
     }
     if (show_alert)
     {
-        params.insert("show_alert", Telegram::HttpParameter(show_alert));
+        params.insert("show_alert", QHttpParameter(show_alert));
     }
     if (!url.isEmpty())
     {
-        params.insert("url", Telegram::HttpParameter(url));
+        params.insert("url", QHttpParameter(url));
     }
     if (cache_time)
     {
-        params.insert("cache_time", Telegram::HttpParameter(cache_time));
+        params.insert("cache_time", QHttpParameter(cache_time));
     }
-    return ResponseOk(Network->request(ENDPOINT_ANSWER_CALLBACK_QUERY, params, Telegram::Networking::POST));
+    return ResponseOk(Network->Request(ENDPOINT_ANSWER_CALLBACK_QUERY, params, QTelegramNetwork::POST));
 }
 //-----------------------------------------------------------------------------
 QList<QList<BCTypePhotoSize>> QTelegramBot::getUserProfilePhotos(quint32 userId, qint16 offset, qint8 limit)
 {
-    Telegram::ParameterList params;
-    params.insert("user_id", Telegram::HttpParameter(userId));
+    ParameterList params;
+    params.insert("user_id", QHttpParameter(userId));
     if (offset > -1)
     {
-        params.insert("offset", Telegram::HttpParameter(offset));
+        params.insert("offset", QHttpParameter(offset));
     }
     if (limit > -1)
     {
-        params.insert("limit", Telegram::HttpParameter(limit));
+        params.insert("limit", QHttpParameter(limit));
     }
 
-    QJsonObject JsonObject = JsonObjectFromByteArray(Network->request(ENDPOINT_GET_USER_PROFILE_PHOTOS, params, Telegram::Networking::GET));
+    QJsonObject JsonObject = JsonObjectFromByteArray(Network->Request(ENDPOINT_GET_USER_PROFILE_PHOTOS, params, QTelegramNetwork::GET));
 
     QList<QList<BCTypePhotoSize>> ret;
     QList<BCTypePhotoSize> photo;
@@ -282,11 +282,11 @@ QList<QList<BCTypePhotoSize>> QTelegramBot::getUserProfilePhotos(quint32 userId,
 //-----------------------------------------------------------------------------
 QList<BCTypeUpdate> QTelegramBot::getUpdates(quint32 timeout, quint32 limit, quint32 offset)
 {
-    Telegram::ParameterList params;
-    params.insert("offset", Telegram::HttpParameter(offset));
-    params.insert("limit", Telegram::HttpParameter(limit));
-    params.insert("timeout", Telegram::HttpParameter(timeout));
-    QJsonArray JsonArray = JsonArrayFromByteArray(Network->request(ENDPOINT_GET_UPDATES, params, Telegram::Networking::GET));
+    ParameterList params;
+    params.insert("offset", QHttpParameter(offset));
+    params.insert("limit", QHttpParameter(limit));
+    params.insert("timeout", QHttpParameter(timeout));
+    QJsonArray JsonArray = JsonArrayFromByteArray(Network->Request(ENDPOINT_GET_UPDATES, params, QTelegramNetwork::GET));
 
     QList<BCTypeUpdate> Result = QList<BCTypeUpdate>();
     foreach(QJsonValue JsonValue, JsonArray)
@@ -298,8 +298,8 @@ QList<BCTypeUpdate> QTelegramBot::getUpdates(quint32 timeout, quint32 limit, qui
 //-----------------------------------------------------------------------------
 bool QTelegramBot::setWebhook(QString url, QFile *certificate)
 {
-    Telegram::ParameterList params;
-    params.insert("url", Telegram::HttpParameter(url));
+    ParameterList params;
+    params.insert("url", QHttpParameter(url));
 
     QMimeDatabase MimeDatabase;
     bool openedFile = false;
@@ -317,19 +317,19 @@ bool QTelegramBot::setWebhook(QString url, QFile *certificate)
     {
         certificate->close();
     }
-    params.insert("certificate", Telegram::HttpParameter(ByteArray, true, MimeDatabase.mimeTypeForData(ByteArray).name(), certificate->fileName()));
-    return ResponseOk(Network->request(ENDPOINT_SET_WEBHOOK, params, Telegram::Networking::UPLOAD));
+    params.insert("certificate", QHttpParameter(ByteArray, true, MimeDatabase.mimeTypeForData(ByteArray).name(), certificate->fileName()));
+    return ResponseOk(Network->Request(ENDPOINT_SET_WEBHOOK, params, QTelegramNetwork::UPLOAD));
 }
 //-----------------------------------------------------------------------------
 BCTypeFile QTelegramBot::getFile(QString fileId)
 {
-    Telegram::ParameterList params;
-    params.insert("file_id", Telegram::HttpParameter(fileId));
-    QJsonObject JsonObject = JsonObjectFromByteArray(Network->request(ENDPOINT_GET_FILE, params, Telegram::Networking::GET));
+    ParameterList params;
+    params.insert("file_id", QHttpParameter(fileId));
+    QJsonObject JsonObject = JsonObjectFromByteArray(Network->Request(ENDPOINT_GET_FILE, params, QTelegramNetwork::GET));
     return BCTypeFile(JsonObject.value("file_id").toString(), JsonObject.value("file_size").toInt(-1), JsonObject.value("file_path").toString());
 }
 //-----------------------------------------------------------------------------
-bool QTelegramBot::SendPayload(QVariant chatId, QFile *filePayload, Telegram::ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
+bool QTelegramBot::SendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
 {
     if (chatId.type() != QVariant::String && chatId.type() != QVariant::Int)
     {
@@ -337,7 +337,7 @@ bool QTelegramBot::SendPayload(QVariant chatId, QFile *filePayload, Telegram::Pa
         return false;
     }
 
-    params.insert("chat_id", Telegram::HttpParameter(chatId));
+    params.insert("chat_id", QHttpParameter(chatId));
 
     QMimeDatabase db;
     bool openedFile = false;
@@ -355,20 +355,20 @@ bool QTelegramBot::SendPayload(QVariant chatId, QFile *filePayload, Telegram::Pa
     {
         filePayload->close();
     }
-    params.insert(payloadField, Telegram::HttpParameter(data, true, db.mimeTypeForData(data).name(), filePayload->fileName()));
+    params.insert(payloadField, QHttpParameter(data, true, db.mimeTypeForData(data).name(), filePayload->fileName()));
 
     if (replyToMessageId >= 0)
     {
-        params.insert("reply_to_message_id", Telegram::HttpParameter(replyToMessageId));
+        params.insert("reply_to_message_id", QHttpParameter(replyToMessageId));
     }
     if (replyMarkup.IsValid())
     {
-        params.insert("reply_markup", Telegram::HttpParameter(replyMarkup.Serialize()));
+        params.insert("reply_markup", QHttpParameter(replyMarkup.Serialize()));
     }
-    return ResponseOk(Network->request(endpoint, params, Telegram::Networking::UPLOAD));
+    return ResponseOk(Network->Request(endpoint, params, QTelegramNetwork::UPLOAD));
 }
 //-----------------------------------------------------------------------------
-bool QTelegramBot::SendPayload(QVariant chatId, QString textPayload, Telegram::ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
+bool QTelegramBot::SendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint)
 {
     if (chatId.type() != QVariant::String && chatId.type() != QVariant::Int)
     {
@@ -376,20 +376,20 @@ bool QTelegramBot::SendPayload(QVariant chatId, QString textPayload, Telegram::P
         return false;
     }
 
-    params.insert("chat_id", Telegram::HttpParameter(chatId));
-    params.insert(payloadField, Telegram::HttpParameter(textPayload));
+    params.insert("chat_id", QHttpParameter(chatId));
+    params.insert(payloadField, QHttpParameter(textPayload));
 
     if (replyToMessageId >= 0)
     {
-        params.insert("reply_to_message_id", Telegram::HttpParameter(replyToMessageId));
+        params.insert("reply_to_message_id", QHttpParameter(replyToMessageId));
     }
 
     if (replyMarkup.IsValid())
     {
-        params.insert("reply_markup", Telegram::HttpParameter(replyMarkup.Serialize()));
+        params.insert("reply_markup", QHttpParameter(replyMarkup.Serialize()));
     }
 
-    return ResponseOk(Network->request(endpoint, params, Telegram::Networking::POST));
+    return ResponseOk(Network->Request(endpoint, params, QTelegramNetwork::POST));
 }
 //-----------------------------------------------------------------------------
 QJsonObject QTelegramBot::JsonObjectFromByteArray(QByteArray Bytearray)

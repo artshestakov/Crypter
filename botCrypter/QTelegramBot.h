@@ -3,7 +3,7 @@
 #define _QTELEGRAMBOT_H_INCLUDED
 //-----------------------------------------------------------------------------
 #include "StdAfx.h"
-#include "networking.h"
+#include "QTelegramNetwork.h"
 #include "Types/BCTypeChat.h"
 #include "Types/BCTypeUpdate.h"
 #include "Types/BCTypeUser.h"
@@ -64,10 +64,10 @@ public:
     BCTypeFile getFile(QString fileId);
 
 private:
-    Telegram::Networking *Network;
+    QTelegramNetwork *Network;
 
-    bool SendPayload(QVariant chatId, QFile *filePayload, Telegram::ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
-    bool SendPayload(QVariant chatId, QString textPayload, Telegram::ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
+    bool SendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
+    bool SendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
 
     QJsonObject JsonObjectFromByteArray(QByteArray ByteArray);
     QJsonArray JsonArrayFromByteArray(QByteArray ByteArray);

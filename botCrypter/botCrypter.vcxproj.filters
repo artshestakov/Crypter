@@ -15,9 +15,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="networking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StdAfx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,15 +87,18 @@
     <ClCompile Include="QTelegramBot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QTelegramNetwork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="networking.h">
-      <Filter>Source Files</Filter>
-    </QtMoc>
     <QtMoc Include="BCBot.h">
       <Filter>Source Files</Filter>
     </QtMoc>
     <QtMoc Include="QTelegramBot.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="QTelegramNetwork.h">
       <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
