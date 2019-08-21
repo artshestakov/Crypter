@@ -130,8 +130,8 @@ bool BCBot::DownloadFile(const BCTypeMessage &message, QString &FilePath)
     QString Url;
     switch (message.Type)
     {
-    case BCTypeMessage::DocumentType: Url = UrlTemplate + TelegramBot->getFile(message.Document.FileID).FilePath; break;
-    case BCTypeMessage::PhotoType: Url = UrlTemplate + TelegramBot->getFile(message.Photo.back().FileID).FilePath; break;
+    case BCTypeMessage::DocumentType: Url = UrlTemplate + TelegramBot->GetFile(message.Document.FileID).FilePath; break;
+    case BCTypeMessage::PhotoType: Url = UrlTemplate + TelegramBot->GetFile(message.Photo.back().FileID).FilePath; break;
     }
 
     ShowDebugString("Downloading image...");

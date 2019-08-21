@@ -37,6 +37,9 @@
 #include <QtNetwork/QNetworkProxy>
 #include <QtNetwork/QHttpPart>
 //-----------------------------------------------------------------------------
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+//-----------------------------------------------------------------------------
 #include <QtConcurrent/QtConcurrent>
 //-----------------------------------------------------------------------------
 #endif

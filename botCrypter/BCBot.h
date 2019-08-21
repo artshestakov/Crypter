@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 #include "StdAfx.h"
 #include "QTelegramBot.h"
+#include "Types/Reply/BCReplyKeyboardMarkup.h"
 //-----------------------------------------------------------------------------
 class BCBot : public QObject
 {

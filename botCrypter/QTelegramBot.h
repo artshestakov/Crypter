@@ -58,16 +58,16 @@ public:
     bool SendLocation(QVariant chatId, float latitude, float longitude, qint32 replyToMessageId = -1, const BCGenericReply &replyMarkup = BCGenericReply());
     bool SendChatAction(QVariant chatId, ChatAction action);
     bool AnswerCallbackQuery(QVariant callback_query_id, QString text = QString(), bool show_alert = false, QString url = QString(), quint32 cache_time = 0);
-    QList<QList<BCTypePhotoSize>> getUserProfilePhotos(quint32 userId, qint16 offset = -1, qint8 limit = -1);
-    QList<BCTypeUpdate> getUpdates(quint32 timeout, quint32 limit, quint32 offset);
-    bool setWebhook(QString url, QFile *certificate);
-    BCTypeFile getFile(QString fileId);
+    QList<QList<BCTypePhotoSize>> GetUserProfilePhotos(quint32 userId, qint16 offset = -1, qint8 limit = -1);
+    QList<BCTypeUpdate> GetUpdates(quint32 timeout, quint32 limit, quint32 offset);
+    bool SetWebhook(QString url, QFile *certificate);
+    BCTypeFile GetFile(QString fileId);
 
 private:
     QTelegramNetwork *Network;
 
-    bool SendPayload(QVariant chatId, QFile *filePayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
-    bool SendPayload(QVariant chatId, QString textPayload, ParameterList params, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
+    bool SendPayload(QVariant chatId, QFile *filePayload, ParameterList Parameters, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
+    bool SendPayload(QVariant chatId, QString textPayload, ParameterList Parameters, qint32 replyToMessageId, const BCGenericReply &replyMarkup, QString payloadField, QString endpoint);
 
     QJsonObject JsonObjectFromByteArray(QByteArray ByteArray);
     QJsonArray JsonArrayFromByteArray(QByteArray ByteArray);
