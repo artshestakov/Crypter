@@ -13,21 +13,16 @@ BCConverter::~BCConverter()
 //-----------------------------------------------------------------------------
 bool BCConverter::Convert(QString &ErrorString)
 {
-    bool Ok = true;
-    QString ImageFormat = QImageReader(FilePath).format();
-    if (ImageFormat.toLower() != "png")
+    QFileInfo FileInfo(FilePath);
+    QString NewFilePath = FileInfo.absolutePath() + "/" + FileInfo.baseName() + ".png";
+    bool Ok = QImage(FilePath).save(NewFilePath, "PNG");
+    if (Ok)
     {
-        QFileInfo FileInfo(FilePath);
-        QString NewFilePath = FileInfo.absolutePath() + "/" + FileInfo.baseName() + ".png";
-        Ok = QImage(FilePath).save(NewFilePath, "PNG");
-        if (Ok)
-        {
-            FilePath = NewFilePath;
-        }
-        else
-        {
-            ErrorString = "Error converting " + ImageFormat + " to png.";
-        }
+        FilePath = NewFilePath;
+    }
+    else
+    {
+        ErrorString = "Error converting image to png.";
     }
     return Ok;
 }

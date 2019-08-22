@@ -75,10 +75,10 @@ void BCBot::NewMessage(const BCTypeMessage &message)
             return;
         }
 
-        QString Suffix = QFileInfo(FilePath).suffix().toLower();
-        if (Suffix != "png") //Если расширение файла отличное от PNG - конвертируем в PNG
+        QString ImageFormat = QImageReader(FilePath).format().toLower();
+        if (ImageFormat != "png") //Если расширение файла отличное от PNG - конвертируем в PNG
         {
-            ShowDebugString(QString("Converting image (%1) to png format...").arg(Suffix));
+            ShowDebugString(QString("Converting image (%1) to png format...").arg(ImageFormat));
             TelegramBot->SendMessage(message.From.ID, QString::fromLocal8Bit("Конвертация вашего изображения в формат PNG..."));
 
             BCConverter converter(FilePath);

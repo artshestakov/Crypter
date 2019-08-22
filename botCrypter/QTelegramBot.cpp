@@ -287,7 +287,7 @@ QList<BCTypeUpdate> QTelegramBot::GetUpdates(quint32 timeout, quint32 limit, qui
     Parameters.insert("timeout", QHttpParameter(timeout));
     QJsonArray JsonArray = JsonArrayFromByteArray(Network->Request(ENDPOINT_GET_UPDATES, Parameters, QTelegramNetwork::GET));
 
-    QList<BCTypeUpdate> Result = QList<BCTypeUpdate>();
+    QList<BCTypeUpdate> Result;
     foreach(QJsonValue JsonValue, JsonArray)
     {
         Result.append(BCTypeUpdate(JsonValue.toObject()));
@@ -432,7 +432,7 @@ bool QTelegramBot::ResponseOk(QByteArray ByteArray)
 void QTelegramBot::InternalGetUpdates()
 {
     QList<BCTypeUpdate> Updates = GetUpdates(PollingTimeout, 50, UpdateOffset);
-    foreach(BCTypeUpdate Update, Updates)
+    for (const BCTypeUpdate &Update : Updates)
     {
         UpdateOffset = (Update.ID >= UpdateOffset ? Update.ID + 1 : UpdateOffset);
         emit MessageSignal(Update.Message);
