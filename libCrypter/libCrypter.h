@@ -5,7 +5,7 @@
 #include <stddef.h>
 //-----------------------------------------------------------------------------
 //Структура описывающая пиксель
-typedef struct s_PixelStruct
+typedef struct pixel_struct_t
 {
     unsigned char R;
     unsigned char G;
