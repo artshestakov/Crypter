@@ -24,8 +24,7 @@ void Usage()
 int main(int argc, char **argv)
 {
     (void)argc;
-    (void)argv;
-
+    
     const char *Mode = NULL; //Режим работы
     const char *PathSource = NULL; //Путь к исходному изображению
     const char *PathOutput = NULL; //Путь к выходному изображению
