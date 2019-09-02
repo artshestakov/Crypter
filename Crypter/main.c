@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "libCrypter_global.h"
 //-----------------------------------------------------------------------------
 void Usage()
@@ -64,7 +65,7 @@ int main(int argc, char **argv)
             return EXIT_FAILURE;
         }
 
-        if (CryptMessage(PathSource, PathOutput, Message))
+        if (CryptMessage(PathSource, PathOutput, Message) == true)
         {
             printf("Crypted is success.\n");
         }

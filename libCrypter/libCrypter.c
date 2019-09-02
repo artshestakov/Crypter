@@ -4,8 +4,6 @@
 #include "lodepng.h"
 //-----------------------------------------------------------------------------
 #define MAX_CHAR_INT 17 //Максимальное количество байт для числа
-#define R_OK 1 //Положительный результат
-#define R_ERROR 0 //Отрицательный результат
 #define BEGIN_RANDOM_SIZE 4
 //-----------------------------------------------------------------------------
 char ErrorString[1024];
@@ -27,7 +25,7 @@ int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
     if (Result) //Файл успешно прочитан
     {
         char *MessageComplete = PrepareMessage(Message); //Подготовка сообщения
-        Result = MessageComplete ? R_OK : R_ERROR;
+        Result = MessageComplete ? true : false;
         if (Result) //Сообщение успешно подготовлено
         {
             size_t MessageSize = strlen(MessageComplete);
@@ -178,13 +176,13 @@ int ReadFileToMemory(const char *FilePath)
     if (!FilePath)
     {
         sprintf(ErrorString, "File path is empty.");
-        return R_ERROR;
+        return false;
     }
 
     if (!FileExist(FilePath))
     {
         sprintf(ErrorString, "File \"%s\" not exist.", FilePath);
-        return R_ERROR;
+        return false;
     }
 
     unsigned char* Image = NULL;
@@ -192,7 +190,7 @@ int ReadFileToMemory(const char *FilePath)
     if (Error)
     {
         sprintf(ErrorString, "Error decode file \"%s\": %s", FilePath, lodepng_error_text(Error));
-        return R_ERROR;
+        return false;
     }
     
     PixelCount = Width * Height;
@@ -216,7 +214,7 @@ int ReadFileToMemory(const char *FilePath)
     free(Image);
     Image = NULL;
 
-    return R_OK;
+    return true;
 }
 //-----------------------------------------------------------------------------
 char* PrepareMessage(const char *Message)
@@ -252,7 +250,7 @@ int CheckMessage(const char *MessageComplete, size_t Size)
     if (strlen(MessageComplete) >= PixelCount) //Если размер сообщения больше или равен количеству пикселей - изображение слишком маленькое для этого сообщения
     {
         sprintf(ErrorString, "This image is too small for your message.");
-        return R_ERROR;
+        return false;
     }
 
     for (size_t i = 0; i < Size; ++i) //Обход сообщения и проверка каждого символа на валидность
@@ -261,10 +259,10 @@ int CheckMessage(const char *MessageComplete, size_t Size)
         if (Char < 32 && Char > 255)
         {
             sprintf(ErrorString, "Invalid char: %c. Ascii code: %d.", Char, Char);
-            return R_ERROR;
+            return false;
         }
     }
-    return R_OK;
+    return true;
 }
 //-----------------------------------------------------------------------------
 int WritePixelsToFile(const char *PathOutput)
@@ -293,10 +291,10 @@ int WritePixelsToFile(const char *PathOutput)
     if (Error)
     {
         sprintf(ErrorString, "Error encode file \"%s\": %s", PathOutput, lodepng_error_text(Error));
-        return R_ERROR;
+        return false;
     }
 
-    return R_OK;
+    return true;
 }
 //-----------------------------------------------------------------------------
 void InitRandom(rand_t Digit)
@@ -331,12 +329,12 @@ size_t GetSizeReserveString(void)
 //-----------------------------------------------------------------------------
 int ContainsVector(rand_t Value, size_t VectorSize)
 {
-    int Result = R_ERROR;
+    int Result = false;
     for (size_t i = 0; i < VectorSize; ++i)
     {
         if (VectorRandom[i] == Value)
         {
-            Result = R_OK;
+            Result = true;
             break;
         }
     }
@@ -346,10 +344,10 @@ int ContainsVector(rand_t Value, size_t VectorSize)
 int FileExist(const char *FilePath)
 {
     FILE *File = fopen(FilePath, "rb");
-    int Result = File ? R_OK : R_ERROR;
+    int Result = File ? true : false;
     if (File)
     {
-        Result = fclose(File) == 0 ? R_OK : R_ERROR;
+        Result = fclose(File) == 0 ? true : false;
         if (!Result)
         {
             sprintf(ErrorString, "Error close file at checking exist: %s.", strerror(errno));
@@ -357,7 +355,7 @@ int FileExist(const char *FilePath)
     }
     else
     {
-        Result = errno == ENOENT ? R_ERROR : R_OK;
+        Result = errno == ENOENT ? false : true;
     }
     return Result;
 }
