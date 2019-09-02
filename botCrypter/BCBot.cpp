@@ -181,6 +181,7 @@ bool BCBot::DownloadFile(const BCTypeMessage &message, QString &FilePath)
     }
     
     delete NetworkReply;
+    NetworkReply = nullptr;
     return Result;
 }
 //-----------------------------------------------------------------------------

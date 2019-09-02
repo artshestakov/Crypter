@@ -94,6 +94,7 @@ QByteArray QTelegramNetwork::Request(const QString &endpoint, const ParameterLis
     {
         qWarning("NetworkReply is NULL");
         delete NetworkReply;
+        NetworkReply = nullptr;
         return QByteArray();
     }
 
@@ -104,11 +105,13 @@ QByteArray QTelegramNetwork::Request(const QString &endpoint, const ParameterLis
     {
         qCritical("%s", qPrintable(QString("[%1] %2").arg(NetworkReply->error()).arg(NetworkReply->errorString())));
         delete NetworkReply;
+        NetworkReply = nullptr;
         return QByteArray();
     }
 
     QByteArray Result = NetworkReply->readAll();
     delete NetworkReply;
+    NetworkReply = nullptr;
     return Result;
 }
 //-----------------------------------------------------------------------------

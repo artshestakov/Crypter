@@ -20,6 +20,7 @@ QTelegramBot::QTelegramBot(const QString &token, bool updates, quint32 update_in
 QTelegramBot::~QTelegramBot()
 {
     delete Network;
+    Network = nullptr;
 }
 //-----------------------------------------------------------------------------
 BCTypeUser QTelegramBot::GetMe()
