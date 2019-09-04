@@ -19,9 +19,9 @@ const char* GetErrorString(void)
     return ErrorString;
 }
 //-----------------------------------------------------------------------------
-int Crypt(const char *PathSource, const char *PathOutput, const char *Message)
+_Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 {
-    int Result = ReadFileToMemory(PathSource); //Чтение файла
+    _Bool Result = ReadFileToMemory(PathSource); //Чтение файла
     if (Result) //Файл успешно прочитан
     {
         char *MessageComplete = PrepareMessage(Message); //Подготовка сообщения
@@ -171,7 +171,7 @@ const char* Decrypt(const char *FilePath)
     return Message;
 }
 //-----------------------------------------------------------------------------
-int ReadFileToMemory(const char *FilePath)
+_Bool ReadFileToMemory(const char *FilePath)
 {
     if (!FilePath)
     {
@@ -245,7 +245,7 @@ char* PrepareMessage(const char *Message)
     return MessageComplete;
 }
 //-----------------------------------------------------------------------------
-int CheckMessage(const char *MessageComplete, size_t Size)
+_Bool CheckMessage(const char *MessageComplete, size_t Size)
 {
     if (strlen(MessageComplete) >= PixelCount) //Если размер сообщения больше или равен количеству пикселей - изображение слишком маленькое для этого сообщения
     {
@@ -265,7 +265,7 @@ int CheckMessage(const char *MessageComplete, size_t Size)
     return true;
 }
 //-----------------------------------------------------------------------------
-int WritePixelsToFile(const char *PathOutput)
+_Bool WritePixelsToFile(const char *PathOutput)
 {
     unsigned char* Image = (unsigned char *)malloc(PixelCount * 4);
     
@@ -327,9 +327,9 @@ size_t GetSizeReserveString(void)
     return strlen(PixelCountString);
 }
 //-----------------------------------------------------------------------------
-int ContainsVector(rand_t Value, size_t VectorSize)
+_Bool ContainsVector(rand_t Value, size_t VectorSize)
 {
-    int Result = false;
+    _Bool Result = false;
     for (size_t i = 0; i < VectorSize; ++i)
     {
         if (VectorRandom[i] == Value)
@@ -341,10 +341,10 @@ int ContainsVector(rand_t Value, size_t VectorSize)
     return Result;
 }
 //-----------------------------------------------------------------------------
-int FileExist(const char *FilePath)
+_Bool FileExist(const char *FilePath)
 {
     FILE *File = fopen(FilePath, "rb");
-    int Result = File ? true : false;
+    _Bool Result = File ? true : false;
     if (File)
     {
         Result = fclose(File) == 0 ? true : false;

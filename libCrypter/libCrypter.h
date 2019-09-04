@@ -29,7 +29,7 @@ const char* GetErrorString(void);
 * @param Message - константный указатель на строку, котора€ €вл€етс€ кодируемым сообщением.
 * @returns возвращает 1 в случае успеха, иначе - 0.
 */
-int Crypt(const char *PathSource, const char *PathOutput, const char *Message);
+_Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message);
 
 /**
 * ƒекодирование сообщени€ из изображени€.
@@ -43,7 +43,7 @@ const char* Decrypt(const char *FilePath);
 * @param FilePath - путь к файлу с изображением.
 * @return возвращает 1 в случае успешного чтени€, иначе - 0.
 */
-int ReadFileToMemory(const char *FilePath);
+_Bool ReadFileToMemory(const char *FilePath);
 
 /**
 * ѕодготовка сообщени€ к кодированию.
@@ -58,14 +58,14 @@ char* PrepareMessage(const char *Message);
 * @param Size размер - сообщени€.
 * @return возвращает указатель на строку, в которой содержитс€ готовое изображение.
 */
-int CheckMessage(const char *MessageComplete, size_t Size);
+_Bool CheckMessage(const char *MessageComplete, size_t Size);
 
 /**
 * «апись пикселей изображени€ в файл.
 * @param PathOutput - путь к выходному файлу с изображением.
 * @return возвращает 1 в случае успеха, иначе - 0.
 */
-int WritePixelsToFile(const char *PathOutput);
+_Bool WritePixelsToFile(const char *PathOutput);
 
 /**
 * »нициализаци€ рандома.
@@ -92,13 +92,13 @@ size_t GetSizeReserveString(void);
 * @param VectorSize - размер "вектора".
 * @return возвращает 1 в случае успеха, иначе - 0.
 */
-int ContainsVector(rand_t Value, size_t VectorSize);
+_Bool ContainsVector(rand_t Value, size_t VectorSize);
 
 /**
 * ѕроверка существовани€ файла в файловой системе.
 * @param FilePath - путь к файлу.
 * @return возвращает 1 в случае существовани€ файла, иначе - 0.
 */
-int FileExist(const char *FilePath); //ѕроверка существовани€ файла
+_Bool FileExist(const char *FilePath); //ѕроверка существовани€ файла
 //-----------------------------------------------------------------------------
 #endif
