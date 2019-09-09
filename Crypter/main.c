@@ -9,8 +9,8 @@ void Usage()
     printf("\nCrypter application for usage libCrypter.\n");
     printf("Usage: Crypter [MODE] [PATH_SOURCE] [PATH_OUTPUT] [MESSAGE]\n\n");
     printf("Mode:\n");
-    printf("-c - crypt\n");
-    printf("-d - decrypt\n");
+    printf("-c - crypt mode\n");
+    printf("-d - decrypt mode\n");
     printf("-h - show this message\n\n");
     printf("Examples:\n");
 #ifdef WIN32

@@ -7,7 +7,6 @@
 #include <string.h>
 #include <errno.h>
 #include <time.h>
-#include <limits.h>
 #include <stdbool.h>
 //-----------------------------------------------------------------------------
 #endif
