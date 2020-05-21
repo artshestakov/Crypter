@@ -1,18 +1,15 @@
 Bin/
-botCrypter/Debug/
-botCrypter/Release/
-botCrypter/GeneratedFiles/
-Crypter/Debug/
-Crypter/Release/
-Crypter/x64/
-guiCrypter/Debug/
-guiCrypter/Release/
-guiCrypter/GeneratedFiles/
-libCrypter/Debug/
-libCrypter/Release/
-libCrypter/x64/
+Crypter/Debug-Win32/
+Crypter/Release-Win32/
+Crypter/Debug-x64/
+Crypter/Release-x64/
+libCrypter/Debug-Win32/
+libCrypter/Release-Win32/
+libCrypter/Debug-x64/
+libCrypter/Release-x64/
 
 *.opensdf
 *.sdf
 *.suo
 *.user
+*.VC*

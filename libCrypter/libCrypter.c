@@ -61,15 +61,14 @@ _Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message)
                 }
 
                 //»нициализируем рандом значением текущего времени
-                sprintf(Temp, "%d", time(NULL));
+                sprintf(Temp, "%d", (int)time(NULL));
                 InitRandom(atoi(Temp));
                 memset(Temp, 0, MAX_CHAR_INT);
 
                 for (size_t i = 0; i < BEGIN_RANDOM_SIZE; ++i)
                 {
                     char Char[2];
-                    rand_t R = GetRandom(1, 9);
-                    sprintf(Char, "%lu", R);
+                    sprintf(Char, "%d", (int)GetRandom(1, 9));
                     Pixels[Randoms[i]].A = Char[0];
                     Temp[i] = Char[0];
                 }
@@ -221,7 +220,7 @@ char* PrepareMessage(const char *Message)
 {
     //«апоминаем размер сообщени€
     char MessageSize[MAX_CHAR_INT];
-    sprintf(MessageSize, "%d", strlen(Message));
+    sprintf(MessageSize, "%zu", strlen(Message));
 
     //—оздаем строку, котора€ будет содержать размер сообщени€
     size_t Size = GetSizeReserveString(); //«апоминаем размер строки с числом пикселей
