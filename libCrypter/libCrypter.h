@@ -7,10 +7,10 @@
 //Структура описывающая пиксель
 typedef struct pixel_struct_t
 {
-    unsigned char R;
-    unsigned char G;
-    unsigned char B;
-    unsigned char A;
+	unsigned char R;
+	unsigned char G;
+	unsigned char B;
+	unsigned char A;
 } PixelStruct;
 //-----------------------------------------------------------------------------
 typedef long long int rand_t; //Тип для рандомного числа
@@ -27,7 +27,7 @@ const char* GetErrorString(void);
 * @param PathSource - путь к исходному изображению.
 * @param PathOutput - путь к изображению, в которое будет произведено кодирование сообщения.
 * @param Message - константный указатель на строку, которая является кодируемым сообщением.
-* @returns возвращает 1 в случае успеха, иначе - 0.
+* @return возвращает 1 в случае успеха, иначе - 0.
 */
 _Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message);
 
@@ -100,5 +100,13 @@ _Bool ContainsVector(rand_t Value, size_t VectorSize);
 * @return возвращает 1 в случае существования файла, иначе - 0.
 */
 _Bool FileExist(const char *FilePath); //Проверка существования файла
+
+/**
+* Генерация изображения.
+* @param PathImage - путь к генерируемому изображению.
+* @param String - строка, которую необходимо зашифровать в изображение.
+* @return возвращает 1 в случае успеха, иначе - 0.
+*/
+_Bool Generate(const char *PathImage, const char *String);
 //-----------------------------------------------------------------------------
 #endif
