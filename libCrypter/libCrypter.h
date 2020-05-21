@@ -104,9 +104,11 @@ _Bool FileExist(const char *FilePath); //Проверка существования файла
 /**
 * Генерация изображения.
 * @param PathImage - путь к генерируемому изображению.
+* @param Width - ширина изображения.
+* @param Height - высота изображения.
 * @param String - строка, которую необходимо зашифровать в изображение.
 * @return возвращает 1 в случае успеха, иначе - 0.
 */
-_Bool Generate(const char *PathImage, const char *String);
+_Bool Generate(const char *PathImage, int Width, int Height, const char *String);
 //-----------------------------------------------------------------------------
 #endif

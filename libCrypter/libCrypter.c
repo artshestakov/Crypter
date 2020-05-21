@@ -7,8 +7,8 @@
 #define BEGIN_RANDOM_SIZE 4
 //-----------------------------------------------------------------------------
 char ErrorString[1024];
-unsigned int Width = 0;
-unsigned int Height = 0;
+unsigned int ImageWidth = 0;
+unsigned int ImageHeight = 0;
 unsigned int PixelCount = 0;
 PixelStruct *Pixels = NULL;
 rand_t *VectorRandom = NULL;
@@ -39,7 +39,7 @@ _Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 				size_t Index = 0; //Индекс последнего значения в векторе
 
 				char Temp[MAX_CHAR_INT];
-				sprintf(Temp, "%d%d", Width, Height); //Переводим ширину и высоту в строку
+				sprintf(Temp, "%d%d", ImageWidth, ImageHeight); //Переводим ширину и высоту в строку
 				InitRandom(atoi(Temp)); //Инициализируем рандом
 				memset(Temp, 0, MAX_CHAR_INT); //Очищаем строку
 
@@ -95,8 +95,8 @@ _Bool Crypt(const char *PathSource, const char *PathOutput, const char *Message)
 		}
 	}
 
-	Width = 0;
-	Height = 0;
+	ImageWidth = 0;
+	ImageHeight = 0;
 	PixelCount = 0;
 	if (Pixels)
 	{
@@ -118,7 +118,7 @@ const char* Decrypt(const char *FilePath)
 	if (ReadFileToMemory(FilePath)) //Читаем файл
 	{
 		char Temp[MAX_CHAR_INT];
-		sprintf(Temp, "%d%d", Width, Height); //Переводим ширину и высоту в строку
+		sprintf(Temp, "%d%d", ImageWidth, ImageHeight); //Переводим ширину и высоту в строку
 		InitRandom(atoi(Temp)); //Инициализируем рандом
 		memset(Temp, 0, MAX_CHAR_INT); //Очищаем строку
 
@@ -158,8 +158,8 @@ const char* Decrypt(const char *FilePath)
 		}
 	}
 
-	Width = 0;
-	Height = 0;
+	ImageWidth = 0;
+	ImageHeight = 0;
 	PixelCount = 0;
 	if (Pixels)
 	{
@@ -185,14 +185,14 @@ _Bool ReadFileToMemory(const char *FilePath)
 	}
 
 	unsigned char* Image = NULL;
-	unsigned Error = lodepng_decode32_file(&Image, &Width, &Height, FilePath);
+	unsigned Error = lodepng_decode32_file(&Image, &ImageWidth, &ImageHeight, FilePath);
 	if (Error)
 	{
 		sprintf(ErrorString, "Error decode file \"%s\": %s", FilePath, lodepng_error_text(Error));
 		return false;
 	}
 
-	PixelCount = Width * Height;
+	PixelCount = ImageWidth * ImageHeight;
 	Pixels = (PixelStruct *)malloc(sizeof(PixelStruct *) * PixelCount);
 
 	size_t Index = 0;
@@ -282,7 +282,7 @@ _Bool WritePixelsToFile(const char *PathOutput)
 		++Index;
 	}
 
-	unsigned int Error = lodepng_encode32_file(PathOutput, Image, Width, Height);
+	unsigned int Error = lodepng_encode32_file(PathOutput, Image, ImageWidth, ImageHeight);
 
 	free(Image);
 	Image = NULL;
@@ -359,7 +359,7 @@ _Bool FileExist(const char *FilePath)
 	return Result;
 }
 //-----------------------------------------------------------------------------
-_Bool Generate(const char *PathImage, const char *String)
+_Bool Generate(const char *PathImage, int Width, int Height, const char *String)
 {
 	if (!PathImage) //Нулевой указатель на путь к изображению
 	{
@@ -370,6 +370,18 @@ _Bool Generate(const char *PathImage, const char *String)
 	if (strlen(PathImage) == 0) //Путь к изображению пустой
 	{
 		sprintf(ErrorString, "Image path is empty.");
+		return false;
+	}
+
+	if (!Width) //Если ширина изображения нулевая
+	{
+		sprintf(ErrorString, "Image width is null.");
+		return false;
+	}
+
+	if (!Height) //Если высота изображения нулевая
+	{
+		sprintf(ErrorString, "Image height is null.");
 		return false;
 	}
 
@@ -385,17 +397,6 @@ _Bool Generate(const char *PathImage, const char *String)
 		sprintf(ErrorString, "String is empty.");
 	}
 
-	rand_t RandomInitDigit = 0;
-	for (size_t i = 0; i < SizeString; ++i)
-	{
-		RandomInitDigit += (int)String[i];
-	}
-
-	//Инициализируем рандом и генерируем высоту и ширину изображения
-	InitRandom(RandomInitDigit);
-	Width = (int)GetRandom(50, 100);
-	Height = (int)GetRandom(50, 100);
-
 	//Рассчитываем размер необходимой памяти 
 	size_t SizeMemory = (Width * Height) * 4;
 
@@ -406,6 +407,14 @@ _Bool Generate(const char *PathImage, const char *String)
 		sprintf(ErrorString, "Error allocate memory.");
 		return false;
 	}
+
+	//Формируем число для инициализации рандома и инициализируем его
+	rand_t RandomInitDigit = 0;
+	for (size_t i = 0; i < SizeString; ++i)
+	{
+		RandomInitDigit += (int)String[i];
+	}
+	InitRandom(RandomInitDigit);
 
 	//Генерируем изображение
 	for (unsigned int i = 0; i < SizeMemory; ++i)
@@ -427,8 +436,6 @@ _Bool Generate(const char *PathImage, const char *String)
 	}
 
 	//Обнуляем использованные переменные
-	Width = 0;
-	Height = 0;
 	Random = 0;
 
 	//Шифруем строку в сгенерированное изображение
