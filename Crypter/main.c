@@ -14,8 +14,8 @@ void Usage()
     printf("-h - show this message\n\n");
     printf("Examples:\n");
 #ifdef WIN32
-    printf("Crypter -c C:\\Image.png C:\\Image_Output.png \"Hello world!\"\n");
-    printf("Crypter -d C:\\Image_Outout.png\n");
+    printf("Crypter.exe -c C:\\Image.png C:\\Image_Output.png \"Hello world!\"\n");
+    printf("Crypter.exe -d C:\\Image_Outout.png\n");
 #else
     printf("Crypter -c /home/[USER_NAME]/Image.png /home/[USER_NAME]/Image_Output.png \"Hello world!\"\n");
     printf("Crypter -d /home/[USER_NAME]/Image_Outout.png\n");

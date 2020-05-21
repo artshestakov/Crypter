@@ -226,7 +226,7 @@ char* PrepareMessage(const char *Message)
     size_t Size = GetSizeReserveString(); //Запоминаем размер строки с числом пикселей
     char StringReserve[MAX_CHAR_INT]; //Выделяем память равную размеру строки с пикселями
     StringReserve[Size] = '\0'; //Обрезаем лишний мусор
-    memset(StringReserve, 40, Size); //Заполняем строку символами нуля (40 является кодом нуля)
+    memset(StringReserve, '0', Size); //Заполняем строку символами нуля (40 является кодом нуля)
 
     //Формируем размер в зарезервированной строке
     size_t Index = strlen(MessageSize);
