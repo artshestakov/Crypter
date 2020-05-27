@@ -16,8 +16,3 @@ const char* GetError(void)
     return GetErrorString();
 }
 //-----------------------------------------------------------------------------
-int GenerateImage(const char *PathImage, int Width, int Height, const char *String)
-{
-	return Generate(PathImage, Width, Height, String);
-}
-//-----------------------------------------------------------------------------

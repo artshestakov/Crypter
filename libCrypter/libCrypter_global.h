@@ -36,16 +36,6 @@ extern "C"
     */
     LIBCRYPTER_EXPORT const char* GetError(void);
 
-	/**
-	* √енераци€ изображени€.
-	* @param PathImage - путь к генерируемому изображению.
-	* @param Width - ширина изображени€.
-	* @param Height - высота изображени€.
-	* @param String - строка, которую необходимо зашифровать в изображение.
-	* @return возвращает 1 в случае успеха, иначе - 0.
-	*/
-	LIBCRYPTER_EXPORT int GenerateImage(const char *PathImage, int Width, int Height, const char *String);
-
 #ifdef __cplusplus
 }
 #endif

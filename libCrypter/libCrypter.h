@@ -100,15 +100,5 @@ _Bool ContainsVector(rand_t Value, size_t VectorSize);
 * @return возвращает 1 в случае существовани€ файла, иначе - 0.
 */
 _Bool FileExist(const char *FilePath); //ѕроверка существовани€ файла
-
-/**
-* √енераци€ изображени€.
-* @param PathImage - путь к генерируемому изображению.
-* @param Width - ширина изображени€.
-* @param Height - высота изображени€.
-* @param String - строка, которую необходимо зашифровать в изображение.
-* @return возвращает 1 в случае успеха, иначе - 0.
-*/
-_Bool Generate(const char *PathImage, int Width, int Height, const char *String);
 //-----------------------------------------------------------------------------
 #endif
