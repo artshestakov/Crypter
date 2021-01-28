@@ -172,13 +172,13 @@ const char* Decrypt(const char *FilePath)
 //-----------------------------------------------------------------------------
 _Bool ReadFileToMemory(const char *FilePath)
 {
-	if (!FilePath)
+	if (!FilePath) //Путь к файлу не указан
 	{
 		sprintf(ErrorString, "File path is empty.");
 		return false;
 	}
 
-	if (!FileExist(FilePath))
+	if (!FileExist(FilePath)) //Файл не существует
 	{
 		sprintf(ErrorString, "File \"%s\" not exist.", FilePath);
 		return false;
@@ -191,7 +191,6 @@ _Bool ReadFileToMemory(const char *FilePath)
 		sprintf(ErrorString, "Error decode file \"%s\": %s", FilePath, lodepng_error_text(Error));
 		return false;
 	}
-
 	PixelCount = ImageWidth * ImageHeight;
 	Pixels = (PixelStruct *)malloc(sizeof(PixelStruct *) * PixelCount);
 
@@ -209,10 +208,8 @@ _Bool ReadFileToMemory(const char *FilePath)
 		++Index;
 		Pixels[i] = Pixel;
 	}
-
 	free(Image);
 	Image = NULL;
-
 	return true;
 }
 //-----------------------------------------------------------------------------

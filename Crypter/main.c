@@ -42,7 +42,7 @@ int main(int argc, char **argv)
     if (strcmp(Mode, "-c") == 0) //Если указан режим кодирования
     {
         PathSource = argv[2];
-        if (strlen(PathSource ? PathSource : "") == 0)
+        if (strlen(PathSource ? PathSource : "") == 0) //Путь к исходному изображению не указан
         {
             printf("Error: not specified path source.\n");
             Usage();
@@ -50,7 +50,7 @@ int main(int argc, char **argv)
         }
 
         PathOutput = argv[3];
-        if (strlen(PathOutput ? PathOutput : "") == 0)
+        if (strlen(PathOutput ? PathOutput : "") == 0) //Путь к выходному изображению не указан
         {
             printf("Error: not specified path output.\n");
             Usage();
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
         }
 
         Message = argv[4];
-        if (strlen(Message ? Message : "") == 0)
+        if (strlen(Message ? Message : "") == 0) //Сообщение не указано
         {
             printf("Error: not specified message.\n");
             Usage();
@@ -111,7 +111,6 @@ int main(int argc, char **argv)
 #ifdef _DEBUG //Для отладки
     system("PAUSE");
 #endif
-
     return EXIT_SUCCESS;
 }
 //-----------------------------------------------------------------------------
