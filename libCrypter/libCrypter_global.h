@@ -3,7 +3,11 @@
 #define _LIBCRYPTER_GLOBAL_H_INCLUDED
 //-----------------------------------------------------------------------------
 #if defined(LIBCRYPTER_LIB)
-# define LIBCRYPTER_EXPORT __attribute__((visibility("default")))//__declspec(dllexport)
+#ifdef WIN32
+# define LIBCRYPTER_EXPORT __declspec(dllexport)
+#else
+# define LIBCRYPTER_EXPORT __attribute__((visibility("default")))
+#endif
 #else
 # define LIBCRYPTER_EXPORT __declspec(dllimport)
 #endif
