@@ -9,7 +9,11 @@
 # define LIBCRYPTER_EXPORT __attribute__((visibility("default")))
 #endif
 #else
+#ifdef WIN32
 # define LIBCRYPTER_EXPORT __declspec(dllimport)
+#else
+# define LIBCRYPTER_EXPORT __attribute__((visibility("default")))
+#endif
 #endif
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
