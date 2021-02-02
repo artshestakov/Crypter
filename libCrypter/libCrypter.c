@@ -251,10 +251,10 @@ _Bool CheckMessage(const char *MessageComplete, size_t Size)
 
 	for (size_t i = 0; i < Size; ++i) //ќбход сообщени€ и проверка каждого символа на валидность
 	{
-		char Char = MessageComplete[i];
+        int Char = MessageComplete[i];
 		if (Char < 32 && Char > 255)
 		{
-			sprintf(ErrorString, "Invalid char: %c. Ascii code: %d.", Char, Char);
+            sprintf(ErrorString, "Invalid char: %c. Ascii code: %d.", (char)Char, Char);
 			return false;
 		}
 	}
@@ -303,9 +303,13 @@ rand_t GetRandom(rand_t Minimum, rand_t Maximum)
 	Random ^= (Random << 21);
 	//ѕодавл€ем предупреждение 4293: MSVC считает что сдвиг вправо на 35 может вызвать непоределнное поведение,
 	//по его мнению 35 - отрицательное или слишком большое число. Ќу бред же!
+#ifdef WIN32
 #pragma warning (disable: 4293)
+#endif
 	Random ^= (Random >> 35);
+#ifdef WIN32
 #pragma warning (default: 4293)
+#endif
 	Random ^= (Random << 4);
 	rand_t Result = Minimum + Random % Maximum;
 	if (Result < 0)

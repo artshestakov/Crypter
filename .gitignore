@@ -1,15 +1,22 @@
 Bin/
 Crypter/Debug-Win32/
+Crypter/Debug-Linux64/
 Crypter/Release-Win32/
+Crypter/Release-Linux64/
 Crypter/Debug-x64/
 Crypter/Release-x64/
 libCrypter/Debug-Win32/
+libCrypter/Debug-Linux64/
 libCrypter/Release-Win32/
+libCrypter/Release-Linux64/
 libCrypter/Debug-x64/
 libCrypter/Release-x64/
+
+Makefile
 
 *.opensdf
 *.sdf
 *.suo
 *.user
 *.VC*
+*.qmake.stash
