@@ -300,23 +300,47 @@ void InitRandom(rand_t Digit)
 //-----------------------------------------------------------------------------
 rand_t GetRandom(rand_t Minimum, rand_t Maximum)
 {
-	Random ^= (Random << 21);
-	//ѕодавл€ем предупреждение 4293: MSVC считает что сдвиг вправо на 35 может вызвать непоределнное поведение,
-	//по его мнению 35 - отрицательное или слишком большое число. Ќу бред же!
 #ifdef WIN32
-#pragma warning (disable: 4293)
-#endif
-	Random ^= (Random >> 35);
-#ifdef WIN32
-#pragma warning (default: 4293)
-#endif
-	Random ^= (Random << 4);
-	rand_t Result = Minimum + Random % Maximum;
-	if (Result < 0)
+	HCRYPTPROV CryptoProvider = 0;
+	bool Result = CryptAcquireContext(&CryptoProvider, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT) == TRUE;
+	if (Result) // онтекст создан успешно
 	{
-		Result = -Result;
+		Result = CryptGenRandom(CryptoProvider, sizeof(long long int), (PBYTE)(&Random)) == TRUE;
+		if (Result) //√енераци€ прошла успешно - освобождаем контекст
+		{
+			if (CryptReleaseContext(CryptoProvider, 0) == FALSE)
+			{
+				printf("Error CryptReleaseContext()\n");
+			}
+		}
+		else //ќшибка генерации
+		{
+			printf("Error CryptGenRandom()\n");
+		}
 	}
-	return Result;
+	else //Ќе удалось создать контекст
+	{
+		printf("Error CryptAcquireContext()\n");
+	}
+#else //‘ормирование соли под Linux
+	FILE *FileDevice = fopen("/dev/random", "r");
+	bool Result = FileDevice ? true : false;
+	if (Result) //”стройство удалось открыть - читаем и закрываем устройство
+	{
+		Result = fread(&Buffer[0], sizeof(char), CARAT_SALT_SIZE, FileDevice) == CARAT_SALT_SIZE;
+		fclose(FileDevice);
+	}
+	else
+	{
+		//ErrorString = ISAlgorithm::GetLastErrorString();
+	}
+#endif
+	rand_t ReturnValue = Minimum + Random % Maximum;
+	if (ReturnValue < 0)
+	{
+		ReturnValue = -ReturnValue;
+	}
+	return ReturnValue;
 }
 //-----------------------------------------------------------------------------
 size_t GetSizeReserveString(void)
