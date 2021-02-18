@@ -308,7 +308,7 @@ rand_t GetRandom(rand_t Minimum, rand_t Maximum)
 		Result = CryptGenRandom(CryptoProvider, sizeof(long long int), (PBYTE)(&Random)) == TRUE;
 		if (Result) //√енераци€ прошла успешно - освобождаем контекст
 		{
-			if (CryptReleaseContext(CryptoProvider, 0) == FALSE)
+            if (CryptReleaseContext(CryptoProvider, 0) == FALSE) //Ќе удалось освободить контекст
 			{
 				printf("Error CryptReleaseContext()\n");
 			}
@@ -327,15 +327,15 @@ rand_t GetRandom(rand_t Minimum, rand_t Maximum)
 	bool Result = FileDevice ? true : false;
 	if (Result) //”стройство удалось открыть - читаем и закрываем устройство
 	{
-		Result = fread(&Buffer[0], sizeof(char), CARAT_SALT_SIZE, FileDevice) == CARAT_SALT_SIZE;
-		fclose(FileDevice);
+        Result = fread(&Random, sizeof(char), sizeof(Random), FileDevice) == sizeof(Random);
+        fclose(FileDevice);
 	}
 	else
 	{
-		//ErrorString = ISAlgorithm::GetLastErrorString();
+        printf("Error read from /dev/random: %s\n", strerror(errno));
 	}
 #endif
-	rand_t ReturnValue = Minimum + Random % Maximum;
+    rand_t ReturnValue = Result ? Minimum + Random % Maximum : 0;
 	if (ReturnValue < 0)
 	{
 		ReturnValue = -ReturnValue;
